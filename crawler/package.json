@@ -1,0 +1,14 @@
+{
+  "name": "valheim-crawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}
