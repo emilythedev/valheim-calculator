@@ -1,4 +1,5 @@
-import { apiBaseUrl } from './constants';
+import axios from 'axios';
+import { apiBaseUrl } from './constants.js';
 
 export const getItems = async (categoryName, continueValue) => {
   const params = {
