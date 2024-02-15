@@ -11,7 +11,10 @@ export const keyMappings = [
   return [
     [`level_${level}_crafting_level`, `materials[${i}].craftingLevel`],
     [`level_${level}_materials`, `materials[${i}].materials`, list => {
-      return list.map(({ quantity, title }) => {
+      return list.map((mat) => {
+        if (typeof mat === 'string') return mat;
+
+        const { quantity, title } = mat;
         return `${quantity}x ${title}`;
       }).join('\n');
     }],
