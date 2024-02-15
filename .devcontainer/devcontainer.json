@@ -1,6 +1,6 @@
 // See https://containers.dev/implementors/json_reference/ for configuration reference
 {
-	"name": "minesweeper-react-ts",
+	"name": "valheim-calculator",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
