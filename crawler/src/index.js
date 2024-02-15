@@ -3,10 +3,21 @@ import { getItems } from './category.js';
 import { getItemByPageId } from './item.js';
 import { output } from './output.js';
 
-getItems('Weapons')
-  .then(list => {
+const categories = [
+  'Weapons',
+  'Tools',
+  // 'Armor',
+  'Building_Structures',
+  'Crafting_Structures',
+  'Misc_Structures',
+  'Furniture',
+];
+
+Promise.all(
+  categories.map(name => getItems(name))
+).then(list => {
     return Promise.all(
-      list.map(async (item) =>{
+      list.flat().map(async (item) =>{
         return await getItemByPageId(item.pageId)
       })
     );
