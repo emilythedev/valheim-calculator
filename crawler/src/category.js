@@ -6,6 +6,7 @@ export const getItems = async (categoryName, continueValue) => {
     action: 'query',
     list: 'categorymembers',
     cmtitle: `Category:${categoryName}`,
+    cmtype: 'page',
     cmlimit: 20,
     format: 'json',
     cmcontinue: continueValue || null,
@@ -14,13 +15,13 @@ export const getItems = async (categoryName, continueValue) => {
   const { data } = await axios.get(apiBaseUrl, { params });
 
   let list = data.query.categorymembers.map(page => {
-    if (page.ns !== 0) return; // the page is in main namespace
+    if (page.ns !== 0) return null; // the page is in main namespace
 
     return {
       title: page.title,
       pageId: page.pageid,
     };
-  });
+  }).filter(item => !!item);
 
   if (data.continue) {
     // continue reading data
