@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 import { apiBaseUrl } from './constants.js';
 
 const parseMaterialText = (material) => {
+  // Parse material text. E.g. Stone x4 or 4x Stone
   const matches = material.match(/(?<q1>[0-9]+) ?x (?<t1>[a-zA-Z ]+)|(?<t2>[a-zA-Z ]+) x ?(?<q2>[0-9]+)/);
   if (!matches) return material;
 
@@ -26,6 +27,8 @@ export const getItemByPageId = async (id) => {
   const $ = cheerio.load(data.parse.text['*']);
   const $info = $('aside[role=region]');
 
+  // Get crafting materials from infobox
+  // May have multiple tabs for different levels
   const materials = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
     .map((i, el) => {
       const $this = $(el);
@@ -47,6 +50,7 @@ export const getItemByPageId = async (id) => {
     })
     .toArray();
 
+  // Get upgrade structures from content
   const upgrades = $('h2').has('> #Upgrades')
     .siblings('table')
     .first()
@@ -54,12 +58,14 @@ export const getItemByPageId = async (id) => {
     .map((i, el) => $(el).text().trim())
     .toArray();
 
+  // Get internal ID from infobox
   const internalId = $info.find('div.pi-item > h3.pi-data-label:contains("Internal ID")')
     .first()
     .siblings('.pi-data-value')
     .first()
     .text()
     .trim();
+  // Get required crafting station from infobox
   const source = $info.find('div.pi-item > h3.pi-data-label:contains("Source")')
     .first()
     .siblings('.pi-data-value')
@@ -76,5 +82,3 @@ export const getItemByPageId = async (id) => {
     upgrades: upgrades.length > 0 ? upgrades : null,
   };
 };
-
-// TODO: Upgrades section
