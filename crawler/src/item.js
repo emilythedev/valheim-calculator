@@ -52,10 +52,11 @@ export const getItemByPageId = async (id) => {
     .toArray();
 
   // Get upgrade structures from content
+  const upgradeNameIdx = id !== 322 ? 2 : 1; // Workbench is exception
   const upgrades = $('h2').has('> #Upgrades')
     .siblings('table')
     .first()
-    .find('tbody > tr:not(:last-child) > td:nth-child(2)')
+    .find(`tbody > tr:not(:last-child) > td:nth-child(${upgradeNameIdx})`)
     .map((i, el) => $(el).text().trim())
     .toArray();
 
