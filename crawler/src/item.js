@@ -24,9 +24,7 @@ export const getItemByPageId = async (id) => {
   };
 
   const { data } = await axios.get(apiBaseUrl, { params });
-  const htmlContent = data.parse.text['*'];
-
-  const $ = cheerio.load(htmlContent);
+  const $ = cheerio.load(data.parse.text['*']);
   const $info = $('aside[role=region]');
 
   const materials = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
@@ -50,6 +48,13 @@ export const getItemByPageId = async (id) => {
     })
     .toArray();
 
+  const upgrades = $('h2').has('> #Upgrades')
+    .siblings('table')
+    .first()
+    .find('tbody > tr:not(:last-child) > td:nth-child(2)')
+    .map((i, el) => $(el).text().trim())
+    .toArray();
+
   const internalId = $info.find('div.pi-item > h3.pi-data-label:contains("Internal ID")')
     .first()
     .siblings('.pi-data-value')
@@ -67,6 +72,7 @@ export const getItemByPageId = async (id) => {
     internalId,
     source,
     materials,
+    upgrades: upgrades.length > 0 ? upgrades : null,
   };
 };
 
