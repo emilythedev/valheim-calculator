@@ -1,4 +1,4 @@
-import { getItemInfo } from './item.js';
+import { getItemByPageId } from './item.js';
 
 const itemList = [
   { title: 'Staff of embers', pageId: 4363 },
@@ -6,7 +6,7 @@ const itemList = [
   { title: 'Ironhead arrow', pageId: 294 },
 ];
 itemList.forEach(item => {
-  getItemInfo(item)
+  getItemByPageId(item.pageId)
     .then(item => {
       console.log(JSON.stringify(item));
     })
