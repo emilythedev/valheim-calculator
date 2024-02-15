@@ -4,14 +4,13 @@ import { apiBaseUrl } from './constants.js';
 
 const parseMaterialText = (material) => {
   const matches = material.match(/(?<q1>[0-9]+) ?x (?<t1>[a-zA-Z ]+)|(?<t2>[a-zA-Z ]+) x ?(?<q2>[0-9]+)/);
-
   if (!matches) return material;
 
   const grp = matches.groups;
 
   return {
-    title: grp.t1 || grp.t2,
-    quantity: parseInt(grp.q1 || grp.q2),
+    title: (grp.t1 || grp.t2 || '').trim(),
+    quantity: parseInt(grp.q1 || grp.q2 || 0),
   };
 };
 
@@ -59,12 +58,14 @@ export const getItemByPageId = async (id) => {
     .first()
     .siblings('.pi-data-value')
     .first()
-    .text();
+    .text()
+    .trim();
   const source = $info.find('div.pi-item > h3.pi-data-label:contains("Source")')
     .first()
     .siblings('.pi-data-value')
     .first()
-    .text();
+    .text()
+    .trim();
 
   return {
     title: data.parse.title,
