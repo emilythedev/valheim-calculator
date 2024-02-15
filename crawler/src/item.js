@@ -35,16 +35,17 @@ export const getItemByPageId = async (id) => {
       const materials = $(el).siblings('.pi-data-value')
         .find('li').map((i, el) => parseMaterialText($(el).text()))
         .toArray();
-      const craftingLevel = $this.parent()
+      let craftingLevel = $this.parent()
         .siblings('section.pi-item.pi-group')
         .has('th:contains("Crafting Level")')
         .find('td')
         .first()
         .text();
+      craftingLevel = parseInt(craftingLevel);
 
       return {
         level: i + 1,
-        craftingLevel: parseInt(craftingLevel || 0) || null,
+        craftingLevel: !isNaN(craftingLevel) ? craftingLevel : null,
         materials,
       };
     })
