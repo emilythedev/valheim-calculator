@@ -21,7 +21,3 @@ export const keyMappings = [
     }],
   ];
 }).flat());
-
-export const omitPageIds = [
-  1447, // Mead horn of Odin
-];
