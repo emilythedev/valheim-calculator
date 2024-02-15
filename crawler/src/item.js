@@ -79,7 +79,7 @@ export const getItemByPageId = async (id) => {
     title: data.parse.title,
     pageId: id,
     internalId,
-    source,
+    source: source !== 'None' ? source : '',
     materials,
     upgrades: upgrades.length > 0 ? upgrades : null,
     categories: data.parse.categories.map(cat => cat['*']).join(', '),
