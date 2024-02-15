@@ -5,7 +5,7 @@ import { apiBaseUrl } from './constants.js';
 const parseMaterialText = (material) => {
   // Parse material text. E.g. Stone x4 or 4x Stone
   const matches = material.match(/(?<q1>[0-9]+) ?x (?<t1>[a-zA-Z ]+)|(?<t2>[a-zA-Z ]+) x ?(?<q2>[0-9]+)/);
-  if (!matches) return material;
+  if (!matches) return material;  // return original string if failed to parse
 
   const grp = matches.groups;
 
@@ -18,7 +18,7 @@ const parseMaterialText = (material) => {
 export const getItemByPageId = async (id) => {
   const params = {
     action: 'parse',
-    prop: 'text',
+    prop: 'text|categories',
     pageid: id,
     format: 'json',
   };
@@ -81,5 +81,6 @@ export const getItemByPageId = async (id) => {
     source,
     materials,
     upgrades: upgrades.length > 0 ? upgrades : null,
+    categories: data.parse.categories.map(cat => cat['*']).join(', '),
   };
 };

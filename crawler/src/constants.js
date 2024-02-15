@@ -5,6 +5,7 @@ export const keyMappings = [
   ['title'],
   ['page_id', 'pageId'],
   ['internal_id', 'internalId'],
+  ['categories'],
   ['source'],
   ['upgrades', 'upgrades', (list) => list.join('\n')],
 ].concat([1,2,3,4].map((level, i) => {
