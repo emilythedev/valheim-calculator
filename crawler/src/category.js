@@ -33,7 +33,7 @@ export const getItems = async (categoryName, continueValue) => {
 
   if (data.continue) {
     // continue reading data
-    list = list.concat(await getItems(categoryName, data.continue.cmcontinue));
+    return list.concat(await getItems(categoryName, data.continue.gcmcontinue));
   }
 
   return list;
