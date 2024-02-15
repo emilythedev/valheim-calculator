@@ -1,5 +1,6 @@
 import { reject } from 'lodash-es';
 import { getItems } from './category.js';
+import { omitPageIds } from './constants.js';
 import { getItemByPageId } from './item.js';
 import { output } from './output.js';
 
@@ -11,6 +12,7 @@ import { output } from './output.js';
 
 getItems('Workbench_recipes')
   .then(list => {
+    list = reject(list, ({ pageId }) => omitPageIds.indexOf(pageId) !== -1);
 
     return Promise.all(
       list.map(async (item) =>{
