@@ -12,10 +12,14 @@ getItems('Weapons')
     );
   })
   .then((list) => {
-    output(
-      reject(list, ({ title, source }) => {
-        if (!source || source === 'n/a' || source.indexOf('Console Commands') !== -1) {
+    return output(
+      reject(list, ({ title, source, internalId }) => {
+        if (source === 'n/a' || source.indexOf('Commands') !== -1 || source === 'Hildir') {
           console.log(`[${title}] has invalid source.`);
+          return true;
+        }
+        if (!source && !internalId) {
+          console.log(`[${title}] has invalid source & internal ID.`);
           return true;
         }
         return false;
@@ -23,4 +27,5 @@ getItems('Weapons')
       './csv/output.csv'
     );
   })
+  .then(count => console.log(count))
   .catch(error => console.error(error));

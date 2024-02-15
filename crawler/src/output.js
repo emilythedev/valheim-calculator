@@ -14,6 +14,8 @@ export const output = (list, filePath, append = false) => {
       }
     });
   });
+  const len = transformedList.length;
+  let idx = 0;
 
   const writeStream = createWriteStream('./csv/output.csv', {
     flags: append ? 'a' : 'w',
@@ -24,12 +26,33 @@ export const output = (list, filePath, append = false) => {
     columns: map(keyMappings, '0'),
   });
 
-  stringifier.pipe(writeStream);
+  const write = () => {
+    let ok = true;
 
-  transformedList.forEach((record) => stringifier.write(record));
+    while (idx < len && ok) {
+      ok = stringifier.write(transformedList[idx++])
+    };
 
-  stringifier.end();
-  writeStream.end();
+    if (idx === len) {
+      stringifier.end();
+    } else {
+      stringifier.once('drain', write);
+    }
+  };
 
-  return filePath;
+  const promise = new Promise((resolve, reject) => {
+    stringifier.once('error', (err) => {
+      reject(err);
+    });
+    stringifier.once('end', () => {
+      writeStream.end();
+      stringifier.removeAllListeners();
+      resolve(len);
+    })
+    stringifier.pipe(writeStream);
+
+    write();
+  });
+
+  return promise;
 };
