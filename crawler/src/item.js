@@ -15,6 +15,31 @@ const parseMaterialText = (material) => {
   };
 };
 
+const transformItemData = (item) => {
+  let source = ['Crafting', 'None'].includes(item.source) ? null : item.source;
+  if (source === 'StonecutterHoe') {
+    source = 'Stonecutter, Hoe';
+  }
+
+  const levels = item.levels.map(({ level, craftingLevel, materials }) => {
+    craftingLevel = parseInt(craftingLevel);
+    if (isNaN(craftingLevel)) {
+      craftingLevel = null;
+    }
+
+    materials = materials.map(parseMaterialText);
+
+    return { level, craftingLevel, materials };
+  });
+  return {
+    ...item,
+    internalId: item.internalId || null, // no data
+    source,
+    levels,
+    upgrades: item.upgrades.length > 0 ? item.upgrades : null,
+  };
+};
+
 export const getItemByPageId = async (id) => {
   const params = {
     action: 'parse',
@@ -29,11 +54,11 @@ export const getItemByPageId = async (id) => {
 
   // Get crafting materials from infobox
   // May have multiple tabs for different levels
-  const materials = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
+  const levels = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
     .map((i, el) => {
       const $this = $(el);
       const materials = $(el).siblings('.pi-data-value')
-        .find('li').map((i, el) => parseMaterialText($(el).text()))
+        .find('li').map((i, el) => $(el).text())
         .toArray();
       let craftingLevel = $this.parent()
         .siblings('section.pi-item.pi-group')
@@ -41,11 +66,10 @@ export const getItemByPageId = async (id) => {
         .find('td')
         .first()
         .text();
-      craftingLevel = parseInt(craftingLevel);
 
       return {
         level: i + 1,
-        craftingLevel: !isNaN(craftingLevel) ? craftingLevel : null,
+        craftingLevel,
         materials,
       };
     })
@@ -68,28 +92,23 @@ export const getItemByPageId = async (id) => {
     .text()
     .trim();
   // Get required crafting station from infobox
-  let source = $info.find('div.pi-item > h3.pi-data-label:contains("Source")')
-    .first()
+  let source = $info.find('div.pi-item > h3.pi-data-label:contains("Source")');
+  if (source.length === 0) {
+    source = $info.find('div.pi-item > h3.pi-data-label:contains("Dropped by")');
+  }
+  source = source.first()
     .siblings('.pi-data-value')
     .first()
     .text()
     .trim();
-  if (!source) {
-    source = $info.find('div.pi-item > h3.pi-data-label:contains("Dropped by")')
-      .first()
-      .siblings('.pi-data-value')
-      .first()
-      .text()
-      .trim();
-  }
 
-  return {
+  return transformItemData({
     title: data.parse.title,
     pageId: id,
     internalId,
-    source: source !== 'None' ? source : '',
-    materials,
-    upgrades: upgrades.length > 0 ? upgrades : null,
+    source,
+    levels,
+    upgrades,
     categories: data.parse.categories.map(cat => cat['*']).join(', '),
-  };
+  });
 };

@@ -10,8 +10,8 @@ export const keyMappings = [
   ['upgrades', 'upgrades', (list) => list.join('\n')],
 ].concat([1,2,3,4].map((level, i) => {
   return [
-    [`level_${level}_crafting_level`, `materials[${i}].craftingLevel`],
-    [`level_${level}_materials`, `materials[${i}].materials`, list => {
+    [`level_${level}_crafting_level`, `levels[${i}].craftingLevel`],
+    [`level_${level}_materials`, `levels[${i}].materials`, list => {
       return list.map((mat) => {
         if (typeof mat === 'string') return mat;
 
