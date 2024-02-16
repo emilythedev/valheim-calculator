@@ -11,8 +11,8 @@ export const csvKeyMappings = [
 ].concat([1,2,3,4].map((level, i) => {
   return [
     [`level_${level}_crafting_level`, `levels[${i}].craftingLevel`],
-    [`level_${level}_materials`, `levels[${i}].materials`, list => {
-      return list.map((mat) => {
+    [`level_${level}_materials`, `levels[${i}].materials`, materials => {
+      return materials.map((mat) => {
         if (typeof mat === 'string') return mat;
 
         const { quantity, title } = mat;

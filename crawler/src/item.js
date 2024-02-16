@@ -27,7 +27,9 @@ const transformItemData = (item) => {
       craftingLevel = null;
     }
 
-    materials = materials.map(parseMaterialText);
+    materials = typeof materials === 'string' ?
+      [parseMaterialText(materials)]:
+      materials.map(parseMaterialText);
 
     return { level, craftingLevel, materials };
   });
@@ -57,9 +59,12 @@ export const getItemByPageId = async (id) => {
   const levels = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
     .map((i, el) => {
       const $this = $(el);
-      const materials = $(el).siblings('.pi-data-value')
-        .find('li').map((i, el) => $(el).text())
-        .toArray();
+      let materials = $(el).siblings('.pi-data-value').find('li')
+      if (materials.length > 0) {
+        materials = materials.map((i, el) => $(el).text()).toArray();
+      } else {
+        materials = materials.prevObject.text();
+      }
       let craftingLevel = $this.parent()
         .siblings('section.pi-item.pi-group')
         .has('th:contains("Crafting Level")')
