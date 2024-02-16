@@ -30,17 +30,21 @@ Promise.all(
   })
 ).then(list => {
   // filter
-  return reject(list.flat(), ({ title, source, internalId }) => {
+  return reject(list.flat(), ({ title, source, internalId, levels }) => {
     if (source && (
       source === 'n/a' ||
       source.indexOf('Commands') !== -1 ||
       source === 'Hildir'
     )) {
-      console.log(`[${title}] has invalid source.`);
+      console.log(`[${title}] is skipped. (source)`);
       return true;
     }
     if (!source && !internalId) {
-      console.log(`[${title}] has invalid source & internal ID.`);
+      console.log(`[${title}] is skipped. (source, internal ID)`);
+      return true;
+    }
+    if (levels.length === 0) {
+      console.log(`[${title}] is skipped. (levels)`);
       return true;
     }
     return false;
