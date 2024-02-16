@@ -52,7 +52,7 @@ export const getItemByPageId = async (id) => {
     .toArray();
 
   // Get upgrade structures from content
-  const upgradeNameIdx = id !== 322 ? 2 : 1; // Workbench is exception
+  const upgradeNameIdx = [322, 688].includes(id) ? 1 : 2; // Workbench and Cauldron is exception
   const upgrades = $('h2').has('> #Upgrades')
     .siblings('table')
     .first()
@@ -68,12 +68,20 @@ export const getItemByPageId = async (id) => {
     .text()
     .trim();
   // Get required crafting station from infobox
-  const source = $info.find('div.pi-item > h3.pi-data-label:contains("Source")')
+  let source = $info.find('div.pi-item > h3.pi-data-label:contains("Source")')
     .first()
     .siblings('.pi-data-value')
     .first()
     .text()
     .trim();
+  if (!source) {
+    source = $info.find('div.pi-item > h3.pi-data-label:contains("Dropped by")')
+      .first()
+      .siblings('.pi-data-value')
+      .first()
+      .text()
+      .trim();
+  }
 
   return {
     title: data.parse.title,

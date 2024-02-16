@@ -11,6 +11,8 @@ const categories = [
   'Crafting_Structures',
   'Misc_Structures',
   'Furniture',
+  'Cooking_recipes',
+  'Fermenter_recipes',
 ];
 
 Promise.all(
