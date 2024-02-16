@@ -2,11 +2,11 @@ import { stringify } from 'csv';
 import { createWriteStream } from 'fs';
 import { writeFile } from 'fs/promises';
 import { get, map } from 'lodash-es';
-import { keyMappings } from './constants.js';
+import { csvKeyMappings } from './constants.js';
 
 export const outputCsv = (list, filePath, append = false) => {
   const transformedList = list.map(item => {
-    return keyMappings.map((mappings) => {
+    return csvKeyMappings.map((mappings) => {
       if (mappings.length === 1) {
         return get(item, mappings[0], null);
       } else {
@@ -24,7 +24,7 @@ export const outputCsv = (list, filePath, append = false) => {
 
   const stringifier = stringify({
     header: true,
-    columns: map(keyMappings, '0'),
+    columns: map(csvKeyMappings, '0'),
   });
 
   const write = () => {

@@ -1,5 +1,6 @@
-import { reject } from 'lodash-es';
+import { groupBy, reject } from 'lodash-es';
 import { getItems } from './category.js';
+import { categoryMappings } from './constants.js';
 import { getItemByPageId } from './item.js';
 import { outputCsv, outputJson } from './output.js';
 
@@ -16,37 +17,40 @@ const categories = [
 ];
 
 Promise.all(
-  categories.map(name => getItems(name))
+  categories.map(name => {
+    return getItems(name)
+      .then(list => {
+        return Promise.all(
+          list.map((item) => {
+            return getItemByPageId(item.pageId)
+              .then(item => ({ ...item, category: categoryMappings[name] }));
+          })
+        );
+      });
+  })
 ).then(list => {
-    return Promise.all(
-      list.flat().map(async (item) =>{
-        return await getItemByPageId(item.pageId)
-      })
-    );
-  })
-  .then((list) => {
-    const filteredList = reject(list, ({ title, source, internalId }) => {
-      if (source === 'n/a' || source.indexOf('Commands') !== -1 || source === 'Hildir') {
-        console.log(`[${title}] has invalid source.`);
-        return true;
-      }
-      if (!source && !internalId) {
-        console.log(`[${title}] has invalid source & internal ID.`);
-        return true;
-      }
-      return false;
-    })
-
-    return Promise.all([
-      outputCsv(
-        filteredList,
-        './output/output.csv'
-      ),
-      outputJson(
-        filteredList,
-        './output/output.json'
-      )
-    ]);
-  })
-  .then(([count]) => console.log(count))
-  .catch(error => console.error(error));
+  // filter
+  return reject(list.flat(), ({ title, source, internalId }) => {
+    if (source && (
+      source === 'n/a' ||
+      source.indexOf('Commands') !== -1 ||
+      source === 'Hildir'
+    )) {
+      console.log(`[${title}] has invalid source.`);
+      return true;
+    }
+    if (!source && !internalId) {
+      console.log(`[${title}] has invalid source & internal ID.`);
+      return true;
+    }
+    return false;
+  });
+})
+.then(list => {
+  return Promise.all([
+    outputCsv(list, './output/output.csv'),
+    outputJson(groupBy(list, 'category'), './output/output.json')
+  ]);
+})
+.then(([count]) => console.log(count))
+.catch(error => console.error(error));

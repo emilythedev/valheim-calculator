@@ -109,6 +109,6 @@ export const getItemByPageId = async (id) => {
     source,
     levels,
     upgrades,
-    categories: data.parse.categories.map(cat => cat['*']).join(', '),
+    pageCategories: data.parse.categories.map(cat => cat['*']).join(', '),
   });
 };

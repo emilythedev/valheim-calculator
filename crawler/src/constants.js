@@ -1,11 +1,11 @@
 // MediaWiki Action API endpoint
 export const apiBaseUrl = 'https://valheim.fandom.com/api.php';
 
-export const keyMappings = [
+export const csvKeyMappings = [
   ['title'],
   ['page_id', 'pageId'],
   ['internal_id', 'internalId'],
-  ['categories'],
+  ['page_categories', 'pageCategories'],
   ['source'],
   ['upgrades', 'upgrades', (list) => list.join('\n')],
 ].concat([1,2,3,4].map((level, i) => {
@@ -21,3 +21,15 @@ export const keyMappings = [
     }],
   ];
 }).flat());
+
+export const categoryMappings = {
+  'Weapons': 'weapons',
+  'Tools': 'tools',
+  'Armor': 'armor',
+  'Building_Structures': 'building_struct',
+  'Crafting_Structures': 'crafting_struct',
+  'Misc_Structures': 'misc_struct',
+  'Furniture': 'furniture',
+  'Cooking_recipes': 'food',
+  'Fermenter_recipes': 'mead',
+};
