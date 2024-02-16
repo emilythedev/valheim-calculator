@@ -1,9 +1,10 @@
 import { stringify } from 'csv';
 import { createWriteStream } from 'fs';
+import { writeFile } from 'fs/promises';
 import { get, map } from 'lodash-es';
 import { keyMappings } from './constants.js';
 
-export const output = (list, filePath, append = false) => {
+export const outputCsv = (list, filePath, append = false) => {
   const transformedList = list.map(item => {
     return keyMappings.map((mappings) => {
       if (mappings.length === 1) {
@@ -17,7 +18,7 @@ export const output = (list, filePath, append = false) => {
   const len = transformedList.length;
   let idx = 0;
 
-  const writeStream = createWriteStream('./csv/output.csv', {
+  const writeStream = createWriteStream(filePath, {
     flags: append ? 'a' : 'w',
   });
 
@@ -55,4 +56,10 @@ export const output = (list, filePath, append = false) => {
   });
 
   return promise;
+};
+
+export const outputJson = (list, filePath) => {
+  const data = JSON.stringify(list);
+
+  return writeFile(filePath, data);
 };

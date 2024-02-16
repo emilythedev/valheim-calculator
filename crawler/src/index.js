@@ -1,7 +1,7 @@
 import { reject } from 'lodash-es';
 import { getItems } from './category.js';
 import { getItemByPageId } from './item.js';
-import { output } from './output.js';
+import { outputCsv, outputJson } from './output.js';
 
 const categories = [
   'Weapons',
@@ -23,20 +23,28 @@ Promise.all(
     );
   })
   .then((list) => {
-    return output(
-      reject(list, ({ title, source, internalId }) => {
-        if (source === 'n/a' || source.indexOf('Commands') !== -1 || source === 'Hildir') {
-          console.log(`[${title}] has invalid source.`);
-          return true;
-        }
-        if (!source && !internalId) {
-          console.log(`[${title}] has invalid source & internal ID.`);
-          return true;
-        }
-        return false;
-      }),
-      './csv/output.csv'
-    );
+    const filteredList = reject(list, ({ title, source, internalId }) => {
+      if (source === 'n/a' || source.indexOf('Commands') !== -1 || source === 'Hildir') {
+        console.log(`[${title}] has invalid source.`);
+        return true;
+      }
+      if (!source && !internalId) {
+        console.log(`[${title}] has invalid source & internal ID.`);
+        return true;
+      }
+      return false;
+    })
+
+    return Promise.all([
+      outputCsv(
+        filteredList,
+        './output/output.csv'
+      ),
+      outputJson(
+        filteredList,
+        './output/output.json'
+      )
+    ]);
   })
-  .then(count => console.log(count))
+  .then(([count]) => console.log(count))
   .catch(error => console.error(error));
