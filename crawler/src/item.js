@@ -38,7 +38,6 @@ const transformItemData = (item) => {
     internalId: item.internalId || null, // no data
     source,
     levels,
-    upgrades: item.upgrades.length > 0 ? item.upgrades : null,
   };
 };
 
@@ -59,7 +58,7 @@ export const getItemByPageId = async (id) => {
   const levels = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
     .map((i, el) => {
       const $this = $(el);
-      let materials = $(el).siblings('.pi-data-value').find('li')
+      let materials = $(el).siblings('.pi-data-value').find('li');
       if (materials.length > 0) {
         materials = materials.map((i, el) => $(el).text()).toArray();
       } else {
@@ -114,6 +113,6 @@ export const getItemByPageId = async (id) => {
     source,
     levels,
     upgrades,
-    pageCategories: data.parse.categories.map(cat => cat['*']).join(', '),
+    categories: data.parse.categories.map(cat => cat['*']),
   });
 };
