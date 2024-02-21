@@ -31,8 +31,8 @@ export const outputCsv = (list, filePath, append = false) => {
     let ok = true;
 
     while (idx < len && ok) {
-      ok = stringifier.write(transformedList[idx++])
-    };
+      ok = stringifier.write(transformedList[idx++]);
+    }
 
     if (idx === len) {
       stringifier.end();
@@ -49,7 +49,7 @@ export const outputCsv = (list, filePath, append = false) => {
       writeStream.end();
       stringifier.removeAllListeners();
       resolve(len);
-    })
+    });
     stringifier.pipe(writeStream);
 
     write();
