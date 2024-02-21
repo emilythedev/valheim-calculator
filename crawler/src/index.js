@@ -1,8 +1,8 @@
-import { groupBy, reject } from 'lodash-es';
+import { uniqBy } from 'lodash-es';
 import { getItems } from './category.js';
-import { categoryMappings } from './constants.js';
 import { getItemByPageId } from './item.js';
 import { outputCsv, outputJson } from './output.js';
+import { transform } from './transform.js';
 
 const categories = [
   'Weapons',
@@ -16,45 +16,27 @@ const categories = [
   'Fermenter_recipes',
 ];
 
-Promise.all(
-  categories.map(name => {
-    return getItems(name)
-      .then(list => {
-        return Promise.all(
-          list.map((item) => {
-            return getItemByPageId(item.pageId)
-              .then(item => ({ ...item, category: categoryMappings[name] }));
-          })
-        );
-      });
+Promise.all(categories.map(name => {
+  return getItems(name);
+}))
+  .then(list => {
+    // remove duplicate items
+    list = uniqBy(list.flat(), 'pageId');
+
+    return Promise.all(
+      list.map((item) => {
+        return getItemByPageId(item.pageId);
+      }),
+    );
   })
-).then(list => {
-  // filter
-  return reject(list.flat(), ({ title, source, internalId, levels }) => {
-    if (source && (
-      source === 'n/a' ||
-      source.indexOf('Commands') !== -1 ||
-      source === 'Hildir'
-    )) {
-      console.log(`[${title}] is skipped. (source)`);
-      return true;
-    }
-    if (!source && !internalId) {
-      console.log(`[${title}] is skipped. (source, internal ID)`);
-      return true;
-    }
-    if (levels.length === 0) {
-      console.log(`[${title}] is skipped. (levels)`);
-      return true;
-    }
-    return false;
-  });
-})
-.then(list => {
-  return Promise.all([
-    outputCsv(list, './output/output.csv'),
-    outputJson(groupBy(list, 'category'), './output/output.json')
-  ]);
-})
-.then(([count]) => console.log(count))
-.catch(error => console.error(error));
+  .then(list => {
+    return transform(list);
+  })
+  .then(list => {
+    return Promise.all([
+      outputCsv(list, './output/output.csv'),
+      outputJson(list, './output/output.json'),
+    ]);
+  })
+  .then(([count]) => console.log(count))
+  .catch(error => console.error(error));
