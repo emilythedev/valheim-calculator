@@ -5,7 +5,12 @@ import { apiBaseUrl } from './constants.js';
 const parseMaterialText = (material) => {
   // Parse material text. E.g. Stone x4 or 4x Stone
   const matches = material.match(/(?<q1>[0-9]+) ?[x×] (?<t1>[a-zA-Z :]+)|(?<t2>[a-zA-Z :]+) [x×] ?(?<q2>[0-9]+)/);
-  if (!matches) return material;  // return original string if failed to parse
+  if (!matches) {
+    return {
+      title: material,
+      quantity: 0,
+    };
+  }
 
   const grp = matches.groups;
 

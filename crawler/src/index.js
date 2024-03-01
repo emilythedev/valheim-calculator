@@ -1,4 +1,4 @@
-import { uniqBy } from 'lodash-es';
+import { fromPairs, uniqBy } from 'lodash-es';
 import { getItems } from './category.js';
 import { getItemByPageId } from './item.js';
 import { outputCsv, outputJson } from './output.js';
@@ -26,11 +26,22 @@ Promise.all(categories.map(name => {
     return Promise.all(
       list.map((item) => {
         return getItemByPageId(item.pageId);
-      }),
+      })
     );
   })
   .then(list => {
-    return transform(list);
+    const titleIdMap = fromPairs(list.map((item) => {
+      const {pageId, title} = item;
+      return [title.toLowerCase(), `${pageId}`];
+    }));
+    outputJson(titleIdMap, './output/title-id-map.json');
+
+    const getItemIdFn = (title, level = 1) => {
+      const id = titleIdMap[title.toLowerCase()];
+      return id ? `${id}_${level}` : undefined
+    };
+
+    return transform(list, getItemIdFn);
   })
   .then(list => {
     return Promise.all([

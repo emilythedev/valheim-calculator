@@ -12,8 +12,6 @@ export const csvKeyMappings = [
   ['upgrades', 'upgrades', (list) => list.join('\n')],
   ['materials', 'materials', materials => {
     return materials.map((mat) => {
-      if (typeof mat === 'string') return mat;
-
       const { quantity, title } = mat;
       return `${quantity}x ${title}`;
     }).join('\n');
