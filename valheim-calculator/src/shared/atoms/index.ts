@@ -1,15 +1,27 @@
 import { atom } from 'jotai';
-import { filter, map } from 'lodash-es';
+import { filter } from 'lodash-es';
 
 export const searchTxtAtom = atom('');
 
-const itemListAtom = atom<ItemType[]>([]);
+const itemListAtom = atom<ItemAtomType[]>([]);
 export const itemNamesAtom = atom<string[]>([]);
 
-const mapTitleToLowerCase = ({title}: ItemType) => title.toLowerCase();
-export const writeItemListAtom = atom(null, (_, set, list: ItemType[]) => {
+export const writeItemListAtom = atom(null, (_, set, itemList: ItemType[]) => {
+  const list: ItemAtomType[] = [];
+  const names: string[] = [];
+  itemList.forEach((item) => {
+    const titleLower = item.title.toLowerCase();
+
+    list.push({
+      ...item,
+      titleLower,
+      amount: 0,
+    });
+    names.push(titleLower);
+  })
+
   set(itemListAtom, list);
-  set(itemNamesAtom, map(list, mapTitleToLowerCase));
+  set(itemNamesAtom, names);
 });
 
 export const filteredListAtom = atom((get) => {
@@ -18,7 +30,7 @@ export const filteredListAtom = atom((get) => {
 
   if (!searchTxt) return list;
 
-  return filter(list, ({title}) => {
-    return title.toLowerCase().includes(searchTxt);
+  return filter(list, ({titleLower}) => {
+    return titleLower.includes(searchTxt);
   });
 });

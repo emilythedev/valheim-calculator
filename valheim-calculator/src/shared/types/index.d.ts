@@ -15,3 +15,8 @@ interface ItemType {
   materials: MaterialType[],
   maxLevel: number,
 }
+
+interface ItemAtomType extends ItemType {
+  titleLower: string,
+  amount: number,
+}
