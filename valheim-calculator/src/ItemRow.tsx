@@ -1,3 +1,6 @@
+import { Typography } from '@mui/joy';
+import MaterialText from './MaterialText';
+
 interface Prop {
   item: ItemType,
 }
@@ -20,7 +23,7 @@ const ItemRow = ({item}: Prop) => {
         {item.upgrades &&
           <ul>
             {item.upgrades.map((upgrade) => {
-              return (<li key={upgrade}>{ upgrade }</li>);
+              return (<li key={upgrade}><MaterialText name={upgrade} /></li>);
             })}
           </ul>
         }
@@ -29,9 +32,12 @@ const ItemRow = ({item}: Prop) => {
         <ul>
           {item.materials.map((material) => {
             if (typeof material === 'string') {
-              return (<li key={material}>{ material }</li>);
+              return (<li key={material}><MaterialText name={material} /></li>);
             }
-            return (<li key={material.title}>{material.quantity} {material.title}</li>);
+            return (
+              <li key={material.title}>
+                <Typography>{material.quantity} <MaterialText name={material.title} /></Typography>
+              </li>);
           })}
         </ul>
       </td>
