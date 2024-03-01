@@ -4,17 +4,17 @@ import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import FilteredTable from './FilteredTable';
 import SearchInput from './SearchInput';
-import { itemListAtom } from './shared/atoms';
+import { writeItemListAtom } from './shared/atoms';
 
 const SearchSection = () => {
-  const setItemList = useSetAtom(itemListAtom);
+  const setItemList = useSetAtom(writeItemListAtom);
   useEffect(() => {
     axios.get('/data.json')
       .then(({data}) => {
         setItemList(data);
       })
       // TODO: error handling
-  }, [])
+  }, [setItemList])
 
   return (
     <Stack
