@@ -1,9 +1,21 @@
-import { Sheet, Stack, Table } from '@mui/joy';
-import list from '../public/data.json';
-import ItemRow from './ItemRow';
+import { Sheet, Stack } from '@mui/joy';
+import axios from 'axios';
+import { useSetAtom } from 'jotai';
+import { useEffect } from 'react';
+import FilteredTable from './FilteredTable';
 import SearchInput from './SearchInput';
+import { itemListAtom } from './shared/atoms';
 
 const SearchSection = () => {
+  const setItemList = useSetAtom(itemListAtom);
+  useEffect(() => {
+    axios.get('/data.json')
+      .then(({data}) => {
+        setItemList(data);
+      })
+      // TODO: error handling
+  }, [])
+
   return (
     <Stack
       flexGrow={1}
@@ -16,21 +28,7 @@ const SearchSection = () => {
     >
       <SearchInput />
       <Sheet sx={{ flexGrow: 1, overflow: 'auto' }}>
-        <Table variant="plain" stickyHeader hoverRow>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Source</th>
-              <th>Upgrades</th>
-              <th>Materials</th>
-            </tr>
-          </thead>
-          <tbody>
-            {list.map((item) => {
-              return (<ItemRow key={`${item.title}_${item.itemLevel}`} item={item} />);
-            })}
-          </tbody>
-        </Table>
+        <FilteredTable />
       </Sheet>
     </Stack>
   );
