@@ -1,27 +1,23 @@
 import { Link, Typography } from '@mui/joy';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { useMemo } from 'react';
-import { itemNamesAtom, searchTxtAtom } from './shared/atoms';
+import { useSetAtom } from 'jotai';
+import { searchTxtAtom } from './shared/atoms';
 
 interface Props {
-  name: string,
+  material: {id?: string, title: string},
 }
 
-const MaterialText = ({name}: Props) => {
-  const names = useAtomValue(itemNamesAtom);
-  const searchable = useMemo(() => {
-    return name && names.indexOf(name.toLowerCase()) !== -1;
-  }, [name, names]);
+const MaterialText = ({material}: Props) => {
+  const searchable = !!material.id;
   const setSearchTxt = useSetAtom(searchTxtAtom);
 
   if (searchable) {
     return (
-      <Link onClick={() => setSearchTxt(name)}>{name}</Link>
+      <Link onClick={() => setSearchTxt(material.title)}>{material.title}</Link>
     );
   }
 
   return (
-    <Typography>{name}</Typography>
+    <Typography>{material.title}</Typography>
   );
 };
 

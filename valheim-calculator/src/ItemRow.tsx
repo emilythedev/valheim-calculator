@@ -11,19 +11,23 @@ const ItemRow = ({item}: Prop) => {
     title += ` [Lv${item.itemLevel}]`;
   }
 
-  let source = item.source;
+  let sourceLvTxt = '';
   if (item.craftingLevel) {
-    source += ` [Lv${item.craftingLevel}]`;
+    sourceLvTxt = ` [Lv${item.craftingLevel}]`;
   }
   return (
     <tr>
       <td>{ title }</td>
-      <td>{ source }</td>
+      <td>
+        {item.source &&
+          (<Typography><MaterialText material={item.source} />{sourceLvTxt}</Typography>)
+        }
+      </td>
       <td>
         {item.upgrades &&
           <ul>
             {item.upgrades.map((upgrade) => {
-              return (<li key={upgrade}><MaterialText name={upgrade} /></li>);
+              return (<li key={upgrade.id}><MaterialText material={upgrade} /></li>);
             })}
           </ul>
         }
@@ -31,12 +35,9 @@ const ItemRow = ({item}: Prop) => {
       <td>
         <ul>
           {item.materials.map((material) => {
-            if (typeof material === 'string') {
-              return (<li key={material}><MaterialText name={material} /></li>);
-            }
             return (
               <li key={material.title}>
-                <Typography>{material.quantity} <MaterialText name={material.title} /></Typography>
+                <Typography>{material.quantity} <MaterialText material={material} /></Typography>
               </li>);
           })}
         </ul>

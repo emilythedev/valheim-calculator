@@ -1,18 +1,21 @@
-interface MaterialObjType {
+interface MaterialBaseType {
+  id?: string,
   title: string,
+}
+
+interface MaterialObjType extends MaterialBaseType {
   quantity: number,
 }
 
-type MaterialType = MaterialObjType | string;
-
 interface ItemType {
+  id: string,
   title: string,
   categories: string[],
-  source: string,
-  upgrades: string[],
+  source: MaterialBaseType | null,
+  upgrades: MaterialBaseType[],
   itemLevel: number,
   craftingLevel: number | null,
-  materials: MaterialType[],
+  materials: MaterialObjType[],
   maxLevel: number,
 }
 
