@@ -1,10 +1,10 @@
 import { Table } from '@mui/joy';
 import { useAtomValue } from 'jotai';
 import ItemRow from './ItemRow';
-import { itemListAtom } from './shared/atoms';
+import { filteredListAtom } from './shared/atoms';
 
 const FilteredTable = () => {
-  const list = useAtomValue(itemListAtom);
+  const list = useAtomValue(filteredListAtom);
 
   return (
     <Table variant="plain" stickyHeader hoverRow>
