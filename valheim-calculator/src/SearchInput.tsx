@@ -11,7 +11,7 @@ const SearchInput = () => {
       value={searchTxt}
       onChange={(e) => setSearchTxt(e.target.value)}
     />
-  )
+  );
 };
 
 export default SearchInput;

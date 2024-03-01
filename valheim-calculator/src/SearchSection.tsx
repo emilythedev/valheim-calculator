@@ -12,9 +12,9 @@ const SearchSection = () => {
     axios.get('/data.json')
       .then(({data}) => {
         setItemList(data);
-      })
-      // TODO: error handling
-  }, [setItemList])
+      });
+    // TODO: error handling
+  }, [setItemList]);
 
   return (
     <Stack

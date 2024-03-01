@@ -17,12 +17,12 @@ const MaterialText = ({name}: Props) => {
   if (searchable) {
     return (
       <Link onClick={() => setSearchTxt(name)}>{name}</Link>
-    )
+    );
   }
 
   return (
     <Typography>{name}</Typography>
-  )
-}
+  );
+};
 
 export default MaterialText;

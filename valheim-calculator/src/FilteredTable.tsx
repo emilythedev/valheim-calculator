@@ -22,7 +22,7 @@ const FilteredTable = () => {
         })}
       </tbody>
     </Table>
-  )
+  );
 };
 
 export default FilteredTable;

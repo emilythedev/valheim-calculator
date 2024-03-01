@@ -42,7 +42,7 @@ const ItemRow = ({item}: Prop) => {
         </ul>
       </td>
     </tr>
-  )
-}
+  );
+};
 
-export default ItemRow
+export default ItemRow;
