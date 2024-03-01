@@ -1,6 +1,7 @@
-import { Input, Sheet, Stack, Table } from '@mui/joy';
+import { Sheet, Stack, Table } from '@mui/joy';
 import list from '../public/data.json';
 import ItemRow from './ItemRow';
+import SearchInput from './SearchInput';
 
 const SearchSection = () => {
   return (
@@ -13,7 +14,7 @@ const SearchSection = () => {
       my={4}
       minHeight={0}
     >
-      <Input placeholder="Search by item name" variant="soft" />
+      <SearchInput />
       <Sheet sx={{ flexGrow: 1, overflow: 'auto' }}>
         <Table variant="plain" stickyHeader hoverRow>
           <thead>
