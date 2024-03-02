@@ -1,6 +1,7 @@
-import { fromPairs, uniqBy } from 'lodash-es';
+import { filter, fromPairs, uniqBy } from 'lodash-es';
 import { getItems } from './category.js';
 import { getItemByPageId } from './item.js';
+import { loadSkipPageIds } from './loader.js';
 import { outputCsv, outputJson } from './output.js';
 import { transform } from './transform.js';
 
@@ -16,12 +17,22 @@ const categories = [
   'Fermenter_recipes',
 ];
 
-Promise.all(categories.map(name => {
-  return getItems(name);
-}))
+let skipPageIds = [];
+
+loadSkipPageIds('./output/skip-pages.json')
+  .then(pageIds => {
+    skipPageIds = pageIds;
+
+    return Promise.all(categories.map(name => {
+      return getItems(name);
+    }));
+  })
   .then(list => {
-    // remove duplicate items
-    list = uniqBy(list.flat(), 'pageId');
+    // remove duplicate items and skipped items
+    list = filter(
+      uniqBy(list.flat(), 'pageId'),
+      ({pageId}) => skipPageIds.indexOf(pageId) === -1
+    );
 
     return Promise.all(
       list.map((item) => {

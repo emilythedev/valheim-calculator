@@ -1,18 +1,18 @@
-const filterPredicate = ({ title, source, internalId, levels }) => {
+const filterPredicate = ({ title, pageId, source, internalId, levels }) => {
   if (source && (
     source === 'n/a' ||
     source.indexOf('Commands') !== -1 ||
     source === 'Hildir'
   )) {
-    console.log(`[${title}] is skipped. (source)`);
+    console.log('[SKIPPED]', JSON.stringify({title, pageId, reason: 'source'}));
     return false;
   }
   if (!source && !internalId) {
-    console.log(`[${title}] is skipped. (source, internal ID)`);
+    console.log('[SKIPPED]', JSON.stringify({title, pageId, reason: 'source, internal ID'}));
     return false;
   }
   if (levels.length === 0) {
-    console.log(`[${title}] is skipped. (levels)`);
+    console.log('[SKIPPED]', JSON.stringify({title, pageId, reason: 'levels'}));
     return false;
   }
   return true;
