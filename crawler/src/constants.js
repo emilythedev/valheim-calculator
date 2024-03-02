@@ -10,6 +10,7 @@ export const csvKeyMappings = [
   ['source'],
   ['crafting_level', 'craftingLevel'],
   ['upgrades', 'upgrades', (list) => list.join('\n')],
+  ['crafting_amount', 'craftingAmount'],
   ['materials', 'materials', materials => {
     return materials.map((mat) => {
       const { quantity, title } = mat;

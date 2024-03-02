@@ -20,31 +20,84 @@ const parseMaterialText = (material) => {
   };
 };
 
-const transformItemData = (item) => {
-  let source = ['Crafting', 'None'].includes(item.source) ? null : item.source;
-  if (source === 'StonecutterHoe') {
-    source = 'Stonecutter, Hoe';
+const parseCraftingMaterials = ($sectionTitle, $, i = 0) => {
+  const $content = $sectionTitle.siblings('.pi-data-value');
+
+  let craftingAmount = $content.find('b').text();
+  const matches = craftingAmount.match(/Crafts (?<amount>[0-9]+)/);
+  craftingAmount = matches ? parseInt(matches.groups.amount) : 1;
+
+  let materials = $content.find('li');
+  if (materials.length > 0) {
+    materials = materials.map((i, el) => {
+      return parseMaterialText($(el).text());
+    }).toArray();
+  } else {
+    materials = [parseMaterialText(materials.prevObject.text())];
   }
 
-  const levels = item.levels.map(({ level, craftingLevel, materials }) => {
-    craftingLevel = parseInt(craftingLevel);
-    if (isNaN(craftingLevel)) {
-      craftingLevel = null;
-    }
+  let craftingLevel = $sectionTitle.parent()
+    .siblings('section.pi-item.pi-group')
+    .has('th:contains("Crafting Level")')
+    .find('td')
+    .first()
+    .text();
+  craftingLevel = parseInt(craftingLevel);
+  if (isNaN(craftingLevel)) {
+    craftingLevel = null;
+  }
 
-    materials = typeof materials === 'string' ?
-      [parseMaterialText(materials)]:
-      materials.map(parseMaterialText);
-
-    return { level, craftingLevel, materials };
-  });
   return {
-    ...item,
-    internalId: item.internalId || null, // no data
+    level: i + 1,
+    craftingLevel,
+    materials,
+    craftingAmount,
+  };
+}
+
+const parseUpgradesFromSection = ($sectionTitle, $, pageId) => {
+  const titleColIdx = [322, 688].includes(pageId) ? 1 : 2; // Workbench and Cauldron is exception
+  return $sectionTitle
+    .siblings('table')
+    .first()
+    .find(`tbody > tr:not(:last-child) > td:nth-child(${titleColIdx})`)
+    .map((i, el) => $(el).text().trim())
+    .toArray();
+};
+
+const parseSourceAndInternalId = ($info) => {
+  // Get internal ID from infobox
+  const internalId = $info.find('div.pi-item > h3.pi-data-label:contains("Internal ID")')
+    .first()
+    .siblings('.pi-data-value')
+    .first()
+    .text()
+    .trim();
+
+  // Get required crafting station from infobox
+  let source = $info.find('div.pi-item > h3.pi-data-label:contains("Source")');
+  if (source.length === 0) {
+    source = $info.find('div.pi-item > h3.pi-data-label:contains("Dropped by")');
+  }
+
+  source = source.first()
+    .siblings('.pi-data-value')
+    .first()
+    .text()
+    .trim();
+
+  if (source === 'StonecutterHoe') {
+    source = ['Stonecutter', 'Hoe'];
+  } else {
+    source = ['Crafting', 'None'].includes(source) ? null : [source];
+  }
+
+  return {
+    internalId: internalId || null,
     source,
-    levels,
   };
 };
+
 
 export const getItemByPageId = async (id) => {
   const params = {
@@ -62,62 +115,21 @@ export const getItemByPageId = async (id) => {
   // May have multiple tabs for different levels
   const levels = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
     .map((i, el) => {
-      const $this = $(el);
-      let materials = $(el).siblings('.pi-data-value').find('li');
-      if (materials.length > 0) {
-        materials = materials.map((i, el) => $(el).text()).toArray();
-      } else {
-        materials = materials.prevObject.text();
-      }
-      let craftingLevel = $this.parent()
-        .siblings('section.pi-item.pi-group')
-        .has('th:contains("Crafting Level")')
-        .find('td')
-        .first()
-        .text();
-
-      return {
-        level: i + 1,
-        craftingLevel,
-        materials,
-      };
+      return parseCraftingMaterials($(el), $, i);
     })
     .toArray();
 
   // Get upgrade structures from content
-  const upgradeNameIdx = [322, 688].includes(id) ? 1 : 2; // Workbench and Cauldron is exception
-  const upgrades = $('h2').has('> #Upgrades')
-    .siblings('table')
-    .first()
-    .find(`tbody > tr:not(:last-child) > td:nth-child(${upgradeNameIdx})`)
-    .map((i, el) => $(el).text().trim())
-    .toArray();
+  const upgrades = parseUpgradesFromSection($('h2').has('> #Upgrades'), $, id);
 
-  // Get internal ID from infobox
-  const internalId = $info.find('div.pi-item > h3.pi-data-label:contains("Internal ID")')
-    .first()
-    .siblings('.pi-data-value')
-    .first()
-    .text()
-    .trim();
-  // Get required crafting station from infobox
-  let source = $info.find('div.pi-item > h3.pi-data-label:contains("Source")');
-  if (source.length === 0) {
-    source = $info.find('div.pi-item > h3.pi-data-label:contains("Dropped by")');
-  }
-  source = source.first()
-    .siblings('.pi-data-value')
-    .first()
-    .text()
-    .trim();
+  const moreInfo = parseSourceAndInternalId($info);
 
-  return transformItemData({
+  return {
     title: data.parse.title,
     pageId: id,
-    internalId,
-    source,
+    ...moreInfo,
     levels,
     upgrades,
     categories: data.parse.categories.map(cat => cat['*']),
-  });
+  };
 };

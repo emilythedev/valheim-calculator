@@ -38,17 +38,18 @@ const breakdownLevels = ({ levels, upgrades, ...item }, getItemIdFn) => {
     }
   });
 
-  return levels.map(({ level, craftingLevel, materials }) => {
+  return levels.map(({ level, craftingLevel, materials, craftingAmount }) => {
     return {
       ...item,
       id: getItemIdFn(item.title, level),
-      source: item.source ? {
-        id: getItemIdFn(item.source),
-        title: item.source,
-      } : null,
+      source: item.source ? item.source.map(title => ({
+        id: getItemIdFn(title),
+        title,
+      })) : null,
       upgrades,
       itemLevel: level,
       craftingLevel,
+      craftingAmount,
       materials: transformMaterials(materials, getItemIdFn),
       maxLevel: len,
     };
