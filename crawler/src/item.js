@@ -20,7 +20,7 @@ const parseMaterialText = (material) => {
   };
 };
 
-const parseCraftingMaterials = ($sectionTitle, $, i = 0) => {
+const parseCraftingMaterials = ($sectionTitle, i = 0) => {
   const $content = $sectionTitle.siblings('.pi-data-value');
 
   let craftingAmount = $content.find('b').text();
@@ -30,7 +30,7 @@ const parseCraftingMaterials = ($sectionTitle, $, i = 0) => {
   let materials = $content.find('li');
   if (materials.length > 0) {
     materials = materials.map((i, el) => {
-      return parseMaterialText($(el).text());
+      return parseMaterialText(cheerio.load(el).text());
     }).toArray();
   } else {
     materials = [parseMaterialText(materials.prevObject.text())];
@@ -55,13 +55,15 @@ const parseCraftingMaterials = ($sectionTitle, $, i = 0) => {
   };
 }
 
-const parseUpgradesFromSection = ($sectionTitle, $, pageId) => {
+const parseUpgradesFromSection = ($sectionTitle, pageId) => {
+  if (!$sectionTitle.length) return [];
+
   const titleColIdx = [322, 688].includes(pageId) ? 1 : 2; // Workbench and Cauldron is exception
   return $sectionTitle
     .siblings('table')
     .first()
     .find(`tbody > tr:not(:last-child) > td:nth-child(${titleColIdx})`)
-    .map((i, el) => $(el).text().trim())
+    .map((i, el) => cheerio.load(el).text().trim())
     .toArray();
 };
 
@@ -109,27 +111,32 @@ export const getItemsByPageId = async (id) => {
 
   const { data } = await axios.get(apiBaseUrl, { params });
   const $ = cheerio.load(data.parse.text['*']);
+
+  return parseSimpleItemPage(id, data.parse, $);
+};
+
+const parseSimpleItemPage = (pageId, {title, categories}, $) => {
   const $info = $('aside[role=region]');
 
   // Get crafting materials from infobox
   // May have multiple tabs for different levels
   const levels = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
     .map((i, el) => {
-      return parseCraftingMaterials($(el), $, i);
+      return parseCraftingMaterials($(el), i);
     })
     .toArray();
 
   // Get upgrade structures from content
-  const upgrades = parseUpgradesFromSection($('h2').has('> #Upgrades'), $, id);
+  const upgrades = parseUpgradesFromSection($('h2').has('> #Upgrades'), pageId);
 
   const moreInfo = parseSourceAndInternalId($info);
 
   return [{
-    title: data.parse.title,
-    pageId: id,
+    title,
+    pageId,
     ...moreInfo,
     levels,
     upgrades,
-    categories: data.parse.categories.map(cat => cat['*']),
+    categories: categories.map(cat => cat['*']),
   }];
 };
