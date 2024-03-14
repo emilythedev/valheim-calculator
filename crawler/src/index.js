@@ -15,6 +15,7 @@ const categories = [
   'Furniture',
   'Cooking_recipes',
   'Fermenter_recipes',
+  'Materials',
 ];
 
 let skipPageIds = [];
