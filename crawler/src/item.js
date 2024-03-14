@@ -111,12 +111,35 @@ export const getItemsByPageId = async (id) => {
 
   const { data } = await axios.get(apiBaseUrl, { params });
   const $ = cheerio.load(data.parse.text['*']);
+  const categories = data.parse.categories.map(cat => cat['*']);
 
-  return parseSimpleItemPage(id, data.parse, $);
+  const $info = $('aside[role=region]');
+
+  if ($info.length > 1) {
+    return $info.map((i, el) => {
+      return parseItem(id, categories, $(el), $);
+    });
+  }
+
+  return [
+    parseItem(id, categories, $info.first(), $)
+  ];
 };
 
-const parseSimpleItemPage = (pageId, {title, categories}, $) => {
-  const $info = $('aside[role=region]');
+const parseItem = (pageId, categories, $info, $) => {
+  // Get upgrade structures from content
+  const upgrades = parseUpgradesFromSection($('h2').has('> #Upgrades'), pageId);
+
+  return {
+    pageId,
+    ...parseSingleItemFromInfobox($info, $),
+    upgrades,
+    categories,
+  };
+};
+
+const parseSingleItemFromInfobox = ($info, $) => {
+  const title = $info.find('h2').first().text();
 
   // Get crafting materials from infobox
   // May have multiple tabs for different levels
@@ -126,17 +149,9 @@ const parseSimpleItemPage = (pageId, {title, categories}, $) => {
     })
     .toArray();
 
-  // Get upgrade structures from content
-  const upgrades = parseUpgradesFromSection($('h2').has('> #Upgrades'), pageId);
-
-  const moreInfo = parseSourceAndInternalId($info);
-
-  return [{
+  return {
     title,
-    pageId,
-    ...moreInfo,
+    ...parseSourceAndInternalId($info),
     levels,
-    upgrades,
-    categories: categories.map(cat => cat['*']),
-  }];
+  };
 };
