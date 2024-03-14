@@ -1,4 +1,4 @@
-import { filter, fromPairs, uniqBy } from 'lodash-es';
+import { filter, uniqBy } from 'lodash-es';
 import { getItems } from './category.js';
 import { getItemsByPageId } from './item.js';
 import { loadSkipPageIds } from './loader.js';
@@ -42,18 +42,8 @@ loadSkipPageIds('./output/skip-pages.json')
   })
   .then(list => {
     list = list.flat()
-    const titleIdMap = fromPairs(list.map((item) => {
-      const {pageId, title} = item;
-      return [title.toLowerCase(), `${pageId}`];
-    }));
-    outputJson(titleIdMap, './output/title-id-map.json');
 
-    const getItemIdFn = (title, level = 1) => {
-      const id = titleIdMap[title.toLowerCase()];
-      return id ? `${id}_${level}` : undefined
-    };
-
-    return transform(list, getItemIdFn);
+    return transform(list);
   })
   .then(list => {
     return Promise.all([
