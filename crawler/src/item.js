@@ -99,7 +99,7 @@ const parseSourceAndInternalId = ($info) => {
 };
 
 
-export const getItemByPageId = async (id) => {
+export const getItemsByPageId = async (id) => {
   const params = {
     action: 'parse',
     prop: 'text|categories',
@@ -124,12 +124,12 @@ export const getItemByPageId = async (id) => {
 
   const moreInfo = parseSourceAndInternalId($info);
 
-  return {
+  return [{
     title: data.parse.title,
     pageId: id,
     ...moreInfo,
     levels,
     upgrades,
     categories: data.parse.categories.map(cat => cat['*']),
-  };
+  }];
 };
