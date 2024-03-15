@@ -118,7 +118,7 @@ export const getItemsByPageId = async (id) => {
   if ($info.length > 1) {
     return $info.map((i, el) => {
       return parseItem(id, categories, $(el), $);
-    });
+    }).toArray();
   }
 
   return [
@@ -129,10 +129,11 @@ export const getItemsByPageId = async (id) => {
 const parseItem = (pageId, categories, $info, $) => {
   // Get upgrade structures from content
   const upgrades = parseUpgradesFromSection($('h2').has('> #Upgrades'), pageId);
+  const item = parseSingleItemFromInfobox($info, $);
 
   return {
     pageId,
-    ...parseSingleItemFromInfobox($info, $),
+    ...item,
     upgrades,
     categories,
   };
