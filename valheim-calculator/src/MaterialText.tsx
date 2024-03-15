@@ -3,7 +3,7 @@ import { useSetAtom } from 'jotai';
 import { searchTxtAtom } from './shared/atoms';
 
 interface Props {
-  material: {id?: string, title: string},
+  material: MaterialBaseType,
 }
 
 const MaterialText = ({material}: Props) => {

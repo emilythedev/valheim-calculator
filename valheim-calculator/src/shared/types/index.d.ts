@@ -3,7 +3,7 @@ interface MaterialBaseType {
   title: string,
 }
 
-interface MaterialObjType extends MaterialBaseType {
+interface CraftingMaterialType extends MaterialBaseType {
   quantity: number,
 }
 
@@ -11,12 +11,13 @@ interface ItemType {
   id: string,
   title: string,
   categories: string[],
-  source: MaterialBaseType | null,
+  source: MaterialBaseType[],
   upgrades: MaterialBaseType[],
-  itemLevel: number,
+  qualityLevel: number,
   craftingLevel: number | null,
-  materials: MaterialObjType[],
-  maxLevel: number,
+  craftingAmount: number,
+  materials: CraftingMaterialType[],
+  maxQuality: number,
 }
 
 interface ItemAtomType extends ItemType {

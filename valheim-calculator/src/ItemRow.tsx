@@ -7,20 +7,20 @@ interface Prop {
 
 const ItemRow = ({item}: Prop) => {
   let title = item.title;
-  if (item.maxLevel > 1) {
-    title += ` [Lv${item.itemLevel}]`;
+  if (item.maxQuality > 1) {
+    title += ` [${item.qualityLevel}]`;
   }
 
   let sourceLvTxt = '';
   if (item.craftingLevel) {
-    sourceLvTxt = ` [Lv${item.craftingLevel}]`;
+    sourceLvTxt = ` [${item.craftingLevel}]`;
   }
   return (
     <tr>
       <td>{ title }</td>
       <td>
         {item.source &&
-          (<Typography><MaterialText material={item.source} />{sourceLvTxt}</Typography>)
+          (<Typography><MaterialText material={item.source[0]} />{sourceLvTxt}</Typography>)
         }
       </td>
       <td>

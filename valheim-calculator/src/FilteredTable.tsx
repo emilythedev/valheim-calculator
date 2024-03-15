@@ -18,7 +18,7 @@ const FilteredTable = () => {
       </thead>
       <tbody>
         {list.map((item: ItemType) => {
-          return (<ItemRow key={`${item.title}_${item.itemLevel}`} item={item} />);
+          return (<ItemRow key={`${item.id}`} item={item} />);
         })}
       </tbody>
     </Table>
