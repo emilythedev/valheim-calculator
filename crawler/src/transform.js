@@ -16,23 +16,13 @@ const filterPredicate = ({ title, pageId, source, internalId, qualityLevels }) =
   return true;
 };
 
-const transformMaterials = (materials, getItemIdFn) => {
-  return materials.map(({title, quantity}) => {
-    return {
-      id: getItemIdFn(title),
-      title,
-      quantity,
-    }
-  });
-};
-
-const breakdownQualityLevels = ({ qualityLevels, upgrades, ...item }) => {
+const breakdownQualityLevels = ({ qualityLevels, ...item }) => {
   const len = qualityLevels.length;
 
-  return qualityLevels.map(({ qualityLevel, craftingLevel, materials, craftingAmount }) => {
+  return qualityLevels.map(({ qualityLevel, craftingLevel, materials, craftingAmount, source }) => {
     return {
       ...item,
-      upgrades,
+      source: source || item.source,
       qualityLevel,
       craftingLevel,
       craftingAmount,
@@ -58,4 +48,38 @@ export const transform = (list) => {
   }
 
   return outputList;
+};
+
+export const appendItemId = (list, searchIdByTitleAndQuality) => {
+  return list.map(({upgrades, materials, source, ...item}) => {
+    upgrades = upgrades.map(title => {
+      return {
+        id: searchIdByTitleAndQuality(title, null),
+        title,
+      };
+    });
+
+    source = !source ? null : source.map(title => {
+      return {
+        id: searchIdByTitleAndQuality(title, null),
+        title,
+      };
+    });
+
+    materials = materials.map(({ title, quantity }) => {
+      return {
+        id: searchIdByTitleAndQuality(title, null),
+        title,
+        quantity,
+      };
+    });
+
+    return {
+      id: searchIdByTitleAndQuality(item.title, item.qualityLevel),
+      ...item,
+      upgrades,
+      source,
+      materials,
+    };
+  });
 };
