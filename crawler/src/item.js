@@ -91,7 +91,7 @@ const parseSourceAndInternalId = ($info) => {
   if (source === 'StonecutterHoe') {
     source = ['Stonecutter', 'Hoe'];
   } else {
-    source = ['Crafting', 'None'].includes(source) ? null : [source];
+    source = ['Crafting', 'None', 'n/a'].includes(source) ? null : source.split(', ');
   }
 
   return {

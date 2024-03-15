@@ -1,9 +1,7 @@
+import { intersection } from 'lodash-es';
+
 const filterPredicate = ({ title, pageId, source, internalId, qualityLevels }) => {
-  if (source && (
-    source === 'n/a' ||
-    source.indexOf('Commands') !== -1 ||
-    source === 'Hildir'
-  )) {
+  if (source && intersection(source, ['Commands', 'n/a', 'Hildir', 'Haldor']).length > 0) {
     console.log('[SKIPPED]', JSON.stringify({title, pageId, reason: 'source'}));
     return false;
   }
