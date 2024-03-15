@@ -119,6 +119,8 @@ export const getItemsByPageId = async (id) => {
     return $info.map((i, el) => {
       return parseItem(id, categories, $(el), $);
     }).toArray();
+  } else if ($info.length === 0 && categories.includes('Armor')) {
+    return parseArmorSetItems(id, categories, $);
   }
 
   return [
@@ -155,4 +157,119 @@ const parseSingleItemFromInfobox = ($info, $) => {
     ...parseSourceAndInternalId($info),
     qualityLevels,
   };
+};
+
+const ironArmorSourceInfo = [
+  {
+    head: {source: ['Forge'], craftingLevel: 1},
+    chest: {source: ['Forge'], craftingLevel: 2},
+    legs: {source: ['Forge'], craftingLevel: 2},
+  },
+  {
+    head: {source: ['Forge'], craftingLevel: 2},
+    chest: {source: ['Forge'], craftingLevel: 3},
+    legs: {source: ['Forge'], craftingLevel: 3},
+  },
+  {
+    head: {source: ['Forge'], craftingLevel: 3},
+    chest: {source: ['Forge'], craftingLevel: 4},
+    legs: {source: ['Forge'], craftingLevel: 4},
+  },
+  {
+    head: {source: ['Forge'], craftingLevel: 4},
+    chest: {source: ['Forge'], craftingLevel: 5},
+    legs: {source: ['Forge'], craftingLevel: 5},
+  },
+];
+
+const armorTypes = ['head', 'chest', 'legs', 'cape'];
+const parseArmorSetItems = (pageId, categories, $) => {
+  const $qualityTabs = $('.wds-tabber > .wds-tab__content');
+
+  const items = {};
+
+  // For each quality
+  $qualityTabs.each((iTab, el) => {
+    const $tab = $(el);
+
+    // Parse crafting source building and required level
+    let sourceInfo = {};
+    if (pageId === 1511) {
+      sourceInfo = ironArmorSourceInfo[iTab];
+    } else {
+      const craftingSources = $tab.find('h3 + p')
+        .html().split('<br>')
+        .filter(line => line.includes(' level: '));
+
+      craftingSources.forEach(line => {
+        const text = $(`<p>${line}</p>`).text();
+
+        const matches = text.match(/(?<source>[a-zA-Z ]+) level: (?<craftingLevel>[0-9]+)( \((?<list>[a-zA-Z/ ]+)\))?/);
+        if (!matches) return;
+        const grps = matches.groups;
+
+        let types = armorTypes;
+
+        if (grps.list && grps.list !== 'currently unobtainable') {
+          types = grps.list.split('/').filter((type) => {
+            return armorTypes.includes(type);
+          });
+        }
+
+        types.forEach((type) => {
+          sourceInfo[type] = {
+            source: [grps.source],
+            craftingLevel: parseInt(grps.craftingLevel),
+          };
+        });
+      });
+    }
+
+
+    // Parse table into items, with crafting materials required
+    const quality = {};
+    $tab.find('table tr:has(> td)').each((i, el) => {
+      const $cells = $(el).find('td');
+      const title = $cells.first().text().trim();
+      if (title === 'Full set') return;
+
+      const materials = $($cells.get(2)).html().split('<br>')
+        .map((line) => {
+          const normalizedMaterialText = $(line)
+            .text().trim()
+            .replace(/^([0-9]+) ?(\([0-9]+\))? ?(.+)/, '$1 x $3');
+          return parseMaterialText(normalizedMaterialText);
+        });
+
+      let armorType = armorTypes[i];
+      if (title.substr(0, 4) === 'Rag ') {
+        // Rag armor doesn't have helmet, row 0 is type 1
+        armorType = armorTypes[i + 1];
+      }
+
+      const sourceAndCraftingLevel = sourceInfo[armorType] || {};
+
+      if (!items[title]) {
+        items[title] = {
+          title,
+          pageId,
+          categories,
+          upgrades: [],
+          qualityLevels: [],
+          source: sourceAndCraftingLevel.source,
+        };
+      }
+
+      items[title].qualityLevels.push({
+        qualityLevel: iTab + 1,
+        materials: materials.filter(({ quantity }) => quantity > 0),
+        craftingAmount: 1,
+        ...sourceAndCraftingLevel,
+      });
+    });
+
+    return quality;
+  });
+
+  return Object.values(items);
 };
