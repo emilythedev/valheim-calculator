@@ -48,7 +48,7 @@ const parseCraftingMaterials = ($sectionTitle, i = 0) => {
   }
 
   return {
-    level: i + 1,
+    qualityLevel: i + 1,
     craftingLevel,
     materials,
     craftingAmount,
@@ -142,8 +142,8 @@ const parseSingleItemFromInfobox = ($info, $) => {
   const title = $info.find('h2').first().text();
 
   // Get crafting materials from infobox
-  // May have multiple tabs for different levels
-  const levels = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
+  // May have multiple tabs for different quality
+  const qualityLevels = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
     .map((i, el) => {
       return parseCraftingMaterials($(el), i);
     })
@@ -152,6 +152,6 @@ const parseSingleItemFromInfobox = ($info, $) => {
   return {
     title,
     ...parseSourceAndInternalId($info),
-    levels,
+    qualityLevels,
   };
 };

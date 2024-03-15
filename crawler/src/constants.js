@@ -6,7 +6,7 @@ export const csvKeyMappings = [
   ['page_id', 'pageId'],
   ['internal_id', 'internalId'],
   ['categories', 'categories', (cat) => cat.join(', ')],
-  ['item_level', 'itemLevel'],
+  ['quality', 'qualityLevel'],
   ['source'],
   ['crafting_level', 'craftingLevel'],
   ['upgrades', 'upgrades', (list) => list.join('\n')],

@@ -1,4 +1,4 @@
-const filterPredicate = ({ title, pageId, source, internalId, levels }) => {
+const filterPredicate = ({ title, pageId, source, internalId, qualityLevels }) => {
   if (source && (
     source === 'n/a' ||
     source.indexOf('Commands') !== -1 ||
@@ -11,8 +11,8 @@ const filterPredicate = ({ title, pageId, source, internalId, levels }) => {
     console.log('[SKIPPED]', JSON.stringify({title, pageId, reason: 'source, internal ID'}));
     return false;
   }
-  if (levels.length === 0) {
-    console.log('[SKIPPED]', JSON.stringify({title, pageId, reason: 'levels'}));
+  if (qualityLevels.length === 0) {
+    console.log('[SKIPPED]', JSON.stringify({title, pageId, reason: 'qualityLevels'}));
     return false;
   }
   return true;
@@ -28,18 +28,18 @@ const transformMaterials = (materials, getItemIdFn) => {
   });
 };
 
-const breakdownLevels = ({ levels, upgrades, ...item }) => {
-  const len = levels.length;
+const breakdownQualityLevels = ({ qualityLevels, upgrades, ...item }) => {
+  const len = qualityLevels.length;
 
-  return levels.map(({ level, craftingLevel, materials, craftingAmount }) => {
+  return qualityLevels.map(({ qualityLevel, craftingLevel, materials, craftingAmount }) => {
     return {
       ...item,
       upgrades,
-      itemLevel: level,
+      qualityLevel,
       craftingLevel,
       craftingAmount,
       materials,
-      maxLevel: len,
+      maxQuality: len,
     };
   });
 };
@@ -54,7 +54,7 @@ export const transform = (list) => {
     // remove non-craftable items
     if (!filterPredicate(item)) continue;
 
-    breakdownLevels(item).forEach((item) => {
+    breakdownQualityLevels(item).forEach((item) => {
       outputList.push(item);
     });
   }
