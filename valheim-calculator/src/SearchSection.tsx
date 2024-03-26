@@ -23,7 +23,7 @@ const SearchSection = () => {
       justifyContent="flex-start"
       alignItems="stretch"
       spacing={4}
-      my={4}
+      mb={4}
       minHeight={0}
     >
       <SearchInput />
