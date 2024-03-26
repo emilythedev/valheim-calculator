@@ -1,6 +1,7 @@
-import { Input } from '@mui/joy';
+import { Button } from '@mui/joy';
 import { useAtom } from 'jotai';
 import MaterialText from './MaterialText';
+import StepperInput from './StepperInput';
 import { wishListItemAmountAtomFamily } from './shared/atoms';
 
 interface Prop {
@@ -23,11 +24,14 @@ const ItemRow = ({item}: Prop) => {
     <tr>
       <td>{ title }</td>
       <td>
-        <Input
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(parseInt(e.target.value), item)}
-        />
+        {amount > 0 ? (
+          <StepperInput
+            value={amount}
+            onChange={(value) => setAmount(value, item)}
+          />
+        ) : (
+          <Button onClick={() => setAmount(1, item)}>Add</Button>
+        )}
       </td>
       <td>
         {item.upgrades &&
