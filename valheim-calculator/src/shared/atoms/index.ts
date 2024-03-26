@@ -15,7 +15,6 @@ export const writeItemListAtom = atom(null, (_, set, itemList: ItemType[]) => {
     list.push({
       ...item,
       titleLower,
-      amount: 0,
     });
     names.push(titleLower);
   })

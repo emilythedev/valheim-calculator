@@ -8,7 +8,7 @@ interface CraftingMaterialType extends MaterialBaseType {
 }
 
 interface ItemType {
-  id: string,
+  id: number,
   title: string,
   categories: string[],
   source: MaterialBaseType[],
@@ -22,5 +22,4 @@ interface ItemType {
 
 interface ItemAtomType extends ItemType {
   titleLower: string,
-  amount: number,
 }
