@@ -11,13 +11,12 @@ const FilteredTable = () => {
       <thead>
         <tr>
           <th>Title</th>
-          <th>Source</th>
+          <th>Amount</th>
           <th>Upgrades</th>
-          <th>Materials</th>
         </tr>
       </thead>
       <tbody>
-        {list.map((item: ItemType) => {
+        {list.map((item) => {
           return (<ItemRow key={`${item.id}`} item={item} />);
         })}
       </tbody>

@@ -1,11 +1,15 @@
-import { Typography } from '@mui/joy';
+import { Input } from '@mui/joy';
+import { useAtom } from 'jotai';
 import MaterialText from './MaterialText';
+import { wishListItemAmountAtomFamily } from './shared/atoms';
 
 interface Prop {
-  item: ItemType,
+  item: ItemAtomType,
 }
 
 const ItemRow = ({item}: Prop) => {
+  const [amount, setAmount] = useAtom(wishListItemAmountAtomFamily(item.id));
+
   let title = item.title;
   if (item.maxQuality > 1) {
     title += ` [${item.qualityLevel}]`;
@@ -19,9 +23,11 @@ const ItemRow = ({item}: Prop) => {
     <tr>
       <td>{ title }</td>
       <td>
-        {item.source &&
-          (<Typography><MaterialText material={item.source[0]} />{sourceLvTxt}</Typography>)
-        }
+        <Input
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(parseInt(e.target.value), item)}
+        />
       </td>
       <td>
         {item.upgrades &&
@@ -31,16 +37,6 @@ const ItemRow = ({item}: Prop) => {
             })}
           </ul>
         }
-      </td>
-      <td>
-        <ul>
-          {item.materials.map((material) => {
-            return (
-              <li key={material.title}>
-                <Typography>{material.quantity} <MaterialText material={material} /></Typography>
-              </li>);
-          })}
-        </ul>
       </td>
     </tr>
   );
