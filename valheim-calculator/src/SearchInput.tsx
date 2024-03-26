@@ -1,4 +1,5 @@
-import { Input } from '@mui/joy';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { IconButton, Input } from '@mui/joy';
 import { useAtom } from 'jotai';
 import { searchTxtAtom } from './shared/atoms';
 
@@ -10,6 +11,13 @@ const SearchInput = () => {
       variant="soft"
       value={searchTxt}
       onChange={(e) => setSearchTxt(e.target.value)}
+      endDecorator={searchTxt ? (
+        <IconButton
+          onClick={() => setSearchTxt('')}
+        >
+          <CancelIcon />
+        </IconButton>
+      ) : undefined}
     />
   );
 };
