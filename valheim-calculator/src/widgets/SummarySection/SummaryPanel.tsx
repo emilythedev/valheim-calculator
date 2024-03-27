@@ -1,4 +1,4 @@
-import { materialSummaryAtom } from '@/shared/atoms';
+import { materialSummaryAtom } from '@/entities/item/atoms/wishlist';
 import { Table } from '@mui/joy';
 import { useAtomValue } from 'jotai';
 

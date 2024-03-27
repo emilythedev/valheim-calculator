@@ -1,4 +1,4 @@
-import { searchTxtAtom } from '@/shared/atoms';
+import { searchTxtAtom } from '@/entities/item/atoms/recipes';
 import { Link, Typography } from '@mui/joy';
 import { useSetAtom } from 'jotai';
 

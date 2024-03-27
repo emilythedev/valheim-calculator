@@ -1,4 +1,4 @@
-import { filteredListAtom } from '@/shared/atoms';
+import { filteredListAtom } from '@/entities/item/atoms/recipes';
 import { Table } from '@mui/joy';
 import { useAtomValue } from 'jotai';
 import ItemRow from './ItemRow';

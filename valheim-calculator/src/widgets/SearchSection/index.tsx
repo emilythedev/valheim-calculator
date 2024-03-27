@@ -1,5 +1,5 @@
+import { writeRecipesAtom } from '@/entities/item/atoms/recipes';
 import SearchInput from '@/features/item/SearchInput';
-import { writeRecipesAtom } from '@/shared/atoms';
 import { Sheet, Stack } from '@mui/joy';
 import axios from 'axios';
 import { useSetAtom } from 'jotai';

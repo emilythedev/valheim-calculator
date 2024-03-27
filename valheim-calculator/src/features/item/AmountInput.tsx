@@ -1,4 +1,4 @@
-import { wishlistAmountAtomFamily } from '@/shared/atoms';
+import { wishlistAmountAtomFamily } from '@/entities/item/atoms/wishlist';
 import StepperInput from '@/shared/ui/StepperInput';
 import { Button } from '@mui/joy';
 import { useAtom } from 'jotai';

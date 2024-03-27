@@ -1,4 +1,4 @@
-import { searchTxtAtom } from '@/shared/atoms';
+import { searchTxtAtom } from '@/entities/item/atoms/recipes';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { IconButton, Input } from '@mui/joy';
 import { useAtom } from 'jotai';
