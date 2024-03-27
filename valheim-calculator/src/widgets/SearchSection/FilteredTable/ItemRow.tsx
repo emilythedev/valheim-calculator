@@ -1,3 +1,4 @@
+import TitleText from '@/entities/item/ui/TitleText';
 import AmountInput from '@/features/item/AmountInput';
 import MaterialText from '@/features/material/MaterialText';
 
@@ -17,7 +18,7 @@ const ItemRow = ({item}: Prop) => {
   }
   return (
     <tr>
-      <td>{ title }</td>
+      <td><TitleText item={item} /></td>
       <td>
         <AmountInput item={item} />
       </td>
