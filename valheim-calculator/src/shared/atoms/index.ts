@@ -4,11 +4,9 @@ import { filter, findIndex, transform } from 'lodash-es';
 
 export const searchTxtAtom = atom('');
 
-const itemListAtom = atom<ItemAtomType[]>([]);
-export const itemNamesAtom = atom<string[]>([]);
-
-export const writeItemListAtom = atom(null, (_, set, itemList: ItemType[]) => {
-  const list: ItemAtomType[] = [];
+const recipesAtom = atom<IItemRecipeAtom[]>([]);
+export const writeRecipesAtom = atom(null, (_, set, itemList: IItemRecipe[]) => {
+  const list: IItemRecipeAtom[] = [];
   const names: string[] = [];
   itemList.forEach((item) => {
     const titleLower = item.title.toLowerCase();
@@ -20,13 +18,12 @@ export const writeItemListAtom = atom(null, (_, set, itemList: ItemType[]) => {
     names.push(titleLower);
   })
 
-  set(itemListAtom, list);
-  set(itemNamesAtom, names);
+  set(recipesAtom, list);
 });
 
 export const filteredListAtom = atom((get) => {
   const searchTxt = get(searchTxtAtom).toLowerCase();
-  const list = get(itemListAtom);
+  const list = get(recipesAtom);
 
   if (!searchTxt) return list;
 
@@ -35,22 +32,23 @@ export const filteredListAtom = atom((get) => {
   });
 });
 
-type IdAmountMappingAtomType = {[id: number]: number};
-const wishListAtom = atom<ItemAtomType[]>([]);
-const idAmountMappingAtom = atom<IdAmountMappingAtomType>({});
+type AmountMapAtomType = {[id: number]: number};
 
-export const wishListItemAmountAtomFamily = atomFamily((id: number) => atom(
-  (get) => get(idAmountMappingAtom)[id] || 0,
-  (get, set, amount: number, item: ItemAtomType) => {
-    const mapping = get(idAmountMappingAtom);
+const wishlistAtom = atom<IItemRecipeAtom[]>([]);
+const amountMapAtom = atom<AmountMapAtomType>({});
+
+export const wishlistAmountAtomFamily = atomFamily((id: number) => atom(
+  (get) => get(amountMapAtom)[id] || 0,
+  (get, set, amount: number, item: IItemRecipeAtom) => {
+    const mapping = get(amountMapAtom);
     if (amount > 0) {
-      set(idAmountMappingAtom, {...mapping, [id]: amount});
+      set(amountMapAtom, {...mapping, [id]: amount});
       if (!mapping[id]) {
-        set(wishListAtom, (list) => [...list, item]);
+        set(wishlistAtom, (list) => [...list, item]);
       }
     } else {
-      set(idAmountMappingAtom, {...mapping, [id]: 0});
-      set(wishListAtom, (list) => {
+      set(amountMapAtom, {...mapping, [id]: 0});
+      set(wishlistAtom, (list) => {
         const itemIdx = findIndex(list, {id});
         if (itemIdx > -1) {
           const newList = [...list]
@@ -63,14 +61,14 @@ export const wishListItemAmountAtomFamily = atomFamily((id: number) => atom(
   }
 ));
 
-export const readWishlistAtom = atom((get) => get(wishListAtom));
+export const readWishlistAtom = atom((get) => get(wishlistAtom));
 
-export const totalMaterialsAtom = atom((get) => {
-  const wishlist = get(wishListAtom);
+export const materialSummaryAtom = atom((get) => {
+  const wishlist = get(wishlistAtom);
 
   const materials: {[title: string]: number} = {};
   wishlist.forEach((item) => {
-    const amount = get(wishListItemAmountAtomFamily(item.id));
+    const amount = get(wishlistAmountAtomFamily(item.id));
     item.materials.forEach((material) => {
       if (!materials[material.title]) {
         materials[material.title] = 0;
@@ -79,7 +77,7 @@ export const totalMaterialsAtom = atom((get) => {
     })
   });
 
-  return transform(materials, (result: CraftingMaterialType[], value, key) => {
+  return transform(materials, (result: IRecipeMaterial[], value, key) => {
     result.push({title: key, quantity: value});
   }, []);
 });

@@ -1,5 +1,5 @@
 import SearchInput from '@/features/item/SearchInput';
-import { writeItemListAtom } from '@/shared/atoms';
+import { writeRecipesAtom } from '@/shared/atoms';
 import { Sheet, Stack } from '@mui/joy';
 import axios from 'axios';
 import { useSetAtom } from 'jotai';
@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import FilteredTable from './FilteredTable';
 
 const SearchSection = () => {
-  const setItemList = useSetAtom(writeItemListAtom);
+  const setItemList = useSetAtom(writeRecipesAtom);
   useEffect(() => {
     axios.get('/data.json')
       .then(({data}) => {

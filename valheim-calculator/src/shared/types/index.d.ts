@@ -1,25 +1,25 @@
-interface MaterialBaseType {
+interface IMaterial {
   id?: string,
   title: string,
 }
 
-interface CraftingMaterialType extends MaterialBaseType {
+interface IRecipeMaterial extends IMaterial {
   quantity: number,
 }
 
-interface ItemType {
+interface IItemRecipe {
   id: number,
   title: string,
   categories: string[],
-  source: MaterialBaseType[],
-  upgrades: MaterialBaseType[],
+  source: IMaterial[],
+  upgrades: IMaterial[],
   qualityLevel: number,
   craftingLevel: number | null,
   craftingAmount: number,
-  materials: CraftingMaterialType[],
+  materials: IRecipeMaterial[],
   maxQuality: number,
 }
 
-interface ItemAtomType extends ItemType {
+interface IItemRecipeAtom extends IItemRecipe {
   titleLower: string,
 }

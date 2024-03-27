@@ -2,7 +2,7 @@ import AmountInput from '@/features/item/AmountInput';
 import MaterialText from '@/features/material/MaterialText';
 
 interface Prop {
-  item: ItemAtomType,
+  item: IItemRecipeAtom,
 }
 
 const ItemRow = ({item}: Prop) => {

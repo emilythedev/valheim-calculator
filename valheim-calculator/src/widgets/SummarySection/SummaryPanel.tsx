@@ -1,9 +1,9 @@
-import { totalMaterialsAtom } from '@/shared/atoms';
+import { materialSummaryAtom } from '@/shared/atoms';
 import { Table } from '@mui/joy';
 import { useAtomValue } from 'jotai';
 
 const SummaryPanel = () => {
-  const materialList = useAtomValue(totalMaterialsAtom);
+  const materialList = useAtomValue(materialSummaryAtom);
 
   return (
     <Table variant="plain" stickyHeader hoverRow>

@@ -1,14 +1,14 @@
-import { wishListItemAmountAtomFamily } from '@/shared/atoms';
+import { wishlistAmountAtomFamily } from '@/shared/atoms';
 import StepperInput from '@/shared/ui/StepperInput';
 import { Button } from '@mui/joy';
 import { useAtom } from 'jotai';
 
 interface Props {
-  item: ItemAtomType,
+  item: IItemRecipeAtom,
 }
 
 const AmountInput = ({ item }: Props) => {
-  const [amount, setAmount] = useAtom(wishListItemAmountAtomFamily(item.id));
+  const [amount, setAmount] = useAtom(wishlistAmountAtomFamily(item.id));
 
   if (amount > 0) {
     return (

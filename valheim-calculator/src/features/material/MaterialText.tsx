@@ -3,7 +3,7 @@ import { Link, Typography } from '@mui/joy';
 import { useSetAtom } from 'jotai';
 
 interface Props {
-  material: MaterialBaseType,
+  material: IMaterial,
 }
 
 const MaterialText = ({material}: Props) => {
