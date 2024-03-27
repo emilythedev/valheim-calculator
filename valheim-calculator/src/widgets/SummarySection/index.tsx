@@ -1,5 +1,6 @@
 import { Tab, TabList, TabPanel, Tabs, tabClasses } from '@mui/joy';
 import SummaryPanel from './SummaryPanel';
+import WishlistPanel from './WishlistPanel';
 
 const SummarySection = () => {
   return (
@@ -22,6 +23,7 @@ const SummarySection = () => {
         <Tab disableIndicator>Summary</Tab>
       </TabList>
       <TabPanel value={0}>
+        <WishlistPanel />
       </TabPanel>
       <TabPanel value={1}>
         <SummaryPanel />
