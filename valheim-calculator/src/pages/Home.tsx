@@ -1,6 +1,6 @@
+import SearchSection from '@/widgets/SearchSection';
+import SummarySection from '@/widgets/SummarySection';
 import { Box, Container, Stack } from '@mui/joy';
-import SearchSection from './SearchSection';
-import SummarySection from './SummarySection';
 
 
 const Layout = () => {

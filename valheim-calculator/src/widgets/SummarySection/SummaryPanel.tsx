@@ -1,6 +1,6 @@
+import { totalMaterialsAtom } from '@/shared/atoms';
 import { Table } from '@mui/joy';
 import { useAtomValue } from 'jotai';
-import { totalMaterialsAtom } from './shared/atoms';
 
 const SummaryPanel = () => {
   const materialList = useAtomValue(totalMaterialsAtom);

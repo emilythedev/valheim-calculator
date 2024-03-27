@@ -1,6 +1,6 @@
+import { searchTxtAtom } from '@/shared/atoms';
 import { Link, Typography } from '@mui/joy';
 import { useSetAtom } from 'jotai';
-import { searchTxtAtom } from './shared/atoms';
 
 interface Props {
   material: MaterialBaseType,

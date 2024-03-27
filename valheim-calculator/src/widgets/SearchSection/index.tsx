@@ -1,10 +1,10 @@
+import SearchInput from '@/features/item/SearchInput';
+import { writeItemListAtom } from '@/shared/atoms';
 import { Sheet, Stack } from '@mui/joy';
 import axios from 'axios';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import FilteredTable from './FilteredTable';
-import SearchInput from './SearchInput';
-import { writeItemListAtom } from './shared/atoms';
 
 const SearchSection = () => {
   const setItemList = useSetAtom(writeItemListAtom);

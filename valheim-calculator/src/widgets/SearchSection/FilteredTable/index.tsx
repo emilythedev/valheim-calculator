@@ -1,7 +1,7 @@
+import { filteredListAtom } from '@/shared/atoms';
 import { Table } from '@mui/joy';
 import { useAtomValue } from 'jotai';
 import ItemRow from './ItemRow';
-import { filteredListAtom } from './shared/atoms';
 
 const FilteredTable = () => {
   const list = useAtomValue(filteredListAtom);

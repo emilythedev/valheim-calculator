@@ -1,11 +1,11 @@
+import Home from '@/pages/Home';
 import { CssBaseline, CssVarsProvider } from '@mui/joy';
-import Layout from './Layout';
 
 function App() {
   return (
     <CssVarsProvider>
       <CssBaseline />
-      <Layout />
+      <Home />
     </CssVarsProvider>
   );
 }
