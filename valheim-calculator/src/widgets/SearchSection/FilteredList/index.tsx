@@ -1,13 +1,14 @@
 import { readWriteRecipesAtom, readWriteSearchTxtAtom } from '@/entities/item/atoms/recipes';
-import LazyLoadSheet from '@/shared/ui/LazyLoadSheet';
+import LazyLoadSheet, { LazyLoadSheetHandle } from '@/shared/ui/LazyLoadSheet';
 import { useAtomValue } from 'jotai';
 import { filter } from 'lodash-es';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Table from './Table';
 
 const CHUNK_SIZE = 30;
 
 const FilteredList = () => {
+  const scrollableRef = useRef<LazyLoadSheetHandle>(null);
   const searchTxt = useAtomValue(readWriteSearchTxtAtom).trim().toLowerCase();
   const [lastIndex, setLastIndex] = useState(CHUNK_SIZE);
 
@@ -24,10 +25,12 @@ const FilteredList = () => {
 
   useEffect(() => {
     setLastIndex(CHUNK_SIZE);
+    scrollableRef.current?.scrollToTop();
   }, [searchTxt])
 
   return (
     <LazyLoadSheet
+      ref={scrollableRef}
       sx={{ flexGrow: 1 }}
       onBottomReached={() => {
         if (filteredList.length > lastIndex) {
