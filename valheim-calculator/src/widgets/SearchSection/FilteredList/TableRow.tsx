@@ -6,7 +6,7 @@ interface Prop {
   item: IItemRecipeAtom,
 }
 
-const ItemRow = ({item}: Prop) => {
+const TableRow = ({item}: Prop) => {
   let title = item.title;
   if (item.maxQuality > 1) {
     title += ` [${item.qualityLevel}]`;
@@ -35,4 +35,4 @@ const ItemRow = ({item}: Prop) => {
   );
 };
 
-export default ItemRow;
+export default TableRow;

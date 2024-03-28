@@ -4,7 +4,7 @@ import { Stack } from '@mui/joy';
 import axios from 'axios';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
-import FilteredTable from './FilteredTable';
+import FilteredList from './FilteredList';
 
 const SearchSection = () => {
   const setItemList = useSetAtom(writeRecipesAtom);
@@ -27,7 +27,7 @@ const SearchSection = () => {
       minHeight={0}
     >
       <SearchInput />
-      <FilteredTable />
+      <FilteredList />
     </Stack>
   );
 };
