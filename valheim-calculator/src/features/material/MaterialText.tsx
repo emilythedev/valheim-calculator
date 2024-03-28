@@ -1,4 +1,4 @@
-import { readWriteSearchTxtAtom } from '@/entities/item/atoms/recipes';
+import { searchTxtAtom } from '@/entities/item/atoms/recipes';
 import { Link, Typography } from '@mui/joy';
 import { useSetAtom } from 'jotai';
 
@@ -8,7 +8,7 @@ interface Props {
 
 const MaterialText = ({material}: Props) => {
   const searchable = !!material.id;
-  const setSearchTxt = useSetAtom(readWriteSearchTxtAtom);
+  const setSearchTxt = useSetAtom(searchTxtAtom);
 
   if (searchable) {
     return (

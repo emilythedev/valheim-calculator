@@ -1,25 +1,14 @@
-import { readWriteRecipesAtom, readWriteSearchTxtAtom } from '@/entities/item/atoms/recipes';
+import { useFilterList } from '@/entities/item/hooks/filter';
 import LazyLoadSheet, { LazyLoadSheetHandle } from '@/shared/ui/LazyLoadSheet';
-import { useAtomValue } from 'jotai';
-import { filter } from 'lodash-es';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Table from './Table';
 
 const CHUNK_SIZE = 30;
 
 const FilteredList = () => {
   const scrollableRef = useRef<LazyLoadSheetHandle>(null);
-  const searchTxt = useAtomValue(readWriteSearchTxtAtom).trim().toLowerCase();
   const [lastIndex, setLastIndex] = useState(CHUNK_SIZE);
-
-  const list = useAtomValue(readWriteRecipesAtom);
-  const filteredList = useMemo(() => {
-    if (!searchTxt) return list;
-
-    return filter(list, ({ titleLower }) => {
-      return titleLower.includes(searchTxt);
-    });
-  }, [searchTxt, list]);
+  const [filteredList, searchTxt] = useFilterList();
 
   const displayList = filteredList.slice(0, lastIndex);
 

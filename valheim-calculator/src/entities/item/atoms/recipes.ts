@@ -1,12 +1,10 @@
 import { atom } from 'jotai';
 
 export const searchTxtAtom = atom('');
-export const readWriteSearchTxtAtom = atom(
-  (get) => get(searchTxtAtom),
-  (get, set, text: string) => {
-    set(searchTxtAtom, text);
-  }
-);
+
+export const readQueryTxtAtom = atom(get => {
+  return get(searchTxtAtom).trim().toLowerCase();
+})
 
 const recipesAtom = atom<IItemRecipeAtom[]>([]);
 export const readWriteRecipesAtom = atom(
