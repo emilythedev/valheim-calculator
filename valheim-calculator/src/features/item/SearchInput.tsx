@@ -1,10 +1,10 @@
-import { searchTxtAtom } from '@/entities/item/atoms/recipes';
+import { readWriteSearchTxtAtom } from '@/entities/item/atoms/recipes';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { IconButton, Input } from '@mui/joy';
 import { useAtom } from 'jotai';
 
 const SearchInput = () => {
-  const [searchTxt, setSearchTxt] = useAtom(searchTxtAtom);
+  const [searchTxt, setSearchTxt] = useAtom(readWriteSearchTxtAtom);
   return (
     <Input
       placeholder="Search by item name"
