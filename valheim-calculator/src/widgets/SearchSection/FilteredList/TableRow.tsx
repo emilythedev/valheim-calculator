@@ -1,12 +1,17 @@
+import { searchTxtAtom } from '@/entities/item/atoms/recipes';
 import TitleText from '@/entities/item/ui/TitleText';
 import AmountInput from '@/features/item/AmountInput';
-import MaterialText from '@/features/material/MaterialText';
+import { Button } from '@mui/joy';
+import { useSetAtom } from 'jotai';
+import { map } from 'lodash-es';
 
 interface Prop {
   item: IItemRecipeAtom,
 }
 
 const TableRow = ({item}: Prop) => {
+  const setSearchTxt = useSetAtom(searchTxtAtom);
+
   return (
     <tr>
       <td><TitleText item={item} /></td>
@@ -14,12 +19,10 @@ const TableRow = ({item}: Prop) => {
         <AmountInput item={item} />
       </td>
       <td>
-        {item.upgrades &&
-          <ul>
-            {item.upgrades.map((upgrade) => {
-              return (<li key={upgrade.id}><MaterialText material={upgrade} /></li>);
-            })}
-          </ul>
+        {item.upgrades.length > 0 &&
+          <Button
+            onClick={() => setSearchTxt(`id:${map(item.upgrades, 'id').join(',')}`)}
+          >View Upgrades</Button>
         }
       </td>
     </tr>
