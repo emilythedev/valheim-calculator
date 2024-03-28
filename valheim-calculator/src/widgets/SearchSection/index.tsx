@@ -1,4 +1,4 @@
-import { writeRecipesAtom } from '@/entities/item/atoms/recipes';
+import { readWriteRecipesAtom } from '@/entities/item/atoms/recipes';
 import SearchInput from '@/features/item/SearchInput';
 import { Stack } from '@mui/joy';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import FilteredList from './FilteredList';
 
 const SearchSection = () => {
-  const setItemList = useSetAtom(writeRecipesAtom);
+  const setItemList = useSetAtom(readWriteRecipesAtom);
   useEffect(() => {
     axios.get('/data.json')
       .then(({data}) => {

@@ -1,17 +1,41 @@
-import { writeLazyLoadMore } from '@/entities/item/atoms/recipes';
+import { readWriteRecipesAtom, readWriteSearchTxtAtom } from '@/entities/item/atoms/recipes';
 import LazyLoadSheet from '@/shared/ui/LazyLoadSheet';
-import { useSetAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
+import { filter } from 'lodash-es';
+import { useEffect, useMemo, useState } from 'react';
 import Table from './Table';
 
+const CHUNK_SIZE = 30;
+
 const FilteredList = () => {
-  const loadMore = useSetAtom(writeLazyLoadMore);
+  const searchTxt = useAtomValue(readWriteSearchTxtAtom).trim().toLowerCase();
+  const [lastIndex, setLastIndex] = useState(CHUNK_SIZE);
+
+  const list = useAtomValue(readWriteRecipesAtom);
+  const filteredList = useMemo(() => {
+    if (!searchTxt) return list;
+
+    return filter(list, ({ titleLower }) => {
+      return titleLower.includes(searchTxt);
+    });
+  }, [searchTxt, list]);
+
+  const displayList = filteredList.slice(0, lastIndex);
+
+  useEffect(() => {
+    setLastIndex(CHUNK_SIZE);
+  }, [searchTxt])
 
   return (
     <LazyLoadSheet
       sx={{ flexGrow: 1 }}
-      onBottomReached={loadMore}
+      onBottomReached={() => {
+        if (filteredList.length > lastIndex) {
+          setLastIndex(i => i + CHUNK_SIZE);
+        }
+      }}
     >
-      <Table />
+      <Table list={displayList} />
     </LazyLoadSheet>
   );
 };
