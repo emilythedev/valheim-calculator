@@ -7,15 +7,6 @@ interface Prop {
 }
 
 const TableRow = ({item}: Prop) => {
-  let title = item.title;
-  if (item.maxQuality > 1) {
-    title += ` [${item.qualityLevel}]`;
-  }
-
-  let sourceLvTxt = '';
-  if (item.craftingLevel) {
-    sourceLvTxt = ` [${item.craftingLevel}]`;
-  }
   return (
     <tr>
       <td><TitleText item={item} /></td>
