@@ -12,7 +12,7 @@ const MaterialText = ({material}: Props) => {
 
   if (searchable) {
     return (
-      <Link onClick={() => setSearchTxt(material.title)}>{material.title}</Link>
+      <Link onClick={() => setSearchTxt(`id:${material.id}`)}>{material.title}</Link>
     );
   }
 
