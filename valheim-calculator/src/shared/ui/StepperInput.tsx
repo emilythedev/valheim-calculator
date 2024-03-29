@@ -11,26 +11,37 @@ interface Props {
 }
 
 const StepperInput = ({step = 1, min = 0, max = Number.POSITIVE_INFINITY, ...props}: Props) => {
+  const onChange = (value: number) => {
+    if (!props.onChange || isNaN(value)) return;
+
+    value = Math.max(Math.min(value, max), min);
+    if (value !== props.value) {
+      props.onChange(value);
+    }
+  };
+
   return (
     <Input
-      type="number"
       value={props.value}
-      onChange={(e) => props.onChange && props.onChange(parseInt(e.target.value))}
+      onChange={(e) => onChange(parseInt(e.target.value))}
       startDecorator={(
         <IconButton
-          onClick={() => {
-            props.onChange && props.onChange(Math.max(props.value - step, min));
-          }}
+          onClick={() => onChange(props.value - step)}
         ><RemoveIcon /></IconButton>
       )}
       endDecorator={(
         <IconButton
-          onClick={() => {
-            props.onChange && props.onChange(Math.min(props.value + step, max));
-          }}
+          onClick={() => onChange(props.value + step)}
         ><AddIcon /></IconButton>
       )}
-      sx={{ width: '8em' }}
+      sx={{
+        display: 'inline-flex',
+
+        '& > input': {
+          width: '3em',
+          textAlign: 'center',
+        },
+      }}
     />
   )
 }

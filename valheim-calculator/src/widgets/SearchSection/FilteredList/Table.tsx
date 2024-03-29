@@ -11,8 +11,8 @@ const Table = ({ list }: Props) => {
       <thead>
         <tr>
           <th>Title</th>
-          <th>Amount</th>
           <th>Upgrades</th>
+          <th>Amount</th>
         </tr>
       </thead>
       <tbody>

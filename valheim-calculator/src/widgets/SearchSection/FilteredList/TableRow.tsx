@@ -16,15 +16,13 @@ const TableRow = ({item}: Prop) => {
     <tr>
       <td><TitleText item={item} /></td>
       <td>
-        <AmountInput item={item} />
-      </td>
-      <td>
         {item.upgrades.length > 0 &&
           <Button
             onClick={() => setSearchTxt(`id:${map(item.upgrades, 'id').join(',')}`)}
           >View Upgrades</Button>
         }
       </td>
+      <td style={{ textAlign: 'right' }}><AmountInput item={item} /></td>
     </tr>
   );
 };
