@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { atomFamily } from 'jotai/utils';
-import { findIndex, transform } from 'lodash-es';
+import { findIndex, orderBy, transform } from 'lodash-es';
 
 type AmountMapAtomType = {[id: number]: number};
 
@@ -47,7 +47,7 @@ export const materialSummaryAtom = atom((get) => {
     })
   });
 
-  return transform(materials, (result: IRecipeMaterial[], value, key) => {
+  return orderBy(transform(materials, (result: IRecipeMaterial[], value, key) => {
     result.push({title: key, quantity: value});
-  }, []);
+  }, []), 'title');
 });
