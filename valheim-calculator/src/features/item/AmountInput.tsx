@@ -1,5 +1,6 @@
 import { wishlistAmountAtomFamily } from '@/entities/item/atoms/wishlist';
 import StepperInput from '@/shared/ui/StepperInput';
+import AddIcon from '@mui/icons-material/Add';
 import { Button } from '@mui/joy';
 import { useAtom } from 'jotai';
 
@@ -20,7 +21,12 @@ const AmountInput = ({ item }: Props) => {
   }
 
   return (
-    <Button onClick={() => setAmount(1, item)}>Add</Button>
+    <Button
+      onClick={() => setAmount(1, item)}
+      aria-label="Add to wishlist"
+    >
+      <AddIcon />
+    </Button>
   );
 }
 

@@ -1,6 +1,7 @@
 import { searchTxtAtom } from '@/entities/item/atoms/recipes';
 import TitleText from '@/entities/item/ui/TitleText';
 import AmountInput from '@/features/item/AmountInput';
+import SearchIcon from '@mui/icons-material/Search';
 import { Button } from '@mui/joy';
 import { useSetAtom } from 'jotai';
 import { map } from 'lodash-es';
@@ -18,7 +19,9 @@ const TableRow = ({item}: Prop) => {
       <td>
         {item.upgrades.length > 0 &&
           <Button
-            onClick={() => setSearchTxt(`id:${map(item.upgrades, 'id').join(',')}`)}
+            variant="outlined"
+            startDecorator={<SearchIcon />}
+            onClick={() => setSearchTxt(`id:${item.id},${map(item.upgrades, 'id').join(',')}`)}
           >View Upgrades</Button>
         }
       </td>
