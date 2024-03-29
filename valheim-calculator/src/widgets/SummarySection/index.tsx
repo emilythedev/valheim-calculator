@@ -22,10 +22,10 @@ const SummarySection = () => {
         <Tab disableIndicator>Wishlist</Tab>
         <Tab disableIndicator>Summary</Tab>
       </TabList>
-      <TabPanel value={0}>
+      <TabPanel value={0} sx={{ overflow: 'auto' }}>
         <WishlistPanel />
       </TabPanel>
-      <TabPanel value={1}>
+      <TabPanel value={1} sx={{ overflow: 'auto' }}>
         <SummaryPanel />
       </TabPanel>
     </Tabs>
