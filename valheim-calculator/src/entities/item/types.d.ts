@@ -11,10 +11,10 @@ interface IItemRecipe {
   id: number,
   title: string,
   categories: string[],
-  source: IMaterial[],
+  source: IMaterial[] | null,
   upgrades: IMaterial[],
-  qualityLevel: number,
-  craftingLevel: number | null,
+  qualityLevel: number, // level of item
+  craftingLevel: number | null, // level of source
   craftingAmount: number,
   materials: IRecipeMaterial[],
   maxQuality: number,
