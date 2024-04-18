@@ -11,7 +11,6 @@ export const readWriteRecipesAtom = atom(
   (get) => get(recipesAtom),
   (_, set, itemList: IItemRecipe[]) => {
     const list: IItemRecipeAtom[] = [];
-    const names: string[] = [];
     itemList.forEach((item) => {
       const titleLower = item.title.toLowerCase();
 
@@ -19,7 +18,6 @@ export const readWriteRecipesAtom = atom(
         ...item,
         titleLower,
       });
-      names.push(titleLower);
     })
 
     set(recipesAtom, list);
