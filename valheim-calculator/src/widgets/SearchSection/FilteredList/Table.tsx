@@ -10,9 +10,7 @@ const Table = ({ list }: Props) => {
     <JoyTable variant="plain" stickyHeader hoverRow>
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Upgrades</th>
-          <th>Amount</th>
+          <th colSpan={3}>Item [Quality Lv.]</th>
         </tr>
       </thead>
       <tbody>
