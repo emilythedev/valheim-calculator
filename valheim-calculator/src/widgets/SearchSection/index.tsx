@@ -1,4 +1,5 @@
 import { readWriteRecipesAtom } from '@/entities/item/atoms/recipes';
+import ImportButton from '@/features/ImportButton';
 import SearchInput from '@/features/item/SearchInput';
 import { Stack } from '@mui/joy';
 import axios from 'axios';
@@ -23,11 +24,17 @@ const SearchSection = () => {
       justifyContent="flex-start"
       alignItems="stretch"
       spacing={4}
-      mb={4}
       minHeight={0}
     >
       <SearchInput />
       <FilteredList />
+      <Stack
+        direction="row"
+        justifyContent="flex-start"
+        alignItems="center"
+      >
+        <ImportButton />
+      </Stack>
     </Stack>
   );
 };
