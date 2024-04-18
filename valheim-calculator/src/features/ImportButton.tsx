@@ -9,18 +9,33 @@ const ImportButton = () => {
 
   const handleFileChanged = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
+    e.target.value = '';
+
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const data = JSON.parse(e.target?.result as string);
-          setItemList(data);
-        } catch (error) {
-          // TODO: handle error
-          console.error(error);
-        }
-      };
-      reader.readAsText(file);
+      if (file.type !== 'application/json') {
+        // TODO: prompt invalid file
+        console.error('Invalid file type', file.type);
+      } else {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          try {
+            const data = JSON.parse(e.target?.result as string);
+            setItemList(data);
+            console.log('Imported');
+          } catch (error) {
+            // TODO: prompt invalid JSON
+            console.error('Invalid JSON', error);
+          }
+        };
+        reader.onerror = (e) => {
+          // TODO: prompt file read error
+          console.error('Error while reading file', e);
+        };
+
+        console.log('Reading file', file.name);
+        reader.readAsText(file);
+      }
     }
   };
 
@@ -33,6 +48,7 @@ const ImportButton = () => {
       <input
         ref={fileInputRef}
         type="file"
+        accept="application/json"
         onChange={handleFileChanged}
         style={{ display: 'none' }}
       />
