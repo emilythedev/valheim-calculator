@@ -18,6 +18,7 @@ const SearchInput = () => {
           <CancelIcon />
         </IconButton>
       ) : undefined}
+      sx={{ flexGrow: 1 }}
     />
   );
 };

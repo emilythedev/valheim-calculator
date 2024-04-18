@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import FilteredList from './FilteredList';
+import QueryTypeSelector from './QueryTypeSelector';
 
 const SearchSection = () => {
   const setItemList = useSetAtom(readWriteRecipesAtom);
@@ -26,7 +27,15 @@ const SearchSection = () => {
       spacing={4}
       minHeight={0}
     >
-      <SearchInput />
+      <Stack
+        direction="row"
+        justifyContent="flex-start"
+        alignItems="center"
+        spacing={2}
+      >
+        <QueryTypeSelector />
+        <SearchInput />
+      </Stack>
       <FilteredList />
       <Stack
         direction="row"

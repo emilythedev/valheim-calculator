@@ -1,5 +1,5 @@
 interface IMaterial {
-  id?: string,
+  id?: number,
   title: string,
 }
 
@@ -23,3 +23,5 @@ interface IItemRecipe {
 interface IItemRecipeAtom extends IItemRecipe {
   titleLower: string,
 }
+
+type FilterType = 'title' | 'upgrades';

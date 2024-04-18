@@ -8,14 +8,14 @@ const CHUNK_SIZE = 30;
 const FilteredList = () => {
   const scrollableRef = useRef<LazyLoadSheetHandle>(null);
   const [lastIndex, setLastIndex] = useState(CHUNK_SIZE);
-  const [filteredList, searchTxt] = useFilterList();
+  const [filteredList, queryTxt] = useFilterList();
 
   const displayList = filteredList.slice(0, lastIndex);
 
   useEffect(() => {
     setLastIndex(CHUNK_SIZE);
     scrollableRef.current?.scrollToTop();
-  }, [searchTxt])
+  }, [queryTxt])
 
   return (
     <LazyLoadSheet
