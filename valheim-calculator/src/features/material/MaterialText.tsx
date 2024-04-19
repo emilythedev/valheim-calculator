@@ -1,4 +1,4 @@
-import { searchTxtAtom } from '@/entities/item/atoms/recipes';
+import { writeQueryFormAtom } from '@/entities/item/atoms/recipes';
 import { Link, Typography } from '@mui/joy';
 import { useSetAtom } from 'jotai';
 
@@ -8,11 +8,15 @@ interface Props {
 
 const MaterialText = ({material}: Props) => {
   const searchable = !!material.id;
-  const setSearchTxt = useSetAtom(searchTxtAtom);
+  const setQueryForm = useSetAtom(writeQueryFormAtom);
 
   if (searchable) {
     return (
-      <Link onClick={() => setSearchTxt(`id:${material.id}`)}>{material.title}</Link>
+      <Link onClick={() => setQueryForm({
+        key: 'id',
+        value: [material.id],
+        inputText: material.title,
+      })}>{material.title}</Link>
     );
   }
 

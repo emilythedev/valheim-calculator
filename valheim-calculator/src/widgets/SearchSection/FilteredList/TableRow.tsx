@@ -1,4 +1,4 @@
-import { writeSearchUpgradesByNameAtom } from '@/entities/item/atoms/recipes';
+import { writeQueryFormAtom } from '@/entities/item/atoms/recipes';
 import TitleText from '@/entities/item/ui/TitleText';
 import AmountInput from '@/features/item/AmountInput';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,7 +10,7 @@ interface Prop {
 }
 
 const TableRow = ({item}: Prop) => {
-  const searchUpgrades = useSetAtom(writeSearchUpgradesByNameAtom);
+  const setQueryForm = useSetAtom(writeQueryFormAtom);
 
   return (
     <tr>
@@ -20,7 +20,12 @@ const TableRow = ({item}: Prop) => {
           <Button
             variant="outlined"
             startDecorator={<SearchIcon />}
-            onClick={() => searchUpgrades(item.title)}
+            onClick={() => setQueryForm({
+              key: 'id',
+              value: item.upgrades.map(i => i.id).filter(i => !!i) as number[],
+              inputText: item.title,
+              selectValue: 'upgrades',
+            })}
           >View Upgrades</Button>
         }
       </td>

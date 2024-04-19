@@ -1,14 +1,5 @@
 import { filter, some } from 'lodash-es';
 
-type QueryKey = FilterType | 'id';
-
-type QueryValue<K extends QueryKey> = K extends 'id' ? number[] : string;
-
-interface IQueryOptions {
-  key: QueryKey,
-  value: QueryValue<QueryKey>,
-}
-
 interface IQueryValueObject {
   value: string,
   fullMatch: boolean,

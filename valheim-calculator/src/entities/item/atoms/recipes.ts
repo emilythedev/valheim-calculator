@@ -1,17 +1,54 @@
 import { atom } from 'jotai';
+import { atomWithReducer } from 'jotai/utils';
 
-export const searchTxtAtom = atom('');
-export const queryTypeAtom = atom<FilterType>('title');
+// Atoms for filter function
+const filterOptionsAtom = atomWithReducer<IQueryOptions, IQueryOptions>(
+  { key: 'title', value: '' },
+  (prev, next) => {
+    if (!next || prev.key === next.key && prev.value === next.value) {
+      return prev;
+    }
 
-export const readQueryTxtAtom = atom(get => {
-  return get(searchTxtAtom).trim().toLowerCase();
-})
+    return next;
+  }
+);
 
-export const writeSearchUpgradesByNameAtom = atom(null, (get, set, itemName: string) => {
-  set(searchTxtAtom, `"${itemName}"`);
-  set(queryTypeAtom, 'upgrades');
+export const readFilterOptionsAtom = atom(get => {
+  return get(filterOptionsAtom);
 });
 
+
+// Atoms for filter form values
+export const querySelectInputAtom = atom<FilterType>('title');
+export const queryTextInputAtom = atom('');
+
+
+// Atom for updating filtering options and form values
+interface UpdateQueryFormAction {
+  key: QueryKey,
+  value: string | number[],
+  selectValue?: FilterType, // set <select> value
+  inputText?: string, // set input text value
+}
+
+export const writeQueryFormAtom = atom(
+  null,
+  (get, set, action: UpdateQueryFormAction) => {
+    set(filterOptionsAtom, {
+      key: action.key,
+      value: typeof action.value === 'string' ?
+        action.value.trim().toLowerCase() :
+        action.value,
+    })
+    if (typeof action.inputText !== 'undefined') {
+      set(queryTextInputAtom, `"${action.inputText}"`);
+      set(querySelectInputAtom, action.selectValue || 'title');
+    }
+  }
+)
+
+
+// Atom for recipes
 const recipesAtom = atom<IItemRecipeAtom[]>([]);
 export const readWriteRecipesAtom = atom(
   (get) => get(recipesAtom),

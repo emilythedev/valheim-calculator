@@ -1,12 +1,11 @@
 import { readWriteRecipesAtom } from '@/entities/item/atoms/recipes';
-import ImportButton from '@/features/ImportButton';
-import SearchInput from '@/features/item/SearchInput';
+import ImportButton from '@/features/recipes/ImportButton';
+import QueryForm from '@/features/recipes/QueryForm';
 import { Stack } from '@mui/joy';
 import axios from 'axios';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import FilteredList from './FilteredList';
-import QueryTypeSelector from './QueryTypeSelector';
 
 const SearchSection = () => {
   const setItemList = useSetAtom(readWriteRecipesAtom);
@@ -27,15 +26,7 @@ const SearchSection = () => {
       spacing={4}
       minHeight={0}
     >
-      <Stack
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-        spacing={2}
-      >
-        <QueryTypeSelector />
-        <SearchInput />
-      </Stack>
+      <QueryForm />
       <FilteredList />
       <Stack
         direction="row"
