@@ -22,6 +22,7 @@ const AmountInput = ({ item }: Props) => {
 
   return (
     <Button
+      data-testid="cy-btn-addItem"
       onClick={() => setAmount(1, item)}
       aria-label="Add to wishlist"
     >

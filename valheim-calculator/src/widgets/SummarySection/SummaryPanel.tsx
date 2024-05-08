@@ -6,7 +6,7 @@ const SummaryPanel = () => {
   const materialList = useAtomValue(materialSummaryAtom);
 
   return (
-    <Table variant="plain" stickyHeader hoverRow>
+    <Table data-testid="cy-table-summary" variant="plain" stickyHeader hoverRow>
       <thead>
         <tr>
           <th>Title</th>

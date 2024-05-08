@@ -8,7 +8,7 @@ const WishlistPanel = () => {
   const wishlist = useAtomValue(readWishlistAtom);
 
   return (
-    <div>
+    <div data-textid="cy-wishlist">
       <List
         sx={{
           [`& .${listClasses.root}`]: {

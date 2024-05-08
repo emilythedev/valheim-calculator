@@ -18,6 +18,7 @@ const TableRow = ({item}: Prop) => {
       <td>
         {item.upgrades.length > 0 &&
           <Button
+            data-testid="cy-btn-viewUpgrades"
             variant="outlined"
             startDecorator={<SearchIcon />}
             onClick={() => setQueryForm({

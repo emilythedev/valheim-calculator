@@ -6,6 +6,7 @@ const SummarySection = () => {
   return (
     <Tabs defaultValue={0} sx={{ width: '100%', bgcolor: 'transparent' }}>
       <TabList
+        data-testid="cy-summaryTabs"
         tabFlex={1}
         disableUnderline
         sx={{
