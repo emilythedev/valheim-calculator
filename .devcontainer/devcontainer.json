@@ -4,5 +4,17 @@
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
-  "remoteUser": "node"
+  "remoteUser": "node",
+	"mounts": [
+		{
+			"source": "/tmp/.X11-unix",
+			"target": "/tmp/.X11-unix",
+			"type": "bind"
+		},
+		{
+			"source": "${localWorkspaceFolder}/valheim-calculator/.cy-cache",
+			"target": "/home/node/.cache/Cypress",
+			"type": "bind"
+		}
+	]
 }
