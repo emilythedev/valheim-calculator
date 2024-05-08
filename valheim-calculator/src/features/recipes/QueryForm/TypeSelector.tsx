@@ -20,9 +20,10 @@ const TypeSelector = ({name}: Props) => {
       value={selectValue}
       onChange={handleChange}
       variant="soft"
+      data-testid={`cy-select-${name}`}
     >
-      <Option value="title">Title</Option>
-      <Option value="upgrades">Upgrades of</Option>
+      <Option data-testid="cy-option-titleType" value="title">Title</Option>
+      <Option data-testid="cy-option-upgradesType" value="upgrades">Upgrades of</Option>
     </Select>
   );
 };

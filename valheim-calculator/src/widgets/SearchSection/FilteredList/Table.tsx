@@ -7,7 +7,7 @@ interface Props {
 
 const Table = ({ list }: Props) => {
   return (
-    <JoyTable variant="plain" stickyHeader hoverRow>
+    <JoyTable variant="plain" stickyHeader hoverRow data-testid="cy-table-recipes">
       <thead>
         <tr>
           <th colSpan={3}>Item [Quality Lv.]</th>
