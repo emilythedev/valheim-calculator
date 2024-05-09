@@ -22,15 +22,18 @@ const StepperInput = ({step = 1, min = 0, max = Number.POSITIVE_INFINITY, ...pro
 
   return (
     <Input
+      data-testid="cy-stepper"
       value={props.value}
       onChange={(e) => onChange(parseInt(e.target.value))}
       startDecorator={(
         <IconButton
+          data-testid="cy-stepper-dec"
           onClick={() => onChange(props.value - step)}
         ><RemoveIcon /></IconButton>
       )}
       endDecorator={(
         <IconButton
+          data-testid="cy-stepper-inc"
           onClick={() => onChange(props.value + step)}
         ><AddIcon /></IconButton>
       )}
