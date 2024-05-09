@@ -20,7 +20,9 @@ describe('Search', () => {
     cy.search('forge');
 
     cy.get('table[data-testid="cy-table-recipes"] > tbody > tr > td:first-child')
-      .should('include.text', 'forge');
+      .each(($td) => {
+        expect($td.text()).to.match(/forge/i);
+      });
   });
 
   it('view upgrades', () => {
