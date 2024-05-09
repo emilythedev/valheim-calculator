@@ -33,6 +33,7 @@ const QueryForm = () => {
           onChange={(e) => setInputValue(e.target.value)}
           endDecorator={inputValue ? (
             <IconButton
+              data-textid="cy-btn-clearSearchValue"
               onClick={() => setInputValue('')}
             >
               <CancelIcon />
