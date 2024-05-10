@@ -23,12 +23,12 @@ const WishlistPanel = () => {
             );
           })}
         </List>
-        ) : (
-          <Typography textAlign={'center'}>Add an item to get start.</Typography>
-        )
+      ) : (
+        <Typography textAlign={'center'}>Add an item to get start.</Typography>
+      )
       }
     </div>
-  )
+  );
 };
 
 export default WishlistPanel;

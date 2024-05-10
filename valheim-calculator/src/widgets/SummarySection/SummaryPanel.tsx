@@ -37,7 +37,7 @@ const SummaryPanel = () => {
         }
       </tbody>
     </Table>
-  )
+  );
 };
 
 export default SummaryPanel;

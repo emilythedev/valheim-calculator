@@ -30,7 +30,7 @@ const SummarySection = () => {
         <SummaryPanel />
       </TabPanel>
     </Tabs>
-  )
+  );
 };
 
 export default SummarySection;

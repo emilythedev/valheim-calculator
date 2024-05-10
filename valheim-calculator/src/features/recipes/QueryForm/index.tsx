@@ -50,6 +50,6 @@ const QueryForm = () => {
       </Stack>
     </form>
   );
-}
+};
 
-export default QueryForm
+export default QueryForm;

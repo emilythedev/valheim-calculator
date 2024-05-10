@@ -15,7 +15,7 @@ const FilteredList = () => {
   useEffect(() => {
     setLastIndex(CHUNK_SIZE);
     scrollableRef.current?.scrollToTop();
-  }, [filterOptions])
+  }, [filterOptions]);
 
   return (
     <LazyLoadSheet

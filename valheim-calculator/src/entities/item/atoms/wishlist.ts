@@ -21,14 +21,14 @@ export const wishlistAmountAtomFamily = atomFamily((id: number) => atom(
       set(wishlistAtom, (list) => {
         const itemIdx = findIndex(list, {id});
         if (itemIdx > -1) {
-          const newList = [...list]
+          const newList = [...list];
           newList.splice(itemIdx, 1);
           return newList;
         }
         return list;
       });
     }
-  }
+  },
 ));
 
 export const readWishlistAtom = atom((get) => get(wishlistAtom));
@@ -44,7 +44,7 @@ export const materialSummaryAtom = atom((get) => {
         materials[material.title] = 0;
       }
       materials[material.title] += material.quantity * amount;
-    })
+    });
   });
 
   return orderBy(transform(materials, (result: IRecipeMaterial[], value, key) => {

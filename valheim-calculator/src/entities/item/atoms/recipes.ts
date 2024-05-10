@@ -10,7 +10,7 @@ const filterOptionsAtom = atomWithReducer<IQueryOptions, IQueryOptions>(
     }
 
     return next;
-  }
+  },
 );
 
 export const readFilterOptionsAtom = atom(get => {
@@ -39,13 +39,13 @@ export const writeQueryFormAtom = atom(
       value: typeof action.value === 'string' ?
         action.value.trim().toLowerCase() :
         action.value,
-    })
+    });
     if (typeof action.inputText !== 'undefined') {
       set(queryTextInputAtom, `"${action.inputText}"`);
       set(querySelectInputAtom, action.selectValue || 'title');
     }
-  }
-)
+  },
+);
 
 
 // Atom for recipes
@@ -61,8 +61,8 @@ export const readWriteRecipesAtom = atom(
         ...item,
         titleLower,
       });
-    })
+    });
 
     set(recipesAtom, list);
-  }
+  },
 );

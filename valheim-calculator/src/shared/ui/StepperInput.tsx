@@ -46,7 +46,7 @@ const StepperInput = ({step = 1, min = 0, max = Number.POSITIVE_INFINITY, ...pro
         },
       }}
     />
-  )
-}
+  );
+};
 
-export default StepperInput
+export default StepperInput;

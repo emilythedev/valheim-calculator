@@ -44,7 +44,7 @@ const filterList = (list: IItemRecipeAtom[], options: IQueryOptions): IItemRecip
     });
   } else if (options.key === 'upgrades') {
     const ids = list.reduce<number[]>((acc, item) => {
-      const { titleLower, upgrades } = item
+      const { titleLower, upgrades } = item;
 
       const matched = some(queryValues, ({ value, fullMatch }) => {
         if (fullMatch) {
@@ -59,7 +59,7 @@ const filterList = (list: IItemRecipeAtom[], options: IQueryOptions): IItemRecip
       return !matched ? acc : acc.concat(upgradeIds);
     }, [] as number[]);
 
-    return filterList(list, { key: 'id', value: ids })
+    return filterList(list, { key: 'id', value: ids });
   }
 
   return list;

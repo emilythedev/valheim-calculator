@@ -26,7 +26,7 @@ const readFileAsync = (file: File) => {
         }
       };
 
-      reader.onerror = (error) => {
+      reader.onerror = () => {
         reject('Error while reading file');
       };
 

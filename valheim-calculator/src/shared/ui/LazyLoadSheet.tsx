@@ -37,8 +37,8 @@ const LazyLoadSheet = forwardRef<LazyLoadSheetHandle, LazyLoadSheetProps>(({sx =
       onScroll={onScroll}
       component="div"
     />
-  )
+  );
 });
 
-export default LazyLoadSheet
+export default LazyLoadSheet;
 export type { LazyLoadSheetHandle };

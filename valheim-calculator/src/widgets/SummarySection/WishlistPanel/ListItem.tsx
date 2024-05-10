@@ -54,7 +54,7 @@ const ListItem = ({ item }: Props) => {
         </List>
       }
     </JoyListItem>
-  )
-}
+  );
+};
 
-export default ListItem
+export default ListItem;

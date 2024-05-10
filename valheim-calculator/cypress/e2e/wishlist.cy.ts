@@ -39,7 +39,7 @@ describe('Wishlist', () => {
 
             $tds.each((i, td) => {
               s.add(Cypress.$(td).text());
-            })
+            });
 
             expect(s.size).eq($tds.length); // no duplicates
             expect($listItem.length).eq($tds.length);

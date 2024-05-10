@@ -29,6 +29,6 @@ const AmountInput = ({ item }: Props) => {
       <AddIcon />
     </Button>
   );
-}
+};
 
-export default AmountInput
+export default AmountInput;

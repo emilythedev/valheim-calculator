@@ -15,7 +15,7 @@ const TitleText = ({ item }: Props) => {
 
   return (
     <Typography>{title}</Typography>
-  )
-}
+  );
+};
 
-export default TitleText
+export default TitleText;

@@ -7,17 +7,12 @@ interface Props {
 }
 
 const SourceText = ({ source, craftingLevel }: Props) => {
-  let title = source.title;
-  if (craftingLevel && craftingLevel >= 1) {
-    title += ` [${craftingLevel}]`;
-  }
-
   return (
     <Typography>
       <MaterialText material={source} />
       {craftingLevel && craftingLevel >= 1 && ` [${craftingLevel}]`}
     </Typography>
-  )
-}
+  );
+};
 
-export default SourceText
+export default SourceText;

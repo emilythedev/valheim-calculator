@@ -109,16 +109,16 @@ describe('Search', () => {
 
     // Should be the same as the original results
     cy.get('table[data-testid="cy-table-recipes"] > tbody > tr > td:first-child')
-    .then(($tds) => {
-      const titles = $tds.map((i, td) => {
-        return Cypress.$(td).text();
-      }).get();
+      .then(($tds) => {
+        const titles = $tds.map((i, td) => {
+          return Cypress.$(td).text();
+        }).get();
 
-      cy.get('@prevTitles')
-        .then((prevs) => {
-          expect(titles).to.deep.equal(prevs);
-        });
-    });
+        cy.get('@prevTitles')
+          .then((prevs) => {
+            expect(titles).to.deep.equal(prevs);
+          });
+      });
   });
 
   it('scroll to load more search results', () => {
@@ -138,5 +138,5 @@ describe('Search', () => {
         .its('length')
         .should('be.gt', length);
     });
-  })
+  });
 });
