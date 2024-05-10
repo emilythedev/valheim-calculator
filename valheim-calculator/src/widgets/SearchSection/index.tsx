@@ -5,6 +5,7 @@ import { Stack } from '@mui/joy';
 import axios from 'axios';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 import FilteredList from './FilteredList';
 
 const SearchSection = () => {
@@ -13,8 +14,12 @@ const SearchSection = () => {
     axios.get('/data.json')
       .then(({data}) => {
         setItemList(data);
+      })
+      .catch(() => {
+        toast.error('Fail to load crafting items.', {
+          id: 'fetchData',
+        });
       });
-    // TODO: error handling
   }, [setItemList]);
 
   return (

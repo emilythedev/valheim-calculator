@@ -2,6 +2,40 @@ import { readWriteRecipesAtom } from '@/entities/item/atoms/recipes';
 import { Button } from '@mui/joy';
 import { useSetAtom } from 'jotai';
 import { ChangeEvent, useRef } from 'react';
+import toast from 'react-hot-toast';
+
+interface readFileResult {
+  data: IItemRecipe[],
+}
+
+const readFileAsync = (file: File) => {
+  const promise = new Promise<readFileResult>((resolve, reject) => {
+    if (file.type !== 'application/json') {
+      reject(new Error('Invalid file type'));
+    } else {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target?.result as string);
+          resolve({
+            data,
+          });
+        } catch (error) {
+          reject('Invalid file content');
+        }
+      };
+
+      reader.onerror = (error) => {
+        reject('Error while reading file');
+      };
+
+      reader.readAsText(file);
+    }
+  });
+
+  return promise;
+};
 
 const ImportButton = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -12,30 +46,20 @@ const ImportButton = () => {
     e.target.value = '';
 
     if (file) {
-      if (file.type !== 'application/json') {
-        // TODO: prompt invalid file
-        console.error('Invalid file type', file.type);
-      } else {
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
+      const promise = readFileAsync(file)
+        .then((result) => {
           try {
-            const data = JSON.parse(e.target?.result as string);
-            setItemList(data);
-            console.log('Imported');
+            setItemList(result.data);
           } catch (error) {
-            // TODO: prompt invalid JSON
-            console.error('Invalid JSON', error);
+            throw new Error('Invalid JSON content');
           }
-        };
-        reader.onerror = (e) => {
-          // TODO: prompt file read error
-          console.error('Error while reading file', e);
-        };
-
-        console.log('Reading file', file.name);
-        reader.readAsText(file);
-      }
+          return result;
+        });
+      toast.promise(promise, {
+        loading: `Importing ${file.name}`,
+        success: () => `${file.name} has been imported.` ,
+        error: (error) => `Import failed. (${error.message})`,
+      });
     }
   };
 
