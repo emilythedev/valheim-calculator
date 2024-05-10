@@ -73,6 +73,15 @@ describe('Search', () => {
       });
   });
 
+  it('has no results found', () => {
+    cy.search('javascript');
+
+    cy.get('table[data-testid="cy-table-recipes"] > tbody > tr')
+      .should('have.length', 1)
+      .invoke('text')
+      .should('match', /no data/i);
+  });
+
   it('clear search text', () => {
     // Get original results
     cy.get('table[data-testid="cy-table-recipes"] > tbody > tr')
