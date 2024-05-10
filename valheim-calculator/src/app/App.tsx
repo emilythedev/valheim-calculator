@@ -25,6 +25,16 @@ function App() {
               secondary: theme.palette.danger.softBg,
             },
           },
+          success: {
+            style: {
+              background: theme.palette.success.softBg,
+              color: theme.palette.success.softColor,
+            },
+            iconTheme: {
+              primary: theme.palette.success.softColor,
+              secondary: theme.palette.success.softBg,
+            },
+          },
         }}
       />
     </CssVarsProvider>
