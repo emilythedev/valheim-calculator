@@ -46,6 +46,7 @@ const ImportButton = () => {
   return (
     <>
       <input
+        data-testid="cy-input-import"
         ref={fileInputRef}
         type="file"
         accept="application/json"
