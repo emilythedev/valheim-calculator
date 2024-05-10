@@ -7,7 +7,16 @@ describe('Wishlist', () => {
     cy.wait('@jsonData');
   });
 
-  // it('is empty', () => {});
+  it('is empty', () => {
+    cy.get('[data-textid="cy-wishlist"]')
+      .as('wishlist')
+      .invoke('text')
+      .should('match', /add an item/i);
+
+    cy.get('@wishlist')
+      .find('li')
+      .should('not.exist');
+  });
 
   it('display added recipes', () => {
     cy.search('"Bronze pickaxe"');

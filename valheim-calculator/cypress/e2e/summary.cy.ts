@@ -7,10 +7,18 @@ describe('Summary', () => {
     cy.wait('@jsonData');
   });
 
-  it('summarize the materials of crafting an item and its upgrades', () => {
-    cy.intercept('/data.json').as('jsonData');
-    cy.wait('@jsonData');
+  it('is empty', () => {
+    cy.get('[data-testid="cy-summaryTabs"]')
+      .contains('button', 'Summary')
+      .click();
 
+    cy.get('[data-testid="cy-table-summary"] > tbody > tr')
+      .should('have.length', 1)
+      .invoke('text')
+      .should('match', /add item/i);
+  });
+
+  it('summarize the materials of crafting an item and its upgrades', () => {
     cy.search('"black forge"');
 
     // Add item
@@ -40,15 +48,17 @@ describe('Summary', () => {
 
     cy.get('[data-testid="cy-table-summary"] > tbody > tr')
       .then(($trs) => {
-        const data = [];
+        const data: string[][] = [];
+
         $trs.each((i, tr) => {
-          const row = [];
+          const row: string[] = [];
+
           cy.wrap(tr).find('td').each(($td) => {
             row.push($td.text());
           });
 
           data.push(row);
-        })
+        });
 
         cy.wrap(data).should('deep.equal', [
           ['Black core', 'x5'],
@@ -58,7 +68,7 @@ describe('Summary', () => {
           ['Mechanical spring', 'x2'],
           ['Yggdrasil wood', 'x10'],
         ]);
-      })
+      });
 
   });
 });
