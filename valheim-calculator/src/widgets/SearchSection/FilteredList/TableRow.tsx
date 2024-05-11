@@ -12,11 +12,13 @@ interface Prop {
 const TableRow = ({item}: Prop) => {
   const setQueryForm = useSetAtom(writeQueryFormAtom);
 
+  const hasUpgrades = item.upgrades.length > 0;
+
   return (
-    <tr>
-      <td><TitleText item={item} /></td>
-      <td>
-        {item.upgrades.length > 0 &&
+    <>
+      <td colSpan={hasUpgrades ? undefined : 2}><TitleText item={item} /></td>
+      {hasUpgrades && (
+        <td>
           <Button
             data-testid="cy-btn-viewUpgrades"
             variant="outlined"
@@ -28,10 +30,10 @@ const TableRow = ({item}: Prop) => {
               selectValue: 'upgrades',
             })}
           >View Upgrades</Button>
-        }
-      </td>
+        </td>
+      )}
       <td style={{ textAlign: 'right' }}><AmountInput item={item} /></td>
-    </tr>
+    </>
   );
 };
 

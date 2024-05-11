@@ -1,34 +1,45 @@
 import { useFilterList } from '@/entities/item/hooks/filter';
-import LazyLoadSheet, { LazyLoadSheetHandle } from '@/shared/ui/LazyLoadSheet';
-import { useEffect, useRef, useState } from 'react';
-import Table from './Table';
-
-const CHUNK_SIZE = 30;
+import { Table as JoyTable, Typography } from '@mui/joy';
+import { useEffect, useRef } from 'react';
+import { TableVirtuoso, TableVirtuosoHandle } from 'react-virtuoso';
+import TableRow from './TableRow';
 
 const FilteredList = () => {
-  const scrollableRef = useRef<LazyLoadSheetHandle>(null);
-  const [lastIndex, setLastIndex] = useState(CHUNK_SIZE);
+  const scrollableRef = useRef<TableVirtuosoHandle>(null);
   const [filteredList, filterOptions] = useFilterList();
 
-  const displayList = filteredList.slice(0, lastIndex);
-
   useEffect(() => {
-    setLastIndex(CHUNK_SIZE);
-    scrollableRef.current?.scrollToTop();
+    scrollableRef.current?.scrollToIndex(0);
   }, [filterOptions]);
 
   return (
-    <LazyLoadSheet
+    <TableVirtuoso
       ref={scrollableRef}
-      sx={{ flexGrow: 1 }}
-      onBottomReached={() => {
-        if (filteredList.length > lastIndex) {
-          setLastIndex(i => i + CHUNK_SIZE);
-        }
+      data={filteredList}
+      totalCount={filteredList.length}
+      components={{
+        Table: (props) => (<JoyTable
+          data-testid="cy-table-recipes"
+          variant="plain"
+          stickyHeader
+          hoverRow={filteredList.length > 0}
+          {...props}
+        />),
+        EmptyPlaceholder: () => (
+          <tbody><tr>
+            <td colSpan={3}>
+              <Typography textAlign="center">No data found.</Typography>
+            </td>
+          </tr></tbody>
+        )
       }}
-    >
-      <Table list={displayList} />
-    </LazyLoadSheet>
+      fixedHeaderContent={() => (
+        <tr>
+          <th colSpan={3}>Item [Quality Lv.]</th>
+        </tr>
+      )}
+      itemContent={(i, item) => (<TableRow key={`${item.id}`} item={item} />)}
+    />
   );
 };
 

@@ -120,23 +120,4 @@ describe('Search', () => {
           });
       });
   });
-
-  it('scroll to load more search results', () => {
-    cy.get('[data-testid="cy-table-recipes"]').as('table');
-
-    // Get result count
-    cy.get('@table').find('tr').its('length').then((length) => {
-      // scroll to bottom
-      cy.get('@table')
-        .find('tr')
-        .last()
-        .scrollIntoView();
-
-      // compare result count
-      cy.get('@table')
-        .find('tr')
-        .its('length')
-        .should('be.gt', length);
-    });
-  });
 });
