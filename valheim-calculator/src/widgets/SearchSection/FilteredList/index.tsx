@@ -31,7 +31,7 @@ const FilteredList = () => {
               <Typography textAlign="center">No data found.</Typography>
             </td>
           </tr></tbody>
-        )
+        ),
       }}
       fixedHeaderContent={() => (
         <tr>
