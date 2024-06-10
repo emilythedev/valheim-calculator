@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { apiBaseUrl } from '../constants.js';
+import { apiBaseUrl } from '../utils/constants.js';
 
 const parseMaterialText = (material) => {
   // Parse material text. E.g. Stone x4 or 4x Stone
