@@ -1,10 +1,10 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { apiBaseUrl } from './constants.js';
+import { apiBaseUrl } from '../constants.js';
 
 const parseMaterialText = (material) => {
   // Parse material text. E.g. Stone x4 or 4x Stone
-  const matches = material.match(/(?<q1>[0-9]+) ?[x×] (?<t1>[a-zA-Z :]+)|(?<t2>[a-zA-Z :]+) [x×] ?(?<q2>[0-9]+)/);
+  const matches = material.match(/(?<q1>[0-9]+) ?[x×] (?<t1>[a-zA-Zö :]+)|(?<t2>[a-zA-Zö :]+) [x×] ?(?<q2>[0-9]+)/);
   if (!matches) {
     return {
       title: material,
@@ -20,7 +20,7 @@ const parseMaterialText = (material) => {
   };
 };
 
-const parseCraftingMaterials = ($sectionTitle, i = 0) => {
+const parseRecipe = (craftingStation, $sectionTitle, i = 0) => {
   const $content = $sectionTitle.siblings('.pi-data-value');
 
   let craftingAmount = $content.find('b').text();
@@ -48,10 +48,13 @@ const parseCraftingMaterials = ($sectionTitle, i = 0) => {
   }
 
   return {
-    qualityLevel: i + 1,
-    craftingLevel,
+    quality: i + 1,
+    craftingStation: {
+      title: craftingStation,
+      level: craftingLevel,
+    },
     materials,
-    craftingAmount,
+    amount: craftingAmount,
   };
 }
 
@@ -62,11 +65,12 @@ const parseUpgradesFromSection = ($sectionTitle, pageId) => {
   return $sectionTitle
     .siblings('table')
     .first()
-    .find(`tbody > tr:not(:last-child) > td:nth-child(${titleColIdx})`)
+    .find(`tbody > tr:not(.sortbottom) > td:nth-child(${titleColIdx})`)
     .map((i, el) => cheerio.load(el).text().trim())
     .toArray();
 };
 
+// deprecated
 const parseSourceAndInternalId = ($info) => {
   // Get internal ID from infobox
   const internalId = $info.find('div.pi-item > h3.pi-data-label:contains("Internal ID")')
@@ -76,6 +80,13 @@ const parseSourceAndInternalId = ($info) => {
     .text()
     .trim();
 
+  return {
+    internalId: internalId || null,
+    station: getCraftingStation($info),
+  };
+};
+
+const getCraftingStation = ($info) => {
   // Get required crafting station from infobox
   let source = $info.find('div.pi-item > h3.pi-data-label:contains("Source")');
   if (source.length === 0) {
@@ -89,21 +100,17 @@ const parseSourceAndInternalId = ($info) => {
     .trim();
 
   if (source === 'StonecutterHoe') {
-    source = ['Stonecutter', 'Hoe'];
+    source = 'Stonecutter';
   } else {
     source = (!source || ['Crafting', 'None', 'n/a'].includes(source)) ?
       null :
-      source.split(', ');
+      source;
   }
 
-  return {
-    internalId: internalId || null,
-    source,
-  };
+  return source;
 };
 
-
-export const getItemsByPageId = async (id) => {
+export const getEntitiesByPageId = async (id) => {
   const params = {
     action: 'parse',
     prop: 'text|categories',
@@ -119,18 +126,18 @@ export const getItemsByPageId = async (id) => {
 
   if ($info.length > 1) {
     return $info.map((i, el) => {
-      return parseItem(id, categories, $(el), $);
+      return parse(id, categories, $(el), $);
     }).toArray();
   } else if ($info.length === 0 && categories.includes('Armor')) {
-    return parseArmorSetItems(id, categories, $);
+    return parseArmorSet(id, categories, $);
   }
 
   return [
-    parseItem(id, categories, $info.first(), $)
+    parse(id, categories, $info.first(), $)
   ];
 };
 
-const parseItem = (pageId, categories, $info, $) => {
+const parse = (pageId, categories, $info, $) => {
   // Get upgrade structures from content
   const upgrades = parseUpgradesFromSection($('h2').has('> #Upgrades'), pageId);
   const item = parseSingleItemFromInfobox($info, $);
@@ -145,47 +152,47 @@ const parseItem = (pageId, categories, $info, $) => {
 
 const parseSingleItemFromInfobox = ($info, $) => {
   const title = $info.find('h2').first().text();
+  const craftingStation = getCraftingStation($info);
 
   // Get crafting materials from infobox
   // May have multiple tabs for different quality
-  const qualityLevels = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
+  const recipes = $info.find('section h3.pi-data-label:contains("Crafting Materials")')
     .map((i, el) => {
-      return parseCraftingMaterials($(el), i);
+      return parseRecipe(craftingStation, $(el), i);
     })
     .toArray();
 
   return {
     title,
-    ...parseSourceAndInternalId($info),
-    qualityLevels,
+    recipes,
   };
 };
 
 const ironArmorSourceInfo = [
   {
-    head: {source: ['Forge'], craftingLevel: 1},
-    chest: {source: ['Forge'], craftingLevel: 2},
-    legs: {source: ['Forge'], craftingLevel: 2},
+    head: {title: 'Forge', level: 1},
+    chest: {title: 'Forge', level: 2},
+    legs: {title: 'Forge', level: 2},
   },
   {
-    head: {source: ['Forge'], craftingLevel: 2},
-    chest: {source: ['Forge'], craftingLevel: 3},
-    legs: {source: ['Forge'], craftingLevel: 3},
+    head: {title: 'Forge', level: 2},
+    chest: {title: 'Forge', level: 3},
+    legs: {title: 'Forge', level: 3},
   },
   {
-    head: {source: ['Forge'], craftingLevel: 3},
-    chest: {source: ['Forge'], craftingLevel: 4},
-    legs: {source: ['Forge'], craftingLevel: 4},
+    head: {title: 'Forge', level: 3},
+    chest: {title: 'Forge', level: 4},
+    legs: {title: 'Forge', level: 4},
   },
   {
-    head: {source: ['Forge'], craftingLevel: 4},
-    chest: {source: ['Forge'], craftingLevel: 5},
-    legs: {source: ['Forge'], craftingLevel: 5},
+    head: {title: 'Forge', level: 4},
+    chest: {title: 'Forge', level: 5},
+    legs: {title: 'Forge', level: 5},
   },
 ];
 
 const armorTypes = ['head', 'chest', 'legs', 'cape'];
-const parseArmorSetItems = (pageId, categories, $) => {
+const parseArmorSet = (pageId, categories, $) => {
   const $qualityTabs = $('.wds-tabber > .wds-tab__content');
 
   const items = {};
@@ -194,7 +201,7 @@ const parseArmorSetItems = (pageId, categories, $) => {
   $qualityTabs.each((iTab, el) => {
     const $tab = $(el);
 
-    // Parse crafting source building and required level
+    // Parse crafting station and required level
     let sourceInfo = {};
     if (pageId === 1511) {
       sourceInfo = ironArmorSourceInfo[iTab];
@@ -220,8 +227,8 @@ const parseArmorSetItems = (pageId, categories, $) => {
 
         types.forEach((type) => {
           sourceInfo[type] = {
-            source: [grps.source],
-            craftingLevel: parseInt(grps.craftingLevel),
+            title: grps.source,
+            level: parseInt(grps.craftingLevel),
           };
         });
       });
@@ -229,7 +236,6 @@ const parseArmorSetItems = (pageId, categories, $) => {
 
 
     // Parse table into items, with crafting materials required
-    const quality = {};
     $tab.find('table tr:has(> td)').each((i, el) => {
       const $cells = $(el).find('td');
       const title = $cells.first().text().trim();
@@ -249,7 +255,7 @@ const parseArmorSetItems = (pageId, categories, $) => {
         armorType = armorTypes[i + 1];
       }
 
-      const sourceAndCraftingLevel = sourceInfo[armorType] || {};
+      const craftingStation = sourceInfo[armorType] || {};
 
       if (!items[title]) {
         items[title] = {
@@ -257,20 +263,17 @@ const parseArmorSetItems = (pageId, categories, $) => {
           pageId,
           categories,
           upgrades: [],
-          qualityLevels: [],
-          source: sourceAndCraftingLevel.source,
+          recipes: [],
         };
       }
 
-      items[title].qualityLevels.push({
-        qualityLevel: iTab + 1,
+      items[title].recipes.push({
+        quality: iTab + 1,
         materials: materials.filter(({ quantity }) => quantity > 0),
-        craftingAmount: 1,
-        ...sourceAndCraftingLevel,
+        amount: 1,
+        craftingStation,
       });
     });
-
-    return quality;
   });
 
   return Object.values(items);

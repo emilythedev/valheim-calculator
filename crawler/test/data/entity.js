@@ -1,16 +1,18 @@
 export const refinedEitr = {
   "title": "Refined Eitr",
   "upgrades": [],
-  "source": ["Eitr refinery"],
-  "qualityLevels": [
+  "recipes": [
     {
-      "qualityLevel": 1,
-      "craftingLevel": null,
+      "quality": 1,
+      "craftingStation": {
+        "title": "Eitr refinery",
+        "level": null,
+      },
       "materials": [
         {"title":"Sap","quantity":1},
         {"title":"Soft tissue","quantity":1}
       ],
-      "craftingAmount": 1
+      "amount": 1
     }
   ]
 };
@@ -19,32 +21,36 @@ export const meatPlatterArray = [
   {
     "title": "Meat platter",
     "upgrades": [],
-    "source": ["Stone oven"],
-    "qualityLevels": [
+    "recipes": [
       {
-        "qualityLevel": 1,
-        "craftingLevel": null,
+        "quality": 1,
+        "craftingStation": {
+          "title": "Stone oven",
+          "level": null,
+        },
         "materials": [
           {"title":"Uncooked meat platter","quantity":1}
         ],
-        "craftingAmount": 1
+        "amount": 1
       }
     ]
   },
   {
     "title": "Uncooked meat platter",
     "upgrades": [],
-    "source": ["Cauldron"],
-    "qualityLevels": [
+    "recipes": [
       {
-        "qualityLevel": 1,
-        "craftingLevel": null,
+        "quality": 1,
+        "craftingStation": {
+          "title": "Cauldron",
+          "level": null,
+        },
         "materials": [
           {"title":"Seeker meat","quantity":1},
           {"title":"Lox meat","quantity":1},
           {"title":"Hare meat","quantity":1}
         ],
-        "craftingAmount": 1
+        "amount": 1
       }
     ]
   }
@@ -54,9 +60,9 @@ export const armorSetArray = [
   {
     "title": "Carapace helmet",
     "upgrades": [],
-    "qualityLevels": [
+    "recipes": [
       {
-        "qualityLevel": 1,
+        "quality": 1,
         "materials": [
           {
             "title": "Carapace",
@@ -75,14 +81,14 @@ export const armorSetArray = [
             "quantity": 4
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 1
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 1,
+        },
       },
       {
-        "qualityLevel": 2,
+        "quality": 2,
         "materials": [
           {
             "title": "Carapace",
@@ -97,14 +103,14 @@ export const armorSetArray = [
             "quantity": 2
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 2
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 2,
+        },
       },
       {
-        "qualityLevel": 3,
+        "quality": 3,
         "materials": [
           {
             "title": "Carapace",
@@ -119,14 +125,14 @@ export const armorSetArray = [
             "quantity": 4
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 3
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 3,
+        },
       },
       {
-        "qualityLevel": 4,
+        "quality": 4,
         "materials": [
           {
             "title": "Carapace",
@@ -141,23 +147,20 @@ export const armorSetArray = [
             "quantity": 6
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 4,
+        },
       }
     ],
-    "source": [
-      "Black forge"
-    ]
   },
   {
     "title": "Carapace breastplate",
     "upgrades": [],
-    "qualityLevels": [
+    "recipes": [
       {
-        "qualityLevel": 1,
+        "quality": 1,
         "materials": [
           {
             "title": "Carapace",
@@ -176,14 +179,14 @@ export const armorSetArray = [
             "quantity": 4
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 1
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 1,
+        },
       },
       {
-        "qualityLevel": 2,
+        "quality": 2,
         "materials": [
           {
             "title": "Carapace",
@@ -198,14 +201,14 @@ export const armorSetArray = [
             "quantity": 2
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 2
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 2,
+        },
       },
       {
-        "qualityLevel": 3,
+        "quality": 3,
         "materials": [
           {
             "title": "Carapace",
@@ -220,14 +223,14 @@ export const armorSetArray = [
             "quantity": 4
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 3
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 3,
+        },
       },
       {
-        "qualityLevel": 4,
+        "quality": 4,
         "materials": [
           {
             "title": "Carapace",
@@ -242,23 +245,20 @@ export const armorSetArray = [
             "quantity": 6
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 4,
+        },
       }
-    ],
-    "source": [
-      "Black forge"
     ]
   },
   {
     "title": "Carapace greaves",
     "upgrades": [],
-    "qualityLevels": [
+    "recipes": [
       {
-        "qualityLevel": 1,
+        "quality": 1,
         "materials": [
           {
             "title": "Carapace",
@@ -277,14 +277,14 @@ export const armorSetArray = [
             "quantity": 4
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 1
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 1,
+        },
       },
       {
-        "qualityLevel": 2,
+        "quality": 2,
         "materials": [
           {
             "title": "Carapace",
@@ -299,14 +299,14 @@ export const armorSetArray = [
             "quantity": 2
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 2
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 2,
+        },
       },
       {
-        "qualityLevel": 3,
+        "quality": 3,
         "materials": [
           {
             "title": "Carapace",
@@ -321,14 +321,14 @@ export const armorSetArray = [
             "quantity": 4
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 3
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 3,
+        },
       },
       {
-        "qualityLevel": 4,
+        "quality": 4,
         "materials": [
           {
             "title": "Carapace",
@@ -343,15 +343,12 @@ export const armorSetArray = [
             "quantity": 6
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Black forge"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Black forge",
+          "level": 4,
+        },
       }
-    ],
-    "source": [
-      "Black forge"
     ]
   }
 ];
@@ -360,9 +357,9 @@ export const wolfArmorArray = [
   {
     "title": "Drake helmet",
     "upgrades": [],
-    "qualityLevels": [
+    "recipes": [
       {
-        "qualityLevel": 1,
+        "quality": 1,
         "materials": [
           {
             "title": "Silver",
@@ -377,65 +374,62 @@ export const wolfArmorArray = [
             "quantity": 2
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 1
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 1,
+        },
       },
       {
-        "qualityLevel": 2,
+        "quality": 2,
         "materials": [
           {
             "title": "Silver",
             "quantity": 5
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 2
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 2,
+        },
       },
       {
-        "qualityLevel": 3,
+        "quality": 3,
         "materials": [
           {
             "title": "Silver",
             "quantity": 10
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 4,
+        },
       },
       {
-        "qualityLevel": 4,
+        "quality": 4,
         "materials": [
           {
             "title": "Silver",
             "quantity": 15
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 4,
+        },
       }
     ],
-    "source": [
-      "Forge"
-    ]
   },
   {
     "title": "Wolf armor chest",
     "upgrades": [],
-    "qualityLevels": [
+    "recipes": [
       {
-        "qualityLevel": 1,
+        "quality": 1,
         "materials": [
           {
             "title": "Silver",
@@ -450,14 +444,14 @@ export const wolfArmorArray = [
             "quantity": 1
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 2
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 2,
+        },
       },
       {
-        "qualityLevel": 2,
+        "quality": 2,
         "materials": [
           {
             "title": "Silver",
@@ -468,14 +462,14 @@ export const wolfArmorArray = [
             "quantity": 2
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 2
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 2,
+        },
       },
       {
-        "qualityLevel": 3,
+        "quality": 3,
         "materials": [
           {
             "title": "Silver",
@@ -486,14 +480,14 @@ export const wolfArmorArray = [
             "quantity": 4
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 4,
+        },
       },
       {
-        "qualityLevel": 4,
+        "quality": 4,
         "materials": [
           {
             "title": "Silver",
@@ -504,23 +498,20 @@ export const wolfArmorArray = [
             "quantity": 6
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 4,
+        },
       }
-    ],
-    "source": [
-      "Forge"
     ]
   },
   {
     "title": "Wolf armor legs",
     "upgrades": [],
-    "qualityLevels": [
+    "recipes": [
       {
-        "qualityLevel": 1,
+        "quality": 1,
         "materials": [
           {
             "title": "Silver",
@@ -535,14 +526,14 @@ export const wolfArmorArray = [
             "quantity": 4
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 2
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 2,
+        },
       },
       {
-        "qualityLevel": 2,
+        "quality": 2,
         "materials": [
           {
             "title": "Silver",
@@ -557,14 +548,14 @@ export const wolfArmorArray = [
             "quantity": 1
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 2
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 2,
+        },
       },
       {
-        "qualityLevel": 3,
+        "quality": 3,
         "materials": [
           {
             "title": "Silver",
@@ -579,14 +570,14 @@ export const wolfArmorArray = [
             "quantity": 2
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 4,
+        },
       },
       {
-        "qualityLevel": 4,
+        "quality": 4,
         "materials": [
           {
             "title": "Silver",
@@ -601,23 +592,20 @@ export const wolfArmorArray = [
             "quantity": 3
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Forge"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 4,
+        },
       }
     ],
-    "source": [
-      "Forge"
-    ]
   },
   {
     "title": "Wolf fur cape",
     "upgrades": [],
-    "qualityLevels": [
+    "recipes": [
       {
-        "qualityLevel": 1,
+        "quality": 1,
         "materials": [
           {
             "title": "Silver",
@@ -632,14 +620,14 @@ export const wolfArmorArray = [
             "quantity": 1
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Workbench"
-        ],
-        "craftingLevel": 1
+        "amount": 1,
+        "craftingStation": {
+          "title": "Workbench",
+          "level": 1,
+        },
       },
       {
-        "qualityLevel": 2,
+        "quality": 2,
         "materials": [
           {
             "title": "Silver",
@@ -650,14 +638,14 @@ export const wolfArmorArray = [
             "quantity": 4
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Workbench"
-        ],
-        "craftingLevel": 2
+        "amount": 1,
+        "craftingStation": {
+          "title": "Workbench",
+          "level": 2,
+        },
       },
       {
-        "qualityLevel": 3,
+        "quality": 3,
         "materials": [
           {
             "title": "Silver",
@@ -668,14 +656,14 @@ export const wolfArmorArray = [
             "quantity": 8
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Workbench"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Workbench",
+          "level": 4,
+        },
       },
       {
-        "qualityLevel": 4,
+        "quality": 4,
         "materials": [
           {
             "title": "Silver",
@@ -686,29 +674,26 @@ export const wolfArmorArray = [
             "quantity": 12
           }
         ],
-        "craftingAmount": 1,
-        "source": [
-          "Workbench"
-        ],
-        "craftingLevel": 4
+        "amount": 1,
+        "craftingStation": {
+          "title": "Workbench",
+          "level": 4,
+        },
       }
     ],
-    "source": [
-      "Workbench"
-    ]
   }
 ];
 
 export const weaponArray = [
   {
     "title": "Blackmetal sword",
-    "source": [
-      "Forge"
-    ],
-    "qualityLevels": [
+    "recipes": [
       {
-        "qualityLevel": 1,
-        "craftingLevel": 4,
+        "quality": 1,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 4,
+        },
         "materials": [
           {
             "title": "Fine wood",
@@ -723,11 +708,14 @@ export const weaponArray = [
             "quantity": 5
           }
         ],
-        "craftingAmount": 1
+        "amount": 1
       },
       {
-        "qualityLevel": 2,
-        "craftingLevel": 5,
+        "quality": 2,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 5,
+        },
         "materials": [
           {
             "title": "Black metal",
@@ -738,11 +726,14 @@ export const weaponArray = [
             "quantity": 5
           }
         ],
-        "craftingAmount": 1
+        "amount": 1
       },
       {
-        "qualityLevel": 3,
-        "craftingLevel": 6,
+        "quality": 3,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 6,
+        },
         "materials": [
           {
             "title": "Black metal",
@@ -753,11 +744,14 @@ export const weaponArray = [
             "quantity": 10
           }
         ],
-        "craftingAmount": 1
+        "amount": 1
       },
       {
-        "qualityLevel": 4,
-        "craftingLevel": 7,
+        "quality": 4,
+        "craftingStation": {
+          "title": "Forge",
+          "level": 7,
+        },
         "materials": [
           {
             "title": "Black metal",
@@ -768,7 +762,7 @@ export const weaponArray = [
             "quantity": 15
           }
         ],
-        "craftingAmount": 1
+        "amount": 1
       }
     ],
     "upgrades": []
