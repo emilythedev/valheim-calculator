@@ -15,7 +15,7 @@ const processData = async (jsonStr) => {
       },
       materials: item.materials.map(({title, quantity}) => ({title, quantity})),
       amount: item.craftingAmount,
-    }
+    };
   });
 
   const entities = groupBy(recipes, 'title');
@@ -28,7 +28,7 @@ const processData = async (jsonStr) => {
       recipes: recipes.map(recipe => pick(recipe, ['quality', 'craftingStation', 'materials', 'amount'])),
       categories: recipes[0].categories,
     });
-  })
+  });
 
   process.stdout.write(JSON.stringify(list));
 };

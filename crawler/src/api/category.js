@@ -14,7 +14,7 @@ export const getItems = async (categoryName, continueValue) => {
     gcmcontinue: continueValue || null,
   };
 
-  const { data, status } = await axios.get(apiBaseUrl, { params });
+  const { data } = await axios.get(apiBaseUrl, { params });
   if (!data.query) {
     return [];
   }

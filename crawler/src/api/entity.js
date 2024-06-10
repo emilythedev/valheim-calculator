@@ -56,7 +56,7 @@ const parseRecipe = (craftingStation, $sectionTitle, i = 0) => {
     materials,
     amount: craftingAmount,
   };
-}
+};
 
 const parseUpgradesFromSection = ($sectionTitle, pageId) => {
   if (!$sectionTitle.length) return [];
@@ -68,22 +68,6 @@ const parseUpgradesFromSection = ($sectionTitle, pageId) => {
     .find(`tbody > tr:not(.sortbottom) > td:nth-child(${titleColIdx})`)
     .map((i, el) => cheerio.load(el).text().trim())
     .toArray();
-};
-
-// deprecated
-const parseSourceAndInternalId = ($info) => {
-  // Get internal ID from infobox
-  const internalId = $info.find('div.pi-item > h3.pi-data-label:contains("Internal ID")')
-    .first()
-    .siblings('.pi-data-value')
-    .first()
-    .text()
-    .trim();
-
-  return {
-    internalId: internalId || null,
-    station: getCraftingStation($info),
-  };
 };
 
 const getCraftingStation = ($info) => {
@@ -133,7 +117,7 @@ export const getEntitiesByPageId = async (id) => {
   }
 
   return [
-    parse(id, categories, $info.first(), $)
+    parse(id, categories, $info.first(), $),
   ];
 };
 

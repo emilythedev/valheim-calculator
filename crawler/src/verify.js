@@ -11,7 +11,7 @@ const report = (reason, entity) => {
     title: entity.title,
     pageId: entity.pageId,
   });
-}
+};
 
 const reportDuplicated = (entity) => report('duplicated', entity);
 const reportNoRecipes = (entity) => report('no_recipes', entity);

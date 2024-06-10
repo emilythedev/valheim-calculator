@@ -21,14 +21,14 @@ const fetchAllCategories = async () => {
     lists.push(items);
   }
   return lists;
-}
+};
 
 fetchAllCategories()
   .then(lists => {
     const list = uniqBy(lists.flat(), 'canonicalUrl');
 
     const pairs = map(list, ({ pageId, canonicalUrl }) => {
-      return [ pageId, canonicalUrl ]
+      return [ pageId, canonicalUrl ];
     });
 
     return fromPairs(pairs);

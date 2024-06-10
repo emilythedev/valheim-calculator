@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import { getEntitiesByPageId } from '../src/api/entity.js';
 import { armorSetArray, meatPlatterArray, refinedEitr, weaponArray, wolfArmorArray } from './data/entity.js';
 
@@ -9,7 +10,7 @@ const assertItemArray = (result, expectedArray) => {
     expect(result[i]).to.have.property('upgrades').that.is.empty;
     expect(result[i]).to.have.property('recipes').that.to.deep.equals(expected.recipes);
   });
-}
+};
 
 describe('Crawl item data', () => {
   it('crawl simple material recipe', async () => {
