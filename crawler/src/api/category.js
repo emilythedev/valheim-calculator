@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { apiBaseUrl } from './constants.js';
+import { apiBaseUrl } from '../constants.js';
 
 export const getItems = async (categoryName, continueValue) => {
   const params = {
@@ -9,11 +9,15 @@ export const getItems = async (categoryName, continueValue) => {
     gcmtype: 'page',
     gcmlimit: 20,
     prop: 'info',
+    inprop: 'url',
     format: 'json',
     gcmcontinue: continueValue || null,
   };
 
-  const { data } = await axios.get(apiBaseUrl, { params });
+  const { data, status } = await axios.get(apiBaseUrl, { params });
+  if (!data.query) {
+    return [];
+  }
   const pages = data.query.pages;
 
   const list = [];
@@ -28,6 +32,7 @@ export const getItems = async (categoryName, continueValue) => {
     list.push({
       title: page.title,
       pageId: page.pageid,
+      canonicalUrl: page.canonicalurl,
     });
   }
 
