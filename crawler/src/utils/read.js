@@ -1,14 +1,32 @@
-export const readStdin = (callback) => {
-  let data = '';
+export const readStdin = async () => {
+  return new Promise((resolve, reject) => {
+    let data = '';
 
-  process.stdin.on('readable', () => {
-    const chunk = process.stdin.read();
-    if (chunk !== null) {
-      data += chunk.toString();
-    }
-  });
+    const onRead = () => {
+      const chunk = process.stdin.read();
+      if (chunk !== null) {
+        data += chunk.toString();
+      }
+    };
 
-  process.stdin.on('end', () => {
-    callback(data);
+    const onEnd = () => {
+      off();
+      resolve(data);
+    };
+
+    const onError = (err) => {
+      off();
+      reject(err);
+    };
+
+    const off = () => {
+      process.stdin.off('readable', onRead);
+      process.stdin.off('end', onEnd);
+      process.stdin.off('error', onError);
+    };
+
+    process.stdin.on('readable', onRead);
+    process.stdin.on('end', onEnd);
+    process.stdin.on('error', onError);
   });
 };

@@ -33,4 +33,4 @@ const processData = async (jsonStr) => {
   process.stdout.write(JSON.stringify(list));
 };
 
-readStdin(processData);
+readStdin().then(processData);

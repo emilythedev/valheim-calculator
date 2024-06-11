@@ -92,4 +92,4 @@ const processData = (jsonStr) => {
   printReport();
 };
 
-readStdin(processData);
+readStdin().then(processData);
