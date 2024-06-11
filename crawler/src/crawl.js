@@ -1,3 +1,4 @@
+import commandLineArgs from 'command-line-args';
 import { isArray, keys } from 'lodash-es';
 import { getEntitiesByPageId } from './api/entity.js';
 import { readStdin } from './utils/read.js';
@@ -16,4 +17,14 @@ const processData = async (jsonStr) => {
   process.stdout.write(JSON.stringify(list));
 };
 
-readStdin().then(processData);
+const options = [
+  { name: 'file', alias: 'f' },
+];
+
+const args = commandLineArgs(options);
+
+if (!args.file) {
+  readStdin().then(processData);
+} else {
+  readFile(args.file).then(processData);
+}

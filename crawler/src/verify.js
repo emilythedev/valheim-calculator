@@ -1,5 +1,6 @@
+import commandLineArgs from 'command-line-args';
 import { forOwn } from 'lodash-es';
-import { readStdin } from './utils/read.js';
+import { readFile, readStdin } from './utils/read.js';
 
 const results = {};
 
@@ -92,4 +93,14 @@ const processData = (jsonStr) => {
   printReport();
 };
 
-readStdin().then(processData);
+const options = [
+  { name: 'file', alias: 'f' },
+];
+
+const args = commandLineArgs(options);
+
+if (!args.file) {
+  readStdin().then(processData);
+} else {
+  readFile(args.file).then(processData);
+}
