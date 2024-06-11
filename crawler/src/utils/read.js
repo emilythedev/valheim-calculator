@@ -1,3 +1,5 @@
+import { readFile as fsReadFile } from 'fs/promises';
+
 export const readStdin = async () => {
   return new Promise((resolve, reject) => {
     let data = '';
@@ -29,4 +31,8 @@ export const readStdin = async () => {
     process.stdin.on('end', onEnd);
     process.stdin.on('error', onError);
   });
+};
+
+export const readFile = async (filePath) => {
+  return await fsReadFile(filePath, { encoding: 'utf8' });
 };
