@@ -2,6 +2,7 @@ import commandLineArgs from 'command-line-args';
 import { isArray, keys } from 'lodash-es';
 import { getEntitiesByPageId } from './api/entity.js';
 import { readStdin } from './utils/read.js';
+import { writeFile } from './utils/write.js';
 
 const processData = async (jsonStr) => {
   const mapping = JSON.parse(jsonStr);
@@ -14,17 +15,22 @@ const processData = async (jsonStr) => {
     list = list.concat(entities);
   }
 
-  process.stdout.write(JSON.stringify(list));
+  return JSON.stringify(list);
 };
 
 const options = [
   { name: 'file', alias: 'f' },
+  { name: 'output', alias: 'o' },
 ];
 
 const args = commandLineArgs(options);
 
-if (!args.file) {
-  readStdin().then(processData);
-} else {
-  readFile(args.file).then(processData);
-}
+const inputPromise = args.file ? readFile(args.file) : readStdin();
+inputPromise.then(processData)
+  .then(str => {
+    if (!args.output) {
+      process.stdout.write(str);
+    } else {
+      return writeFile(args.output, str);
+    }
+  })

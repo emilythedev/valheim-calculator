@@ -99,8 +99,5 @@ const options = [
 
 const args = commandLineArgs(options);
 
-if (!args.file) {
-  readStdin().then(processData);
-} else {
-  readFile(args.file).then(processData);
-}
+const inputPromise = args.file ? readFile(args.file) : readStdin();
+inputPromise.then(processData);
