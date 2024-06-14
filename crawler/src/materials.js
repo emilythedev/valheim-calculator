@@ -1,6 +1,7 @@
 import commandLineArgs from 'command-line-args';
 import { invertBy, size, startCase } from 'lodash-es';
 import { readFile, readStdin } from './utils/read.js';
+import { writeFile } from './utils/write.js';
 
 const processData = (jsonStr, mappingStr) => {
   const list = JSON.parse(jsonStr);

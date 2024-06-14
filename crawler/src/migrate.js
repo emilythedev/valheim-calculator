@@ -1,6 +1,6 @@
 import commandLineArgs from 'command-line-args';
 import { forOwn, groupBy, map, pick } from 'lodash-es';
-import { readStdin } from './utils/read.js';
+import { readFile, readStdin } from './utils/read.js';
 import { writeFile } from './utils/write.js';
 
 const processData = async (jsonStr) => {
