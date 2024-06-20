@@ -1,3 +1,6 @@
+import { keys } from 'lodash-es';
+import { getEntityName } from './entity';
+
 const createRecipe = (
   quality: QualityLevel,
   amount: number,
@@ -28,6 +31,13 @@ export const getRecipe = (id: EntityId, quality: QualityLevel) => {
   return entities[id] ?
     (entities[id].recipes[quality - 1] || null) :
     null;
+};
+
+export const getCraftableEntityList = () => {
+  return keys(entities).map((id) => ({
+    key: id,
+    label: getEntityName(id),
+  }));
 };
 
 // Armor
