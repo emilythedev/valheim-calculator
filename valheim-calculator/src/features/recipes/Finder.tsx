@@ -1,4 +1,5 @@
 import { getCraftableEntityList, getEntityMaxQuality } from '@/data';
+import Quality from '@/entities/recipe/Quality';
 import { Button } from '@/shared/ui/button';
 import {
   Command,
@@ -9,7 +10,7 @@ import {
   CommandList
 } from '@/shared/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import { Search, Star } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useState } from 'react';
 
 const entityList = getCraftableEntityList();
@@ -71,9 +72,7 @@ interface QualityButtonProps {
 const QualityButton = ({ quality, onClick }: QualityButtonProps) => {
   return (
     <Button variant="outline" onClick={() => onClick(quality)}>
-      <Star className="mr-1 h-4 w-4" />
-      <span className="mr-2">{quality}</span>
-      +1
+      <Quality value={quality} className="mr-2" />+1
     </Button>
   )
 };
