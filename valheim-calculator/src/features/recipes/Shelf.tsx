@@ -1,14 +1,15 @@
 import Quality from '@/entities/recipe/Quality';
 import { readRecipesAtom, recipeAmountAtoms } from '@/shared/atoms';
-import { useAtomValue } from 'jotai';
+import NumberStepper from '@/shared/ui/NumberStepper';
+import { useAtom, useAtomValue } from 'jotai';
 
 const ShelfItem = (recipe: RecipeKey) => {
-  const amount = useAtomValue(recipeAmountAtoms(recipe));
+  const [amount, setAmount] = useAtom(recipeAmountAtoms(recipe));
   return (
-    <div>
+    <div className="flex flex-row items-center gap-4">
       <div>{ recipe.entity }</div>
       <Quality value={recipe.quality} />
-      {amount}
+      <NumberStepper value={amount} onChange={setAmount} />
     </div>
   );
 };
