@@ -23,7 +23,7 @@ const NumberStepper = ({step = 1, min = 0, max = Number.POSITIVE_INFINITY, ...pr
   return (
     <div className="inline-flex flex-row">
       <Button
-        data-testid="cy-stepper-dec"
+        data-testid="stepper-dec"
         variant="secondary"
         size="icon"
         onClick={() => onChange(props.value - step)}
@@ -32,13 +32,13 @@ const NumberStepper = ({step = 1, min = 0, max = Number.POSITIVE_INFINITY, ...pr
         <Minus className="h-4 w-4" />
       </Button>
       <Input
-        data-testid="cy-stepper"
+        data-testid="stepper"
         value={props.value}
         onChange={(e) => onChange(parseInt(e.target.value))}
         className="text-center w-12 rounded-none border-x-0"
       />
       <Button
-        data-testid="cy-stepper-inc"
+        data-testid="stepper-inc"
         variant="default"
         size="icon"
         onClick={() => onChange(props.value + step)}
