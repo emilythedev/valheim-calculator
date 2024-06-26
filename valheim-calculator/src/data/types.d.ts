@@ -28,3 +28,13 @@ type CategoryList = CategoryId[];
 interface SubCategory {
   [CategoryId]: CategoryList,
 }
+
+interface RecipeKey {
+  entity: EntityId,
+  quality: number,
+}
+
+interface RecipeOnShelf {
+  recipe: RecipeKey,
+  amount: number,
+}

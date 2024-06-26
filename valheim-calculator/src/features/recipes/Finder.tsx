@@ -1,5 +1,6 @@
 import { getCraftableEntityList, getEntityMaxQuality } from '@/data';
 import Quality from '@/entities/recipe/Quality';
+import { recipeAmountAtoms } from '@/shared/atoms';
 import { Button } from '@/shared/ui/button';
 import {
   Command,
@@ -10,6 +11,7 @@ import {
   CommandList
 } from '@/shared/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
+import { useAtom } from 'jotai';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
 
@@ -64,35 +66,30 @@ const FilterSearch = ({ value, onValueChange }: FilterSearchProps) => {
   );
 };
 
-interface QualityButtonProps {
-  quality: number,
-  onClick: (quality: number) => void,
-}
-
-const QualityButton = ({ quality, onClick }: QualityButtonProps) => {
+const QualityButton = ({ entity, quality }: RecipeKey) => {
+  const [amount, setAmount] = useAtom(recipeAmountAtoms({ entity, quality }));
   return (
-    <Button variant="outline" onClick={() => onClick(quality)}>
+    <Button variant="outline" onClick={() => setAmount(amount + 1)}>
       <Quality value={quality} className="mr-2" />+1
     </Button>
   )
 };
 
 interface QualityListProps {
-  value: EntityId,
-  onAdd : (quality: number) => void,
+  entity: EntityId,
 }
 
-const QualityList = ({ value, onAdd }: QualityListProps) => {
-  const maxQuality = getEntityMaxQuality(value);
+const QualityList = ({ entity }: QualityListProps) => {
+  const maxQuality = getEntityMaxQuality(entity);
   const children = [];
   for (let i = 0; i < maxQuality; i++) {
     children.push((
       <QualityButton
         key={i}
+        entity={entity}
         quality={i + 1}
-        onClick={onAdd}
       />
-    ))
+    ));
   }
 
   return (
@@ -102,21 +99,14 @@ const QualityList = ({ value, onAdd }: QualityListProps) => {
   );
 };
 
-interface FinderProps {
-  onRecipeSelect?: (id: EntityId, quality: number) => void,
-}
-
-const Finder = ({ onRecipeSelect }: FinderProps) => {
+const Finder = () => {
   const [value, setValue] = useState<EntityId>('');
-  const handleAdd = (quality: number) => {
-    onRecipeSelect && onRecipeSelect(value, quality);
-  }
 
   return (
     <>
       <FilterSearch value={value} onValueChange={setValue} />
       <div className="flex flex-row justify-stretch gap-2">
-        <QualityList value={value} onAdd={handleAdd} />
+        <QualityList entity={value} />
       </div>
     </>
   );
