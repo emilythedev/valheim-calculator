@@ -1,23 +1,35 @@
 import { atom } from 'jotai';
-import { atomFamily } from 'jotai/utils';
-import { findIndex } from 'lodash-es';
+import { atomFamily, atomWithStorage, createJSONStorage } from 'jotai/utils';
+import { get as _get, set as _set, findIndex, omit } from 'lodash-es';
 
-const recipesAtom = atom<RecipeKey[]>([]);
-const shelfAtom = atom<{ [key: string]: number }>({});
+const recipesAtom = atomWithStorage(
+  'vcList',
+  [],
+  createJSONStorage<RecipeKey[]>(() => localStorage),
+  { getOnInit: true }
+);
+const shelfAtom = atomWithStorage(
+  'vcShelf',
+  {},
+  createJSONStorage<{ [key: string]: number }>(() => localStorage),
+  { getOnInit: true }
+);
 
 export const readRecipesAtom = atom(get => get(recipesAtom));
 
-const getRecipeKeyStr = ({ entity, quality }: RecipeKey) => `${entity}|${quality}`;
+const getRecipeKeyPath = ({ entity, quality }: RecipeKey) => `${entity}|${quality}`;
 
 export const recipeAmountAtoms = atomFamily(
   (recipe: RecipeKey) => atom(
-    (get) => get(shelfAtom)[getRecipeKeyStr(recipe)] || 0,
+    (get) => _get(get(shelfAtom), getRecipeKeyPath(recipe)) || 0,
     (_, set, amount: number) => {
       set(shelfAtom, (shelf) => {
-        return {
-          ...shelf,
-          [getRecipeKeyStr(recipe)]: amount,
+        const path = getRecipeKeyPath(recipe);
+        const newValue = omit(shelf, [path]);
+        if (amount > 0) {
+          _set(newValue, path, amount);
         }
+        return newValue;
       });
       set(recipesAtom, (list) => {
         const i = findIndex(list, (r) => r.entity === recipe.entity && r.quality === recipe.quality);
