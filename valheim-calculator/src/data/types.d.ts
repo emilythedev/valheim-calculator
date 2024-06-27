@@ -14,11 +14,11 @@ interface Recipe {
 }
 
 interface CraftingStation {
-  [EntityId]: QualityLevel | null,
+  [entityId: EntityId]: QualityLevel | null,
 }
 
 interface RecipeMaterials {
-  [EntityId]: number,
+  [entityId: EntityId]: number,
 }
 
 type Upgrades = EntityId[];
@@ -26,7 +26,7 @@ type Upgrades = EntityId[];
 type CategoryId = string;
 type CategoryList = CategoryId[];
 interface SubCategory {
-  [CategoryId]: CategoryList,
+  [categoryId: CategoryId]: CategoryList,
 }
 
 interface RecipeKey {
