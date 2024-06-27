@@ -1,5 +1,6 @@
 import RecipeFinder from '@/features/recipes/Finder';
 import RecipeShelf from '@/features/recipes/Shelf';
+import Summary from '@/features/recipes/Summary';
 
 const Layout = () => {
   return (
@@ -7,6 +8,7 @@ const Layout = () => {
       <div className="flex-1 flex flex-col justify-center align-center">
         <RecipeFinder />
         <RecipeShelf />
+        <Summary />
       </div>
     </div>
   );

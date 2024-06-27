@@ -1,6 +1,7 @@
+import { getRecipe } from '@/data';
 import { atom } from 'jotai';
 import { atomFamily, atomWithStorage, createJSONStorage } from 'jotai/utils';
-import { get as _get, set as _set, findIndex, omit } from 'lodash-es';
+import { get as _get, set as _set, findIndex, forOwn, omit } from 'lodash-es';
 
 const recipesAtom = atomWithStorage(
   'vcList',
@@ -44,3 +45,37 @@ export const recipeAmountAtoms = atomFamily(
   },
   (a, b) => (a.entity === b.entity && a.quality === b.quality)
 );
+
+export const summaryAtom = atom(get => {
+  const shelf = get(shelfAtom);
+  const list = get(recipesAtom);
+  const allMaterials: RecipeMaterials = {};
+  const stations: CraftingStation = {};
+
+  list.forEach((recipeKey) => {
+    const { entity, quality } = recipeKey;
+    const recipe = getRecipe(entity, quality);
+
+    if (!recipe) return;
+
+    const amount = _get(shelf, getPath(recipeKey), 0);
+    const { craftingStation, materials } = recipe;
+
+    forOwn(materials, (n, id) => {
+      if (typeof allMaterials[id] === 'undefined') {
+        allMaterials[id] = 0;
+      }
+
+      allMaterials[id] += n * amount;
+    });
+
+    forOwn(craftingStation, (quality, id) => {
+      stations[id] = Math.max(stations[id] || 0, quality || 0);
+    });
+  });
+
+  return {
+    materials: allMaterials,
+    stations: stations,
+  };
+});
