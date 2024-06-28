@@ -18,8 +18,17 @@ const entities: {
 } = {};
 
 const createEntity = (id: EntityId, recipes: Recipe[]) => {
-  entities[id] = { id, recipes };
-}
+  entities[id] = {
+    id,
+    recipes,
+    upgradable: recipes.length > 1,
+    maxQuality: recipes.length,
+  } as Entity;
+};
+
+export const isEntityUpgradable = (id: EntityId) => {
+  return entities[id]?.upgradable || false;
+};
 
 export const getEntityMaxQuality = (id: EntityId) => {
   return entities[id] ?

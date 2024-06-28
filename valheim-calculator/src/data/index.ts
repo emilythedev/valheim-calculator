@@ -1,4 +1,4 @@
 export { categoryList, getCategoryEntities } from './categories';
 export { getEntityName } from './entity';
-export { getCraftableEntityList, getEntityMaxQuality, getRecipe } from './recipes';
-export { getUpgrades, isUpgradable } from './upgrades';
+export { getExtensions, isExtendable } from './extensions';
+export { getCraftableEntityList, getEntityMaxQuality, getRecipe, isEntityUpgradable } from './recipes';

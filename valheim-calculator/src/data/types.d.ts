@@ -3,6 +3,8 @@ type EntityId = string;
 interface Entity {
   id: EntityId,
   recipes: Recipe[],
+  upgradable: boolean,
+  maxQuality: number,
 }
 
 type QualityLevel = number;

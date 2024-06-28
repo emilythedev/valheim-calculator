@@ -1,12 +1,12 @@
-export const getUpgrades = (id: EntityId) => {
-  return stationUpgrades[id];
+export const getExtensions = (id: EntityId) => {
+  return extensions[id];
 };
 
-export const isUpgradable = (id: EntityId) => {
-  return upgradableIds.indexOf(id) > -1;
+export const isExtendable = (id: EntityId) => {
+  return extendableIds.indexOf(id) > -1;
 };
 
-const stationUpgrades: { [id: EntityId]: Upgrades } = {
+const extensions: { [id: EntityId]: Upgrades } = {
   'Workbench': [
     'ChoppingBlock',
     'TanningRack',
@@ -44,4 +44,4 @@ const stationUpgrades: { [id: EntityId]: Upgrades } = {
   ],
 };
 
-const upgradableIds = Object.keys(stationUpgrades);
+const extendableIds = Object.keys(extensions);
