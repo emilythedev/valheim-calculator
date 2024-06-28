@@ -31,9 +31,7 @@ export const isEntityUpgradable = (id: EntityId) => {
 };
 
 export const getEntityMaxQuality = (id: EntityId) => {
-  return entities[id] ?
-    entities[id].recipes.length :
-    0;
+  return entities[id]?.maxQuality || 0;
 };
 
 export const getRecipe = (id: EntityId, quality: QualityLevel) => {
