@@ -12,7 +12,7 @@
 			"type": "bind"
 		},
 		{
-			"source": "${localWorkspaceFolder}/valheim-calculator/.cy-cache",
+			"source": "${localWorkspaceFolder}/app/.cy-cache",
 			"target": "/home/node/.cache/Cypress",
 			"type": "bind"
 		}
