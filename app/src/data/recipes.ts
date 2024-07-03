@@ -40,6 +40,16 @@ export const getRecipe = (id: EntityId, quality: QualityLevel) => {
     null;
 };
 
+export const getEntity = (id: EntityId) => {
+  const entity = entities[id];
+  if (!entity) return null;
+  return {
+    name: getEntityName(id),
+    upgradable: entity.upgradable,
+    maxQuality: entity.maxQuality,
+  };
+};
+
 export const getCraftableEntityList = () => {
   return keys(entities).map((id) => ({
     key: id,
