@@ -1,6 +1,6 @@
 import { getEntityName } from '@/data';
+import KeyValueList from '@/shared/ui/KeyValueList';
 import { Section, SectionHeader } from '@/shared/ui/section';
-import { orderBy, toPairs } from 'lodash-es';
 
 interface ListItemProps {
   entity: EntityId,
@@ -19,16 +19,17 @@ const ListItem = ({ entity, amount }: ListItemProps) => {
 };
 
 const MaterialList = ({ materials }: { materials: RecipeMaterials }) => {
-  const pairs = orderBy(toPairs(materials), ['1'], ['desc']);
-
   return (
     <Section>
       <SectionHeader>Materials</SectionHeader>
-      <div className="text-sm grid gap-2" style={{ gridTemplateColumns: 'max-content 1fr' }}>
-        {pairs.map(([entity, amount]) => {
-          return (<ListItem key={entity} entity={entity} amount={amount} />);
-        })}
-      </div>
+      <KeyValueList
+        list={materials}
+        className="text-sm grid gap-2"
+        style={{ gridTemplateColumns: 'max-content 1fr' }}
+        item={(entity, amount: number) => (
+          <ListItem key={entity} entity={entity} amount={amount} />
+        )}
+      />
     </Section>
   );
 };

@@ -1,32 +1,10 @@
 import { getEntity, getRecipe } from '@/data';
+import KeyValueList from '@/shared/ui/KeyValueList';
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 import { Section, SectionHeader } from '@/shared/ui/section';
-import { toPairs } from 'lodash-es';
 import MaterialList from './MaterialList';
 import Quality from './Quality';
 import RecipeListItem from './RecipeListItem';
-
-interface RecipeListProps {
-  list: EntityQualityList,
-}
-const RecipeList = ({ list }: RecipeListProps) => {
-  const pairs = toPairs(list);
-
-  return (
-    <div className="text-sm">
-      {pairs.map(([entity, quality]) => {
-        return (
-          <RecipeListItem
-            key={entity}
-            entity={entity}
-            quality={quality}
-            hideRecipeButton
-          />
-        );
-      })}
-    </div>
-  );
-};
 
 const CraftStationList = ({ stations }: { stations: EntityQualityList | null }) => {
   if (!stations) return null;
@@ -34,7 +12,18 @@ const CraftStationList = ({ stations }: { stations: EntityQualityList | null }) 
   return (
     <Section>
       <SectionHeader>Required station</SectionHeader>
-      <RecipeList list={stations} />
+      <KeyValueList
+        className="text-sm"
+        list={stations}
+        item={(entity, quality: number | null) => (
+          <RecipeListItem
+            key={entity}
+            entity={entity}
+            quality={quality}
+            hideRecipeButton
+          />
+        )}
+      />
     </Section>
   );
 };
