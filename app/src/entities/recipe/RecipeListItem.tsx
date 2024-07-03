@@ -36,7 +36,7 @@ const RecipeListItem = ({ entity, quality, hideRecipeButton = false, ...props }:
       <span className="flex-1"></span>
       {props.children}
     </div>
-  )
+  );
 };
 
 export default RecipeListItem;

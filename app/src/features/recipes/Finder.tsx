@@ -8,7 +8,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
+  CommandList,
 } from '@/shared/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { useAtom } from 'jotai';
@@ -72,7 +72,7 @@ const QualityButton = ({ entity, quality }: RecipeKey) => {
     <Button variant="outline" onClick={() => setAmount(amount + 1)}>
       <Quality value={quality} className="mr-2" />+1
     </Button>
-  )
+  );
 };
 
 interface QualityListProps {

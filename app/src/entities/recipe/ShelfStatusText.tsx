@@ -3,7 +3,7 @@ import { useAtomValue } from 'jotai';
 import { Check } from 'lucide-react';
 
 const ShelfStatusText = ({recipe}: {recipe: RecipeKey}) => {
-  const amount = useAtomValue(recipeAmountAtoms(recipe))
+  const amount = useAtomValue(recipeAmountAtoms(recipe));
 
   if (amount === 0) return null;
 

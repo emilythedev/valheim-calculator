@@ -47,7 +47,7 @@ const NumberStepper = ({step = 1, min = 0, max = Number.POSITIVE_INFINITY, ...pr
         <Plus className="h-4 w-4" />
       </Button>
     </div>
-  )
+  );
 };
 
 export default NumberStepper;

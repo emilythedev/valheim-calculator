@@ -14,5 +14,5 @@ const Section = ({ className, ...props }: { className?: string } & React.HTMLAtt
 
 export {
   Section,
-  SectionHeader
+  SectionHeader,
 };

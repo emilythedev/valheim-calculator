@@ -20,7 +20,7 @@ const ListItem = ({ entity, amount }: ListItemProps) => {
 
 const sort = (pairs: [string, number][]) => {
   return orderBy(pairs, ([entity]) => getEntityName(entity), 'asc');
-}
+};
 
 const MaterialList = ({ materials }: { materials: RecipeMaterials }) => {
   return (

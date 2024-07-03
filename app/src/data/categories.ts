@@ -27,7 +27,7 @@ const subCats: SubCategory = {
     'Shield',
     'Spear',
     'Sword',
- ],
+  ],
   'Armor': [
     'Cape',
     'FlametalArmor',
@@ -46,7 +46,7 @@ const subCats: SubCategory = {
     'RagArmor',
     'OdinSet',
     'Hat',
- ],
+  ],
 };
 
 const catogoryEntities: { [categoryId: CategoryId]: EntityId[] } = {};
@@ -364,7 +364,7 @@ addToCateogries(['Weapon', 'Crossbow'], [
   'Ripper',
   'RootRipper',
   'StormRipper',
-  'WoundRipper'
+  'WoundRipper',
 ]);
 
 addToCateogries(['Weapon', 'DefenseStructure'], [
@@ -396,7 +396,7 @@ addToCateogries(['Weapon', 'Axe'], [
   'FlintAxe',
   'IronAxe',
   'JotunBane',
-  'StoneAxe'
+  'StoneAxe',
 ]);
 
 addToCateogries(['Weapon', 'Club'], [
@@ -463,7 +463,7 @@ addToCateogries(['Weapon', 'Shield'], [
   'SerpentScaleShield',
   'SilverShield',
   'WoodShield',
-  'WoodTowerShield'
+  'WoodTowerShield',
 ]);
 
 addToCateogries(['Weapon', 'Spear'], [

@@ -48,4 +48,4 @@ describe('<NumberStepper />', () => {
       cy.get('[data-testid="stepper"]').should('have.value', 0);
     });
   });
-})
+});

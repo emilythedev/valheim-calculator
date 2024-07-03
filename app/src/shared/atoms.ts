@@ -7,13 +7,13 @@ const recipesAtom = atomWithStorage(
   'vcList',
   [],
   createJSONStorage<RecipeKey[]>(() => localStorage),
-  { getOnInit: true }
+  { getOnInit: true },
 );
 const shelfAtom = atomWithStorage(
   'vcShelf',
   {},
   createJSONStorage<{ [key: string]: number }>(() => localStorage),
-  { getOnInit: true }
+  { getOnInit: true },
 );
 
 export const readRecipesAtom = atom(get => get(recipesAtom));
@@ -43,7 +43,7 @@ export const recipeAmountAtoms = atomFamily(
       },
     );
   },
-  (a, b) => (a.entity === b.entity && a.quality === b.quality)
+  (a, b) => (a.entity === b.entity && a.quality === b.quality),
 );
 
 export const summaryAtom = atom(get => {

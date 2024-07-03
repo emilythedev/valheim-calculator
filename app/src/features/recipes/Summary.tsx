@@ -52,7 +52,7 @@ const Summary = () => {
       <StationSummary />
       <MaterialSummary />
     </div>
-  )
+  );
 };
 
 export default Summary;
