@@ -6,7 +6,16 @@ import MaterialList from './MaterialList';
 import Quality from './Quality';
 import RecipeListItem from './RecipeListItem';
 
-const CraftStationList = ({ stations }: { stations: EntityQualityList | null }) => {
+const MaterialListSection = ({ materials }: { materials: RecipeMaterials }) => {
+  return (
+    <Section>
+      <SectionHeader>Materials</SectionHeader>
+      <MaterialList materials={materials} />
+    </Section>
+  );
+};
+
+const CraftStationListSection = ({ stations }: { stations: EntityQualityList | null }) => {
   if (!stations) return null;
 
   return (
@@ -51,8 +60,8 @@ const RecipeDetails = ({ recipe: recipeKey }: Props) => {
         </DialogDescription>
       </DialogHeader>
       <div className="space-y-4">
-        <MaterialList materials={recipe.materials} />
-        <CraftStationList stations={recipe.craftingStation} />
+        <MaterialListSection materials={recipe.materials} />
+        <CraftStationListSection stations={recipe.craftingStation} />
       </div>
     </DialogContent>
   );

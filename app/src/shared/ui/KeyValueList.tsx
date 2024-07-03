@@ -5,10 +5,11 @@ interface KeyValueListProps<V> extends React.HTMLAttributes<HTMLDivElement> {
   list: { [key in string]: V },
   className?: string,
   item: (key: string, value: V) => ReactNode,
+  sort?: (pairs: [string, V][]) => [string, V][],
 }
 
-const KeyValueList: FC<KeyValueListProps<any>> = ({ list, item, className, ...props }) => {
-  const pairs = toPairs(list);
+const KeyValueList: FC<KeyValueListProps<any>> = ({ list, item, className, sort, ...props }) => {
+  const pairs = sort ? sort(toPairs(list)) : toPairs(list);
 
   return (
     <div className={className} {...props}>
