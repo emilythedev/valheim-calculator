@@ -50,7 +50,7 @@ export const summaryAtom = atom(get => {
   const shelf = get(shelfAtom);
   const list = get(recipesAtom);
   const allMaterials: RecipeMaterials = {};
-  const stations: CraftingStation = {};
+  const stations: EntityQualityList = {};
 
   list.forEach((recipeKey) => {
     const { entity, quality } = recipeKey;

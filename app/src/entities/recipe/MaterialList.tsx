@@ -1,4 +1,5 @@
 import { getEntityName } from '@/data';
+import { Section, SectionHeader } from '@/shared/ui/section';
 import { orderBy, toPairs } from 'lodash-es';
 
 interface ListItemProps {
@@ -17,18 +18,18 @@ const ListItem = ({ entity, amount }: ListItemProps) => {
   );
 };
 
-const MaterialList = ({ materials, className }: { materials: RecipeMaterials, className?: string }) => {
+const MaterialList = ({ materials }: { materials: RecipeMaterials }) => {
   const pairs = orderBy(toPairs(materials), ['1'], ['desc']);
 
   return (
-    <div className={`space-y-4 ${className || ''}`}>
-      <h4 className="text-sm font-medium">Materials</h4>
+    <Section>
+      <SectionHeader>Materials</SectionHeader>
       <div className="text-sm grid gap-2" style={{ gridTemplateColumns: 'max-content 1fr' }}>
         {pairs.map(([entity, amount]) => {
           return (<ListItem key={entity} entity={entity} amount={amount} />);
         })}
       </div>
-    </div>
+    </Section>
   );
 };
 

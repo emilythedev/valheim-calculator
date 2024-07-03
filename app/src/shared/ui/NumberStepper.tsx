@@ -24,8 +24,8 @@ const NumberStepper = ({step = 1, min = 0, max = Number.POSITIVE_INFINITY, ...pr
     <div className="inline-flex flex-row">
       <Button
         data-testid="stepper-dec"
-        variant="secondary"
-        size="icon"
+        variant="outline"
+        size="icon-sm"
         onClick={() => onChange(props.value - step)}
         className="rounded-r-none"
       >
@@ -35,12 +35,12 @@ const NumberStepper = ({step = 1, min = 0, max = Number.POSITIVE_INFINITY, ...pr
         data-testid="stepper"
         value={props.value}
         onChange={(e) => onChange(parseInt(e.target.value))}
-        className="text-center w-12 rounded-none border-x-0"
+        className="text-center w-12 rounded-none border-x-0 h-9"
       />
       <Button
         data-testid="stepper-inc"
         variant="default"
-        size="icon"
+        size="icon-sm"
         onClick={() => onChange(props.value + step)}
         className="rounded-l-none"
       >

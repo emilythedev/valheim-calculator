@@ -4,7 +4,7 @@ import { getEntityName } from './entity';
 const createRecipe = (
   quality: QualityLevel,
   amount: number,
-  craftingStation: CraftingStation | null,
+  craftingStation: EntityQualityList | null,
   materials: RecipeMaterials,
 ): Recipe => ({
   quality,

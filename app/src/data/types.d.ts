@@ -11,11 +11,11 @@ type QualityLevel = number;
 interface Recipe {
   quality: QualityLevel,
   amount: number,
-  craftingStation: CraftingStation | null,
+  craftingStation: EntityQualityList | null,
   materials: RecipeMaterials,
 }
 
-interface CraftingStation {
+interface EntityQualityList {
   [entityId: EntityId]: QualityLevel | null,
 }
 
