@@ -1,5 +1,5 @@
 import { toPairs } from 'lodash-es';
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 interface KeyValueListProps<V> extends React.HTMLAttributes<HTMLDivElement> {
   list: { [key in string]: V },
@@ -8,7 +8,7 @@ interface KeyValueListProps<V> extends React.HTMLAttributes<HTMLDivElement> {
   sort?: (pairs: [string, V][]) => [string, V][],
 }
 
-const KeyValueList: FC<KeyValueListProps<any>> = ({ list, item, className, sort, ...props }) => {
+const KeyValueList = <T = number | null>({ list, item, className, sort, ...props }: KeyValueListProps<T>) => {
   const pairs = sort ? sort(toPairs(list)) : toPairs(list);
 
   return (
