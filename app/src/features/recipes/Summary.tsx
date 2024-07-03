@@ -1,56 +1,54 @@
+import MaterialList from '@/entities/recipe/MaterialList';
+import RecipeListItem from '@/entities/recipe/RecipeListItem';
+import ShelfStatusText from '@/entities/recipe/ShelfStatusText';
 import { summaryAtom } from '@/shared/atoms';
+import KeyValueList from '@/shared/ui/KeyValueList';
+import { Section, SectionHeader } from '@/shared/ui/section';
 import { useAtomValue } from 'jotai';
 import { selectAtom } from 'jotai/utils';
-import { isEqual, sortBy, toPairs } from 'lodash-es';
+import { isEqual } from 'lodash-es';
 
 const materialsSummary = selectAtom(summaryAtom, v => v.materials);
 const stationsSummary = selectAtom(summaryAtom, v => v.stations, isEqual);
 
 const StationSummary = () => {
   const stations = useAtomValue(stationsSummary);
-  const list = sortBy(toPairs(stations), ['0']);
 
   return (
-    <div>
-      {list.map(([entity, quality]) => {
-        return (
-          <div
+    <Section>
+      <SectionHeader>Required stations</SectionHeader>
+      <KeyValueList
+        className="text-sm"
+        list={stations}
+        item={(entity, quality: number | null) => (
+          <RecipeListItem
             key={entity}
-            className="flex flex-row items-center gap-4"
+            entity={entity}
+            quality={quality}
+            hideRecipeButton
           >
-            <span>{entity}</span>
-            <span>{quality}</span>
-          </div>
-        );
-      })}
-    </div>
+            <ShelfStatusText recipe={{entity, quality: quality || 1}} />
+          </RecipeListItem>
+        )}
+      />
+    </Section>
   );
 };
 
 const MaterialSummary = () => {
   const materials = useAtomValue(materialsSummary);
-  const list = sortBy(toPairs(materials), ['0']);
 
   return (
-    <div>
-      {list.map(([entity, amount]) => {
-        return (
-          <div
-            key={entity}
-            className="flex flex-row items-center gap-4"
-          >
-            <span>{entity}</span>
-            <span>{amount}</span>
-          </div>
-        );
-      })}
-    </div>
+    <Section>
+      <SectionHeader>Materials</SectionHeader>
+      <MaterialList materials={materials} />
+    </Section>
   );
 };
 
 const Summary = () => {
   return (
-    <div>
+    <div className="space-y-4">
       <StationSummary />
       <MaterialSummary />
     </div>
