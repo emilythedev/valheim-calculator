@@ -1,4 +1,4 @@
-import { getEntityName } from '@/data';
+import { getEntityName, isEntityUpgradable } from '@/data';
 import { Button } from '@/shared/ui/button';
 import { ScrollText } from 'lucide-react';
 import { ReactNode } from 'react';
@@ -21,17 +21,19 @@ const EntityName = ({ entity }: { entity: EntityId }) => {
 
 interface Props {
   entity: EntityId,
-  quality: QualityLevel | null,
+  quality?: QualityLevel | null,
   hideRecipeButton?: boolean,
   onViewRecipe?: () => void,
   children?: ReactNode,
 }
 
-const RecipeListItem = ({ entity, quality, hideRecipeButton = false, ...props }: Props) => {
+const RecipeListItem = ({ entity, quality = null, hideRecipeButton = false, ...props }: Props) => {
+  const entityUpgradable = isEntityUpgradable(entity);
+
   return (
     <div className="px-4 py-2 flex flex-row items-center gap-4 bg-secondary text-secondary-foreground rounded-md text-sm">
       <EntityName entity={entity} />
-      {quality && <Quality value={quality} />}
+      {!(!quality || (quality === 1 && !entityUpgradable)) && <Quality value={quality} />}
       {!hideRecipeButton && <RecipeButton onClick={props.onViewRecipe} />}
       <span className="flex-1"></span>
       {props.children}
