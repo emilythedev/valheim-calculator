@@ -3,6 +3,7 @@ import RecipeListItem from '@/entities/recipe/RecipeListItem';
 import { readRecipesAtom, recipeAmountAtoms } from '@/shared/atoms';
 import NumberStepper from '@/shared/ui/NumberStepper';
 import { Dialog } from '@/shared/ui/dialog';
+import { Section } from '@/shared/ui/section';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 
 const dialogOpenAtom = atom(false);
@@ -52,12 +53,15 @@ const Shelf = () => {
 
   return (
     <>
+      <Section>
+        <h2 className="py-2 text-lg font-semibold">Shelf</h2>
+        <div className="text-sm space-y-4">
+          {recipes.map((recipeKey, i) => (
+            <ShelfItem key={i} recipe={recipeKey} />
+          ))}
+        </div>
+      </Section>
       <RecipeDetailsDialog />
-      <div className="text-sm space-y-4">
-        {recipes.map((recipeKey, i) => (
-          <ShelfItem key={i} recipe={recipeKey} />
-        ))}
-      </div>
     </>
   );
 };

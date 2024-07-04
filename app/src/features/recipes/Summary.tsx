@@ -18,14 +18,13 @@ const StationSummary = () => {
     <Section>
       <SectionHeader>Required stations</SectionHeader>
       <KeyValueList
-        className="text-sm"
+        className="text-sm space-y-4"
         list={stations}
         item={(entity, quality: number | null) => (
           <RecipeListItem
             key={entity}
             entity={entity}
             quality={quality}
-            hideRecipeButton
           >
             <ShelfStatusText recipe={{entity, quality: quality || 1}} />
           </RecipeListItem>
@@ -49,8 +48,11 @@ const MaterialSummary = () => {
 const Summary = () => {
   return (
     <div className="space-y-4">
-      <StationSummary />
-      <MaterialSummary />
+      <h2 className="py-2 text-lg font-semibold">Summary</h2>
+      <div className="flex flex-row gap-8 [&>*]:flex-1">
+        <StationSummary />
+        <MaterialSummary />
+      </div>
     </div>
   );
 };
