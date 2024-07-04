@@ -23,7 +23,7 @@ interface RecipeMaterials {
   [entityId: EntityId]: number,
 }
 
-type Upgrades = EntityId[];
+type Extensions = EntityId[];
 
 type CategoryId = string;
 type CategoryList = CategoryId[];

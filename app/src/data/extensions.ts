@@ -6,7 +6,7 @@ export const isExtendable = (id: EntityId) => {
   return extendableIds.indexOf(id) > -1;
 };
 
-const extensions: { [id: EntityId]: Upgrades } = {
+const extensions: { [id: EntityId]: Extensions } = {
   'Workbench': [
     'ChoppingBlock',
     'TanningRack',
