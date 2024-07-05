@@ -79,4 +79,8 @@
       font-optical-sizing: auto;
       font-variation-settings: "slnt" 0;
     }
+
+    .italic > svg {
+      @apply origin-bottom-left -skew-x-12;
+    }
   }

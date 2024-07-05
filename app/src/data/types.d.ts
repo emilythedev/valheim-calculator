@@ -40,3 +40,8 @@ interface RecipeOnShelf {
   recipe: RecipeKey,
   amount: number,
 }
+
+interface EntityQualityProps {
+  entity: EntityId,
+  quality: QualityLevel,
+}
