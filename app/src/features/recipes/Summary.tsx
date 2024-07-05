@@ -2,6 +2,7 @@ import MaterialList from '@/entities/recipe/MaterialList';
 import RecipeListItem from '@/entities/recipe/RecipeListItem';
 import ShelfStatusText from '@/entities/recipe/ShelfStatusText';
 import { summaryAtom } from '@/shared/atoms';
+import { useOpenDialog } from '@/shared/hooks';
 import KeyValueList from '@/shared/ui/KeyValueList';
 import { Section, SectionHeader } from '@/shared/ui/section';
 import { useAtomValue } from 'jotai';
@@ -10,6 +11,22 @@ import { isEqual } from 'lodash-es';
 
 const materialsSummary = selectAtom(summaryAtom, v => v.materials);
 const stationsSummary = selectAtom(summaryAtom, v => v.stations, isEqual);
+
+const StationSummaryItem = ({ entity, quality }: { entity: EntityId, quality: QualityLevel | null }) => {
+  const recipe = { entity, quality: 1 };  // station is not upgradable, quality = number of extension
+  const openDialog = useOpenDialog(recipe);
+
+  return (
+    <RecipeListItem
+      key={entity}
+      entity={entity}
+      quality={quality}
+      onViewRecipe={openDialog}
+    >
+      <ShelfStatusText recipe={recipe} />
+    </RecipeListItem>
+  );
+};
 
 const StationSummary = () => {
   const stations = useAtomValue(stationsSummary);
@@ -20,14 +37,8 @@ const StationSummary = () => {
       <KeyValueList
         className="text-sm space-y-4"
         list={stations}
-        item={(entity, quality: number | null) => (
-          <RecipeListItem
-            key={entity}
-            entity={entity}
-            quality={quality}
-          >
-            <ShelfStatusText recipe={{entity, quality: quality || 1}} />
-          </RecipeListItem>
+        item={(entity, quality: QualityLevel | null) => (
+          <StationSummaryItem key={entity} entity={entity} quality={quality} />
         )}
       />
     </Section>
@@ -49,7 +60,7 @@ const Summary = () => {
   return (
     <div className="space-y-4">
       <h2 className="py-2 text-lg font-semibold">Summary</h2>
-      <div className="flex flex-row gap-8 [&>*]:flex-1">
+      <div className="flex flex-row gap-12 [&>*]:flex-1">
         <StationSummary />
         <MaterialSummary />
       </div>

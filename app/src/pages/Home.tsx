@@ -1,4 +1,5 @@
 import RecipeFinder from '@/features/recipes/Finder';
+import RecipeDetailsDialog from '@/features/recipes/RecipeDetailsDialog';
 import RecipeShelf from '@/features/recipes/Shelf';
 import Summary from '@/features/recipes/Summary';
 
@@ -10,6 +11,7 @@ const Layout = () => {
         <RecipeShelf />
         <Summary />
       </div>
+      <RecipeDetailsDialog />
     </div>
   );
 };

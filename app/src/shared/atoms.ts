@@ -79,3 +79,12 @@ export const summaryAtom = atom(get => {
     stations: stations,
   };
 });
+
+export const dialogOpenAtom = atom(false);
+export const dialogRecipeKeyAtom = atom<RecipeKey | null>(null);
+
+export const dialogReadRecipeKeyAtom = atom(get => get(dialogRecipeKeyAtom));
+export const dialogOpenWithRecipeAtom = atom(null, (_, set, recipeKey: RecipeKey) => {
+  set(dialogRecipeKeyAtom, recipeKey);
+  set(dialogOpenAtom, true);
+});
