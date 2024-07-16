@@ -29,11 +29,11 @@ const TestButtons = () => {
 };
 
 const store = createStore();
-const TestProvider = () => {
+const TestProvider = ({allowAdd = false}: {allowAdd?: boolean}) => {
   return (
     <Provider store={store}>
       <div data-testid="status">
-        <ShelfStatusText recipe={recipes[1]} />
+        <ShelfStatusText recipe={recipes[1]} allowAdd={allowAdd} />
       </div>
       <TestButtons />
     </Provider>
@@ -79,5 +79,15 @@ describe('<ShelfStatusText />', () => {
 
     cy.contains('button', 'Ext 2').click();
     cy.get('[data-testid="status"]').should('have.text', 'On Shelf');
+  });
+
+  it('shows add button if not on shelf', () => {
+    cy.mount(<TestProvider allowAdd />);
+
+    cy.get('[data-testid="status"] button[aria-label="Add to shelf"]')
+      .should('exist')
+      .click();
+
+    cy.get('[data-testid="status"]').should('have.text', 'Missing Extensions');
   });
 });

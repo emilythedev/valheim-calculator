@@ -1,8 +1,9 @@
 import { getExtensions, isEntityUpgradable, isExtendable } from '@/data';
 import { recipeAmountAtoms } from '@/shared/atoms';
-import { atom, useAtomValue } from 'jotai';
+import { Button } from '@/shared/ui/button';
+import { atom, useAtom, useAtomValue } from 'jotai';
 import { sum } from 'lodash-es';
-import { Check } from 'lucide-react';
+import { Check, Plus } from 'lucide-react';
 import { useMemo } from 'react';
 
 const useExtensionCountOnShelf = (extensions: Extensions) => {
@@ -35,12 +36,28 @@ const OnShefText = () => {
   );
 };
 
-const ShelfStatusText = ({recipe}: {recipe: RecipeKey}) => {
+const AddBtn = ({onClick}: {onClick?: () => void}) => {
+  return (
+    <Button
+      size="icon-sm"
+      onClick={onClick}
+      aria-label="Add to shelf"
+    >
+      <Plus className="w-4 h-4" />
+    </Button>
+  );
+};
+
+const ShelfStatusText = ({recipe, allowAdd = false}: {recipe: RecipeKey, allowAdd?: boolean}) => {
   const { entity, quality } = recipe;
   const isUpgradable = isEntityUpgradable(entity);
 
-  const amount = useAtomValue(recipeAmountAtoms({ entity, quality: isUpgradable ? quality : 1 }));
-  if (amount === 0) return null;
+  const [amount, setAmount] = useAtom(recipeAmountAtoms({ entity, quality: isUpgradable ? quality : 1 }));
+  if (amount === 0) {
+    return allowAdd ?
+      (<AddBtn onClick={() => setAmount(1)} />) :
+      null;
+  }
 
   return quality > 1 && isExtendable(entity) &&
     (<MissingExtensionsText entity={entity} quality={quality} />) ||
