@@ -23,7 +23,7 @@ const StationSummaryItem = ({ entity, quality }: { entity: EntityId, quality: Qu
       quality={quality}
       onViewRecipe={openDialog}
     >
-      <ShelfStatusText recipe={recipe} />
+      <ShelfStatusText recipe={recipe} allowAdd />
     </RecipeListItem>
   );
 };
