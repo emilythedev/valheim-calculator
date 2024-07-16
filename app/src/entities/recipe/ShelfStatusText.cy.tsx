@@ -84,7 +84,8 @@ describe('<ShelfStatusText />', () => {
   it('shows add button if not on shelf', () => {
     cy.mount(<TestProvider allowAdd />);
 
-    cy.get('[data-testid="status"] button[aria-label="Add to shelf"]')
+    cy.get('[data-testid="status"]')
+      .contains('button', '+1')
       .should('exist')
       .click();
 

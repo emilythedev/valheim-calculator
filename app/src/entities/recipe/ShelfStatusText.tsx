@@ -3,7 +3,7 @@ import { recipeAmountAtoms } from '@/shared/atoms';
 import { Button } from '@/shared/ui/button';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { sum } from 'lodash-es';
-import { Check, Plus } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { useMemo } from 'react';
 
 const useExtensionCountOnShelf = (extensions: Extensions) => {
@@ -39,12 +39,10 @@ const OnShefText = () => {
 const AddBtn = ({onClick}: {onClick?: () => void}) => {
   return (
     <Button
-      size="icon-sm"
+      size="sm"
       onClick={onClick}
       aria-label="Add to shelf"
-    >
-      <Plus className="w-4 h-4" />
-    </Button>
+    >+1</Button>
   );
 };
 

@@ -84,3 +84,9 @@
       @apply origin-bottom-left -skew-x-12;
     }
   }
+
+  @layer components {
+    .entity-list-item {
+      @apply px-4 py-2 flex flex-row items-center gap-4 rounded-md text-sm;
+    }
+  }

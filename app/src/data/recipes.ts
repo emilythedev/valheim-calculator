@@ -26,6 +26,10 @@ const createEntity = (id: EntityId, recipes: Recipe[]) => {
   } as Entity;
 };
 
+export const isEntityCraftable = (id: EntityId) => {
+  return !!entities[id];
+};
+
 export const isEntityUpgradable = (id: EntityId) => {
   return entities[id]?.upgradable || false;
 };

@@ -31,7 +31,7 @@ const RecipeListItem = ({ entity, quality = null, hideRecipeButton = false, ...p
   const entityUpgradable = isEntityUpgradable(entity);
 
   return (
-    <div className="px-4 py-2 flex flex-row items-center gap-4 bg-secondary text-secondary-foreground rounded-md text-sm">
+    <div className="entity-list-item bg-secondary text-secondary-foreground">
       <EntityName entity={entity} />
       {!(!quality || (quality === 1 && !entityUpgradable)) && <Quality value={quality} />}
       {!hideRecipeButton && <RecipeButton onClick={props.onViewRecipe} />}
