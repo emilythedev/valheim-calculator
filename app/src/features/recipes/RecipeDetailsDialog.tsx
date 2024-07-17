@@ -34,7 +34,7 @@ const CraftStationListSection = ({ stations }: { stations: EntityQualityList | n
             quality={quality}
             hideRecipeButton
           >
-            <ShelfStatusText recipe={{ entity, quality: quality || 1 }} allowAdd />
+            <ShelfStatusText allowAdd />
           </RecipeListItem>
         )}
       />
@@ -57,7 +57,7 @@ const ExtensionListSection = ({ entity }: { entity: EntityId }) => {
             entity={extension}
             hideRecipeButton
           >
-            <ShelfStatusText recipe={{ entity: extension, quality: 1 }} allowAdd />
+            <ShelfStatusText allowAdd />
           </RecipeListItem>
         ))}
       </div>

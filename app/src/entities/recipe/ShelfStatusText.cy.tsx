@@ -4,6 +4,7 @@ import { getExtensions } from '@/data';
 import { recipeAmountAtoms } from '@/shared/atoms';
 import { Provider, createStore, useSetAtom } from 'jotai';
 import ShelfStatusText from './ShelfStatusText';
+import { RecipeContextProvider } from './provider';
 
 const recipes = [1, 2].map(quality => ({
   entity: 'Forge',
@@ -32,9 +33,11 @@ const store = createStore();
 const TestProvider = ({allowAdd = false}: {allowAdd?: boolean}) => {
   return (
     <Provider store={store}>
-      <div data-testid="status">
-        <ShelfStatusText recipe={recipes[1]} allowAdd={allowAdd} />
-      </div>
+      <RecipeContextProvider entity={recipes[1].entity} quality={recipes[1].quality}>
+        <div data-testid="status">
+          <ShelfStatusText allowAdd={allowAdd} />
+        </div>
+      </RecipeContextProvider>
       <TestButtons />
     </Provider>
   );
@@ -61,8 +64,6 @@ describe('<ShelfStatusText />', () => {
   });
 
   it('is on shelf but missing extensions', () => {
-    cy.getAllLocalStorage().then(obj => console.log(Object.values(obj)))
-
     cy.mount(<TestProvider />);
 
     cy.contains('button', 'Forge').click();

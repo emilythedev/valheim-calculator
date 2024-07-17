@@ -1,10 +1,11 @@
-import { getExtensions, isEntityUpgradable, isExtendable } from '@/data';
+import { getExtensions } from '@/data';
 import { recipeAmountAtoms } from '@/shared/atoms';
 import { Button } from '@/shared/ui/button';
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { atom, useAtomValue } from 'jotai';
 import { sum } from 'lodash-es';
 import { Check } from 'lucide-react';
 import { useMemo } from 'react';
+import { useRecipeContext } from './provider';
 
 const useExtensionCountOnShelf = (extensions: Extensions) => {
   const countAtom = useMemo(() => {
@@ -16,7 +17,8 @@ const useExtensionCountOnShelf = (extensions: Extensions) => {
   return useAtomValue(countAtom);
 };
 
-const MissingExtensionsText = ({ entity, quality }: EntityQualityProps) => {
+const MissingExtensionsText = () => {
+  const { entity, quality } = useRecipeContext();
   const extCount = useExtensionCountOnShelf(getExtensions(entity));
   if ((quality - 1) <= extCount) return (<OnShefText />);
 
@@ -36,29 +38,22 @@ const OnShefText = () => {
   );
 };
 
-const AddBtn = ({onClick}: {onClick?: () => void}) => {
-  return (
-    <Button
-      size="sm"
-      onClick={onClick}
-      aria-label="Add to shelf"
-    >+1</Button>
-  );
-};
+const ShelfStatusText = ({allowAdd = false}: {allowAdd?: boolean}) => {
+  const {
+    quality,
+    extendable,
+    amount,
+    setAmount,
+  } = useRecipeContext();
 
-const ShelfStatusText = ({recipe, allowAdd = false}: {recipe: RecipeKey, allowAdd?: boolean}) => {
-  const { entity, quality } = recipe;
-  const isUpgradable = isEntityUpgradable(entity);
-
-  const [amount, setAmount] = useAtom(recipeAmountAtoms({ entity, quality: isUpgradable ? quality : 1 }));
   if (amount === 0) {
     return allowAdd ?
-      (<AddBtn onClick={() => setAmount(1)} />) :
+      (<Button size="sm" onClick={() => setAmount(1)}>+1</Button>) :
       null;
   }
 
-  return quality > 1 && isExtendable(entity) &&
-    (<MissingExtensionsText entity={entity} quality={quality} />) ||
+  return quality > 1 && extendable &&
+    (<MissingExtensionsText />) ||
     (<OnShefText />);
 };
 

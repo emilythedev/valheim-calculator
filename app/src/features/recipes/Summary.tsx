@@ -13,7 +13,6 @@ const materialsSummary = selectAtom(summaryAtom, v => v.materials);
 const stationsSummary = selectAtom(summaryAtom, v => v.stations, isEqual);
 
 const StationSummaryItem = ({ entity, quality }: { entity: EntityId, quality: QualityLevel }) => {
-  const recipe = { entity, quality: quality || 1 };
   const openDialog = useOpenDialog({ entity, quality: 1 }); // station is not upgradable, quality = number of extension
 
   return (
@@ -23,7 +22,7 @@ const StationSummaryItem = ({ entity, quality }: { entity: EntityId, quality: Qu
       quality={quality}
       onViewRecipe={openDialog}
     >
-      <ShelfStatusText recipe={recipe} allowAdd />
+      <ShelfStatusText allowAdd />
     </RecipeListItem>
   );
 };
