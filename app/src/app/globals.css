@@ -89,4 +89,12 @@
     .entity-list-item {
       @apply px-4 py-2 flex flex-row items-center gap-4 rounded-md text-sm;
     }
+
+    .tag-sm {
+      @apply flex items-center py-1.5 px-2 rounded-md gap-x-1.5;
+
+      &> svg {
+        @apply h-3 w-3;
+      }
+    }
   }

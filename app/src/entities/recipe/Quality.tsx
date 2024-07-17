@@ -1,9 +1,10 @@
+import { cn } from '@/shared/utils';
 import { Star } from 'lucide-react';
 
 const Quality = ({ value, className }: { value: number, className?: string }) => {
   return (
-    <div className={`flex flex-row items-center bg-amber-300 py-1.5 px-2 rounded-md text-yellow-950 ${className || ''}`}>
-      <Star className="mr-1.5 h-3 w-3" strokeWidth={2} fill="currentColor" />
+    <div className={cn('tag-sm bg-amber-300 text-yellow-950', className)}>
+      <Star strokeWidth={2} fill="currentColor" aria-label="Quality level" />
       <span className="text-xs leading-none">{value}</span>
     </div>
   );
