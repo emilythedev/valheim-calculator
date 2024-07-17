@@ -16,7 +16,7 @@ interface Recipe {
 }
 
 interface EntityQualityList {
-  [entityId: EntityId]: QualityLevel | null,
+  [entityId: EntityId]: QualityLevel,
 }
 
 interface RecipeMaterials {

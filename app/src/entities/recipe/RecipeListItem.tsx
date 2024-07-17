@@ -21,13 +21,13 @@ const EntityName = ({ entity }: { entity: EntityId }) => {
 
 interface Props {
   entity: EntityId,
-  quality?: QualityLevel | null,
+  quality?: QualityLevel,
   hideRecipeButton?: boolean,
   onViewRecipe?: () => void,
   children?: ReactNode,
 }
 
-const RecipeListItem = ({ entity, quality = null, hideRecipeButton = false, ...props }: Props) => {
+const RecipeListItem = ({ entity, quality = 1, hideRecipeButton = false, ...props }: Props) => {
   const entityUpgradable = isEntityUpgradable(entity);
 
   return (

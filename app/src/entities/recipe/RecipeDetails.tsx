@@ -25,7 +25,7 @@ const CraftStationListSection = ({ stations }: { stations: EntityQualityList | n
       <KeyValueList
         className="text-sm"
         list={stations}
-        item={(entity, quality: number | null) => (
+        item={(entity, quality) => (
           <RecipeListItem
             key={entity}
             entity={entity}

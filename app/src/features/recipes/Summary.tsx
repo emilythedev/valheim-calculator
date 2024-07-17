@@ -12,7 +12,7 @@ import { isEqual } from 'lodash-es';
 const materialsSummary = selectAtom(summaryAtom, v => v.materials);
 const stationsSummary = selectAtom(summaryAtom, v => v.stations, isEqual);
 
-const StationSummaryItem = ({ entity, quality }: { entity: EntityId, quality: QualityLevel | null }) => {
+const StationSummaryItem = ({ entity, quality }: { entity: EntityId, quality: QualityLevel }) => {
   const recipe = { entity, quality: quality || 1 };
   const openDialog = useOpenDialog({ entity, quality: 1 }); // station is not upgradable, quality = number of extension
 
@@ -37,7 +37,7 @@ const StationSummary = () => {
       <KeyValueList
         className="text-sm space-y-4"
         list={stations}
-        item={(entity, quality: QualityLevel | null) => (
+        item={(entity, quality) => (
           <StationSummaryItem key={entity} entity={entity} quality={quality} />
         )}
       />
