@@ -8,7 +8,7 @@ interface KeyValueListProps<V> extends React.HTMLAttributes<HTMLDivElement> {
   sort?: (pairs: [string, V][]) => [string, V][],
 }
 
-const KeyValueList = <T = number | null>({ list, item, className, sort, ...props }: KeyValueListProps<T>) => {
+const KeyValueList = <T = number>({ list, item, className, sort, ...props }: KeyValueListProps<T>) => {
   const pairs = sort ? sort(toPairs(list)) : toPairs(list);
 
   return (
