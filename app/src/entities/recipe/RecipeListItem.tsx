@@ -1,13 +1,16 @@
-import { isEntityUpgradable } from '@/data';
 import { Button } from '@/shared/ui/button';
 import { ScrollText } from 'lucide-react';
 import { ReactNode } from 'react';
 import Quality from './Quality';
 import { RecipeContextProvider, useRecipeContext } from './provider';
 
-const RecipeButton = ({onClick}: {onClick?: () => void}) => {
+const RecipeButton = ({hide = false, onClick}: {hide?: boolean, onClick?: () => void}) => {
+  if (hide) {
+    return null;
+  }
+
   return (
-    <Button variant="ghost" size="icon-sm" onClick={onClick}>
+    <Button variant="ghost" size="icon-sm" onClick={onClick} aria-label="View recipe details">
       <ScrollText className="h-4 w-4" />
     </Button>
   );
@@ -20,6 +23,15 @@ const EntityName = () => {
   );
 };
 
+const QualityTag = () => {
+  const { upgradable, quality } = useRecipeContext();
+  if (quality === 1 && !upgradable) {
+    return null;
+  }
+
+  return (<Quality value={quality} />);
+};
+
 interface Props {
   entity: EntityId,
   quality?: QualityLevel,
@@ -29,14 +41,12 @@ interface Props {
 }
 
 const RecipeListItem = ({ entity, quality = 1, hideRecipeButton = false, ...props }: Props) => {
-  const entityUpgradable = isEntityUpgradable(entity);
-
   return (
     <RecipeContextProvider entity={entity} quality={quality}>
       <div className="entity-list-item bg-secondary text-secondary-foreground">
         <EntityName />
-        {!(!quality || (quality === 1 && !entityUpgradable)) && <Quality value={quality} />}
-        {!hideRecipeButton && <RecipeButton onClick={props.onViewRecipe} />}
+        <QualityTag />
+        <RecipeButton hide={hideRecipeButton} onClick={props.onViewRecipe} />
         <span className="flex-1"></span>
         {props.children}
       </div>
