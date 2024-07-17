@@ -1,18 +1,26 @@
 import { getEntityName, isEntityCraftable } from '@/data';
-import { recipeAmountAtoms } from '@/shared/atoms';
 import { Button } from '@/shared/ui/button';
 import KeyValueList from '@/shared/ui/KeyValueList';
 import NumberStepper from '@/shared/ui/NumberStepper';
-import { useAtom } from 'jotai';
 import { orderBy } from 'lodash-es';
+import { RecipeContextProvider, useRecipeContext } from './provider';
 
 interface ListItemProps {
   entity: EntityId,
   amount: number,
 }
 
-const AmountControl = ({recipe}: {recipe: RecipeKey}) => {
-  const [amount, setAmount] = useAtom(recipeAmountAtoms(recipe));
+const NonCraftableItem = ({ entity }: { entity: EntityId }) => {
+  const name = getEntityName(entity);
+  return (
+    <div className="entity-list-item">
+      <span>{ name }</span>
+    </div>
+  );
+};
+
+const AmountControl = () => {
+  const { amount, setAmount } = useRecipeContext();
 
   if (amount === 0) {
     return (
@@ -25,17 +33,29 @@ const AmountControl = ({recipe}: {recipe: RecipeKey}) => {
   );
 };
 
+const EntityName = () => {
+  const { name } = useRecipeContext();
+  return (<span>{ name }</span>);
+};
+
+const CraftableItem = ({ entity }: { entity: EntityId }) => {
+  return (
+    <RecipeContextProvider entity={entity} quality={1}>
+      <div className="entity-list-item justify-between bg-secondary text-secondary-foreground">
+        <EntityName />
+        <AmountControl />
+      </div>
+    </RecipeContextProvider>
+  );
+};
+
 const ListItem = ({ entity, amount }: ListItemProps) => {
-  const name = getEntityName(entity);
   const craftable = isEntityCraftable(entity);
 
   return (
     <>
       <div className="text-center px-2 py-2">{ amount }</div>
-      <div className={`entity-list-item justify-between ${craftable ? 'bg-secondary text-secondary-foreground' : ''}`}>
-        <span>{ name }</span>
-        {craftable && <AmountControl recipe={{ entity: entity, quality: 1 }} />}
-      </div>
+      { craftable ? <CraftableItem entity={entity} /> : <NonCraftableItem entity={entity} /> }
     </>
   );
 };
