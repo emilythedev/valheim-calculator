@@ -6,10 +6,7 @@ import { Provider, createStore, useSetAtom } from 'jotai';
 import ShelfStatusText from './ShelfStatusText';
 import { RecipeContextProvider } from './provider';
 
-const recipes = [1, 2].map(quality => ({
-  entity: 'Forge',
-  quality,
-}));
+const forgeRecipe = { entity: 'Forge', quality: 1 };
 
 const extRecipes = getExtensions('Forge').map(entity => ({
   entity,
@@ -17,7 +14,7 @@ const extRecipes = getExtensions('Forge').map(entity => ({
 }));
 
 const TestButtons = () => {
-  const setForge = useSetAtom(recipeAmountAtoms(recipes[0]))
+  const setForge = useSetAtom(recipeAmountAtoms(forgeRecipe))
   const setExt1 = useSetAtom(recipeAmountAtoms(extRecipes[0]))
   const setExt2 = useSetAtom(recipeAmountAtoms(extRecipes[1]))
   return (
@@ -33,7 +30,7 @@ const store = createStore();
 const TestProvider = ({allowAdd = false}: {allowAdd?: boolean}) => {
   return (
     <Provider store={store}>
-      <RecipeContextProvider entity={recipes[1].entity} quality={recipes[1].quality}>
+      <RecipeContextProvider entity={forgeRecipe.entity} quality={2}>
         <div data-testid="status">
           <ShelfStatusText allowAdd={allowAdd} />
         </div>
@@ -46,7 +43,7 @@ const TestProvider = ({allowAdd = false}: {allowAdd?: boolean}) => {
 describe('<ShelfStatusText />', () => {
   beforeEach(() => {
     // cy.clearAllLocalStorage() fails to clear jotai storage data
-    store.set(recipeAmountAtoms(recipes[0]), 0)
+    store.set(recipeAmountAtoms(forgeRecipe), 0)
     store.set(recipeAmountAtoms(extRecipes[0]), 0)
     store.set(recipeAmountAtoms(extRecipes[1]), 0)
   });
