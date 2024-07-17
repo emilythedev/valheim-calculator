@@ -14,16 +14,7 @@ interface RecipeContextType {
   setAmount: (amount: number) => void,
 }
 
-const RecipeContext = createContext<RecipeContextType>({
-  entity: '',
-  quality: 1,
-  name: '',
-  upgradable: false,
-  extendable: false,
-
-  amount: 0,
-  setAmount: () => {},
-});
+const RecipeContext = createContext<RecipeContextType | null>(null);
 
 interface ProviderProps {
   children?: ReactNode,
