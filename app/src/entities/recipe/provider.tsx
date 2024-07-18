@@ -1,26 +1,16 @@
-import { getEntityName, isEntityUpgradable, isExtendable } from '@/data';
+import { EntityContextProvider, EntityContextType, useEntityContext } from '@/entities/entity/provider';
 import { recipeAmountAtoms } from '@/shared/atoms';
 import { useAtom } from 'jotai';
 import { createContext, ReactNode, useContext } from 'react';
 
-interface RecipeContextType {
-  entity: EntityId,
+interface RecipeContextType extends EntityContextType {
   quality: QualityLevel,
-  name: string,
-  upgradable: boolean,
-  extendable: boolean,
 
   amount: number,
   setAmount: (amount: number) => void,
 }
 
 const RecipeContext = createContext<RecipeContextType | null>(null);
-
-interface ProviderProps {
-  children?: ReactNode,
-  entity: EntityId,
-  quality: QualityLevel,
-}
 
 const useRecipeContext = () => {
   const ctx = useContext(RecipeContext);
@@ -30,19 +20,22 @@ const useRecipeContext = () => {
   return ctx;
 };
 
-const RecipeContextProvider = ({ entity, quality, children }: ProviderProps) => {
-  const extendable = isExtendable(entity);
-  const [amount, setAmount] = useAtom(recipeAmountAtoms({ entity, quality: !extendable ? quality : 1 }));
-  const name = getEntityName(entity);
-  const upgradable = isEntityUpgradable(entity);
+interface RecipeContextProviderProps {
+  children?: ReactNode,
+  quality: QualityLevel,
+}
+
+const RecipeContextProvider = ({ quality, children }: RecipeContextProviderProps) => {
+  const entityInfo = useEntityContext();
+  const [amount, setAmount] = useAtom(recipeAmountAtoms({
+    entity: entityInfo.entity,
+    quality: !entityInfo.extendable ? quality : 1
+  }));
 
   return (
     <RecipeContext.Provider value={{
-      entity,
+      ...entityInfo,
       quality,
-      name,
-      upgradable,
-      extendable,
       amount,
       setAmount,
     }}>
@@ -51,4 +44,18 @@ const RecipeContextProvider = ({ entity, quality, children }: ProviderProps) => 
   );
 };
 
-export { RecipeContextProvider, useRecipeContext };
+interface EntityRecipeContextProviderProps {
+  children?: ReactNode,
+  entity: EntityId,
+  quality: QualityLevel,
+}
+
+const EntityRecipeContextProvider = ({entity, ...props}: EntityRecipeContextProviderProps) => {
+  return (
+    <EntityContextProvider entity={entity}>
+      <RecipeContextProvider {...props} />
+    </EntityContextProvider>
+  );
+};
+
+export { EntityRecipeContextProvider, RecipeContextProvider, useRecipeContext };

@@ -4,7 +4,7 @@ import { getExtensions } from '@/data';
 import { recipeAmountAtoms } from '@/shared/atoms';
 import { Provider, createStore, useSetAtom } from 'jotai';
 import ShelfStatusText from './ShelfStatusText';
-import { RecipeContextProvider } from './provider';
+import { EntityRecipeContextProvider } from './provider';
 
 const forgeRecipe = { entity: 'Forge', quality: 1 };
 
@@ -30,11 +30,11 @@ const store = createStore();
 const TestProvider = ({allowAdd = false}: {allowAdd?: boolean}) => {
   return (
     <Provider store={store}>
-      <RecipeContextProvider entity={forgeRecipe.entity} quality={2}>
+      <EntityRecipeContextProvider entity={forgeRecipe.entity} quality={2}>
         <div data-testid="status">
           <ShelfStatusText allowAdd={allowAdd} />
         </div>
-      </RecipeContextProvider>
+      </EntityRecipeContextProvider>
       <TestButtons />
     </Provider>
   );

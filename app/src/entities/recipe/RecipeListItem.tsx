@@ -1,8 +1,9 @@
+import EntityName from '@/entities/entity/EntityName';
+import { EntityRecipeContextProvider, useRecipeContext } from '@/entities/recipe/provider';
+import Quality from '@/entities/recipe/Quality';
 import { Button } from '@/shared/ui/button';
 import { ScrollText } from 'lucide-react';
 import { ReactNode } from 'react';
-import Quality from './Quality';
-import { RecipeContextProvider, useRecipeContext } from './provider';
 
 const RecipeButton = ({hide = false, onClick}: {hide?: boolean, onClick?: () => void}) => {
   if (hide) {
@@ -13,13 +14,6 @@ const RecipeButton = ({hide = false, onClick}: {hide?: boolean, onClick?: () => 
     <Button variant="ghost" size="icon-sm" onClick={onClick} aria-label="View recipe details">
       <ScrollText className="h-4 w-4" />
     </Button>
-  );
-};
-
-const EntityName = () => {
-  const { name } = useRecipeContext();
-  return (
-    <span>{ name }</span>
   );
 };
 
@@ -42,7 +36,7 @@ interface Props {
 
 const RecipeListItem = ({ entity, quality = 1, hideRecipeButton = false, ...props }: Props) => {
   return (
-    <RecipeContextProvider entity={entity} quality={quality}>
+    <EntityRecipeContextProvider entity={entity} quality={quality}>
       <div className="entity-list-item bg-secondary text-secondary-foreground">
         <EntityName />
         <QualityTag />
@@ -50,7 +44,7 @@ const RecipeListItem = ({ entity, quality = 1, hideRecipeButton = false, ...prop
         <span className="flex-1"></span>
         {props.children}
       </div>
-    </RecipeContextProvider>
+    </EntityRecipeContextProvider>
   );
 };
 

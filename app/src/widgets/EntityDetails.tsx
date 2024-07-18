@@ -1,4 +1,6 @@
-import { getEntityMaxQuality, getEntityName, getExtensions, isExtendable } from '@/data';
+import { getEntityMaxQuality, getExtensions } from '@/data';
+import EntityName from '@/entities/entity/EntityName';
+import { EntityContextProvider, useEntityContext } from '@/entities/entity/provider';
 import AmountControl from '@/entities/recipe/AmountControl';
 import { RecipeContextProvider, useRecipeContext } from '@/entities/recipe/provider';
 import Quality from '@/entities/recipe/Quality';
@@ -15,16 +17,19 @@ export const QualityButton = () => {
   );
 };
 
-export interface EntityDetailsProps {
+interface EntityDetailsProps {
   entity: EntityId,
 }
 
-const QualityList = ({ entity }: EntityDetailsProps) => {
+const QualityList = () => {
+  const { entity, extendable } = useEntityContext();
+  if (extendable) return null;
+
   const maxQuality = getEntityMaxQuality(entity);
   const children = [];
   for (let i = 0; i < maxQuality; i++) {
     children.push((
-      <RecipeContextProvider key={i} entity={entity} quality={i + 1}>
+      <RecipeContextProvider key={i} quality={i + 1}>
         <QualityButton />
       </RecipeContextProvider>
     ));
@@ -40,14 +45,17 @@ const QualityList = ({ entity }: EntityDetailsProps) => {
   );
 };
 
-const CraftingStation = ({ entity }: EntityDetailsProps) => {
+const CraftingStation = () => {
+  const { entity, extendable } = useEntityContext();
+  if (!extendable) return null;
+
   const extensions = getExtensions(entity);
 
   return (
     <>
       <div className="text-base font-medium leading-none px-2 py-3">Base Building</div>
       <div className="grid grid-cols-4 gap-6">
-        <RecipeContextProvider entity={entity} quality={1}>
+        <RecipeContextProvider quality={1}>
           <QualityButton />
         </RecipeContextProvider>
       </div>
@@ -69,15 +77,16 @@ const CraftingStation = ({ entity }: EntityDetailsProps) => {
 
 const EntityDetails = ({ entity }: EntityDetailsProps) => {
   if (!entity) return null;
-  const name = getEntityName(entity);
-  const extendable = isExtendable(entity);
 
   return (
     <div className="space-y-4">
-      <h2 className="py-2 text-lg font-semibold">{ name }</h2>
-      <div className="grid gap-x-12 gap-y-4 grid-cols-form items-baseline">
-        { !extendable ? <QualityList entity={entity} /> : <CraftingStation entity={entity} /> }
-      </div>
+      <EntityContextProvider entity={entity}>
+        <h2 className="py-2 text-lg font-semibold"><EntityName /></h2>
+        <div className="grid gap-x-12 gap-y-4 grid-cols-form items-baseline">
+          <QualityList />
+          <CraftingStation />
+        </div>
+      </EntityContextProvider>
     </div>
   )
 };
