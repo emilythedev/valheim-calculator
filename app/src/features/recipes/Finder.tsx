@@ -1,6 +1,4 @@
-import { getCraftableEntityList, getEntityMaxQuality } from '@/data';
-import Quality from '@/entities/recipe/Quality';
-import { recipeAmountAtoms } from '@/shared/atoms';
+import { getCraftableEntityList } from '@/data';
 import { Button } from '@/shared/ui/button';
 import {
   Command,
@@ -11,7 +9,7 @@ import {
   CommandList,
 } from '@/shared/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import { useAtom } from 'jotai';
+import EntityDetails from '@/widgets/EntityDetails';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
 
@@ -66,48 +64,13 @@ const FilterSearch = ({ value, onValueChange }: FilterSearchProps) => {
   );
 };
 
-const QualityButton = ({ entity, quality }: RecipeKey) => {
-  const [amount, setAmount] = useAtom(recipeAmountAtoms({ entity, quality }));
-  return (
-    <Button variant="outline" onClick={() => setAmount(amount + 1)}>
-      <Quality value={quality} className="mr-2" />+1
-    </Button>
-  );
-};
-
-interface QualityListProps {
-  entity: EntityId,
-}
-
-const QualityList = ({ entity }: QualityListProps) => {
-  const maxQuality = getEntityMaxQuality(entity);
-  const children = [];
-  for (let i = 0; i < maxQuality; i++) {
-    children.push((
-      <QualityButton
-        key={i}
-        entity={entity}
-        quality={i + 1}
-      />
-    ));
-  }
-
-  return (
-    <>
-      {children}
-    </>
-  );
-};
-
 const Finder = () => {
   const [value, setValue] = useState<EntityId>('');
 
   return (
     <>
       <FilterSearch value={value} onValueChange={setValue} />
-      <div className="flex flex-row justify-stretch gap-2">
-        <QualityList entity={value} />
-      </div>
+      <EntityDetails entity={value} />
     </>
   );
 };

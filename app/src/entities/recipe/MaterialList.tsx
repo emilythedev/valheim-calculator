@@ -68,8 +68,7 @@ const MaterialList = ({ materials }: { materials: RecipeMaterials }) => {
   return (
     <KeyValueList
       list={materials}
-      className="text-sm grid gap-2 items-center"
-      style={{ gridTemplateColumns: 'max-content 1fr' }}
+      className="text-sm grid grid-cols-form gap-2 items-center"
       item={(entity, amount: number) => (
         <ListItem key={entity} entity={entity} amount={amount} />
       )}
