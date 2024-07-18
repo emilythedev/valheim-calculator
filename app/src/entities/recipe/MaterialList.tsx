@@ -1,8 +1,7 @@
 import { getEntityName, isEntityCraftable } from '@/data';
-import { Button } from '@/shared/ui/button';
 import KeyValueList from '@/shared/ui/KeyValueList';
-import NumberStepper from '@/shared/ui/NumberStepper';
 import { orderBy } from 'lodash-es';
+import AmountControl from './AmountControl';
 import { RecipeContextProvider, useRecipeContext } from './provider';
 
 interface ListItemProps {
@@ -16,20 +15,6 @@ const NonCraftableItem = ({ entity }: { entity: EntityId }) => {
     <div className="entity-list-item">
       <span>{ name }</span>
     </div>
-  );
-};
-
-const AmountControl = () => {
-  const { amount, setAmount } = useRecipeContext();
-
-  if (amount === 0) {
-    return (
-      <Button size="sm" onClick={() => setAmount(1)}>+1</Button>
-    );
-  }
-
-  return (
-    <NumberStepper min={0} value={amount} onChange={setAmount} />
   );
 };
 

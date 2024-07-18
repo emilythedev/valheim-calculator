@@ -1,20 +1,16 @@
 import { getEntityMaxQuality, getEntityName, getExtensions, isExtendable } from '@/data';
+import AmountControl from '@/entities/recipe/AmountControl';
 import { RecipeContextProvider, useRecipeContext } from '@/entities/recipe/provider';
 import Quality from '@/entities/recipe/Quality';
 import RecipeListItem from '@/entities/recipe/RecipeListItem';
-import ShelfStatusText from '@/entities/recipe/ShelfStatusText';
-import { Button } from '@/shared/ui/button';
 
 
 export const QualityButton = () => {
-  const { amount, setAmount, quality } = useRecipeContext();
+  const { quality } = useRecipeContext();
   return (
     <div className="entity-list-item bg-secondary text-secondary-foreground justify-between">
       <Quality value={quality} className="text-base px-4" />
-      <Button
-        size="default"
-        onClick={() => setAmount(amount + 1)}
-      >+1</Button>
+      <AmountControl />
     </div>
   );
 };
@@ -63,7 +59,7 @@ const CraftingStation = ({ entity }: EntityDetailsProps) => {
             entity={extension}
             hideRecipeButton
           >
-            <ShelfStatusText allowAdd />
+            <AmountControl />
           </RecipeListItem>
         ))}
       </div>

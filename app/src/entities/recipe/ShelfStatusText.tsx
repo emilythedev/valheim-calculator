@@ -1,6 +1,6 @@
 import { getExtensions } from '@/data';
 import { recipeAmountAtoms } from '@/shared/atoms';
-import { Button } from '@/shared/ui/button';
+import AddButton from '@/shared/ui/AddButton';
 import { atom, useAtomValue } from 'jotai';
 import { sum } from 'lodash-es';
 import { Check } from 'lucide-react';
@@ -48,7 +48,7 @@ const ShelfStatusText = ({allowAdd = false}: {allowAdd?: boolean}) => {
 
   if (amount === 0) {
     return allowAdd ?
-      (<Button size="sm" onClick={() => setAmount(1)}>+1</Button>) :
+      (<AddButton onClick={() => setAmount(1)} />) :
       null;
   }
 
