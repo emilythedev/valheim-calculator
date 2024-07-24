@@ -2,13 +2,13 @@ import { getCraftableEntityList } from '@/data';
 import { Button } from '@/shared/ui/button';
 import {
   Command,
+  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
 } from '@/shared/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import EntityDetails from '@/widgets/EntityDetails';
 import { Search } from 'lucide-react';
 import { useState } from 'react';
@@ -24,23 +24,25 @@ const FilterSearch = ({ value, onValueChange }: FilterSearchProps) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          size="lg"
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-        >
-          {value ? value : 'Search an item'}
-          <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="p-0" align="start">
-        <Command
-          className="rounded-lg border shadow-md"
-        >
+    <>
+      <Button
+        size="sm"
+        variant="outline"
+        className="flex items-center justify-start gap-4"
+        onClick={() => setOpen(true)}
+      >
+        <Search className="h-4 w-4 text-muted-foreground" />
+        Search
+      </Button>
+      <CommandDialog
+        title="Search"
+        description="Find and select item"
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <Command className="border rounded-lg shadow-md">
           <CommandInput placeholder="Type item name..." />
+
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
@@ -59,8 +61,8 @@ const FilterSearch = ({ value, onValueChange }: FilterSearchProps) => {
             </CommandGroup>
           </CommandList>
         </Command>
-      </PopoverContent>
-    </Popover>
+      </CommandDialog>
+    </>
   );
 };
 
