@@ -55,10 +55,7 @@ export const getEntity = (id: EntityId) => {
 };
 
 export const getCraftableEntityList = () => {
-  return keys(entities).map((id) => ({
-    key: id,
-    label: getEntityName(id),
-  }));
+  return keys(entities);
 };
 
 // Armor

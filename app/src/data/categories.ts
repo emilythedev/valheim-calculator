@@ -1,17 +1,15 @@
-// cat and sub-cat
-export const categoryList: CategoryList = [
-  'Armor',
-  'Weapon',
-  'CraftingStation',
-  'Food',
-  'Furniture',
-  'Material',
-  'Mead',
-  'Misc',
-  'Tool',
-];
-
-const subCats: SubCategory = {
+export const categories: CategoryList = {
+  '': [
+    'Armor',
+    'Weapon',
+    'CraftingStation',
+    'Food',
+    'Furniture',
+    'Material',
+    'Mead',
+    'Misc',
+    'Tool',
+  ],
   'Weapon': [
     'Axe',
     'Bomb',

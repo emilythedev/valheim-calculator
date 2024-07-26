@@ -26,9 +26,9 @@ interface RecipeMaterials {
 type Extensions = EntityId[];
 
 type CategoryId = string;
-type CategoryList = CategoryId[];
-interface SubCategory {
-  [categoryId: CategoryId]: CategoryList,
+type CategoryItemList = CategoryId[];
+interface CategoryList {
+  [categoryId: CategoryId]: CategoryItemList,
 }
 
 interface RecipeKey {
