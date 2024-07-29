@@ -11,36 +11,16 @@ import {
   CommandItem,
   CommandList,
 } from '@/shared/ui/command';
-import EntityDetails from '@/widgets/EntityDetails';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { toPairs } from 'lodash-es';
-import { Search } from 'lucide-react';
+import { X } from 'lucide-react';
+import { filterDialogOpenAtom } from './atom';
+import { useFinderContext } from './provider';
 
-const entityAtom = atom<EntityId>('');
-const filterDialogOpenAtom = atom<boolean>(false);
 const filterValueAtom = atom<string>('');
 const categoryFilterAtom = atom<string>('');
 
 const entityList = getCraftableEntityList();
-
-const FilterSearch = () => {
-  const setOpen = useSetAtom(filterDialogOpenAtom);
-
-  return (
-    <>
-      <Button
-        size="sm"
-        variant="outline"
-        className="flex items-center justify-start gap-4"
-        onClick={() => setOpen(true)}
-      >
-        <Search className="h-4 w-4 text-muted-foreground" />
-        Search
-      </Button>
-      <FilterDialog />
-    </>
-  );
-};
 
 const FilterInput = () => {
   const [value, setValue] = useAtom(filterValueAtom);
@@ -56,6 +36,7 @@ const FilterInput = () => {
 
 const FilterDialog = () => {
   const [open, setOpen] = useAtom(filterDialogOpenAtom);
+  const { entity } = useFinderContext();
 
   return (
     <CommandDialog
@@ -64,7 +45,10 @@ const FilterDialog = () => {
       open={open}
       onOpenChange={setOpen}
     >
-      <Command className="border rounded-lg shadow-md">
+      <Command
+        className="border rounded-lg shadow-md"
+        value={entity}
+      >
         <SelectedCategory />
         <FilterInput />
 
@@ -80,7 +64,10 @@ const SelectedCategory = () => {
   if (!filterVal) return null;
   return (
     <div className="flex">
-      <Button size="sm" className="text-xs" onClick={() => setFilter('')}>{ filterVal }</Button>
+      <Button size="sm" className="text-xs flex items-center gap-x-1.5" onClick={() => setFilter('')}>
+        <span>{ filterVal }</span>
+        <X className="h-3 w-3" />
+      </Button>
     </div>
   );
 };
@@ -95,6 +82,9 @@ const CategoryButton = ({ parent, id }: { parent: CategoryId, id: CategoryId }) 
 };
 
 const CategoryList = () => {
+  const categoryFilter = useAtomValue(categoryFilterAtom);
+  if (!categories[categoryFilter]) return null;
+
   return (
     <>
       <p className="mt-4 px-4 text-base text-muted-foreground">...or select a category:</p>
@@ -111,7 +101,7 @@ const CategoryList = () => {
 
 const FilterList = () => {
   const setOpen = useSetAtom(filterDialogOpenAtom);
-  const setEntity = useSetAtom(entityAtom);
+  const { setEntity } = useFinderContext();
   const filterValue = useAtomValue(filterValueAtom);
   const categoryFilter = useAtomValue(categoryFilterAtom);
 
@@ -144,15 +134,4 @@ const FilterList = () => {
   );
 };
 
-const Finder = () => {
-  const value = useAtomValue(entityAtom);
-
-  return (
-    <>
-      <FilterSearch />
-      <EntityDetails entity={value} />
-    </>
-  );
-};
-
-export default Finder;
+export default FilterDialog;
