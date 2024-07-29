@@ -26,8 +26,7 @@ const TestButtons = () => {
   );
 };
 
-const store = createStore();
-const TestProvider = ({allowAdd = false}: {allowAdd?: boolean}) => {
+const TestProvider = ({store, allowAdd = false}: { allowAdd?: boolean, store: ReturnType<typeof createStore> }) => {
   return (
     <Provider store={store}>
       <EntityRecipeContextProvider entity={forgeRecipe.entity} quality={2}>
@@ -41,34 +40,27 @@ const TestProvider = ({allowAdd = false}: {allowAdd?: boolean}) => {
 };
 
 describe('<ShelfStatusText />', () => {
-  beforeEach(() => {
-    // cy.clearAllLocalStorage() fails to clear jotai storage data
-    store.set(recipeAmountAtoms(forgeRecipe), 0)
-    store.set(recipeAmountAtoms(extRecipes[0]), 0)
-    store.set(recipeAmountAtoms(extRecipes[1]), 0)
-  });
-
   it('is not on shelf', () => {
-    cy.mount(<TestProvider />);
+    cy.mount(<TestProvider store={createStore()} />);
     cy.get('[data-testid="status"]').should('be.empty');
   });
 
   it('has extension but not on shelf', () => {
-    cy.mount(<TestProvider />);
+    cy.mount(<TestProvider store={createStore()} />);
 
     cy.contains('button', 'Ext 1').click();
     cy.get('[data-testid="status"]').should('be.empty');
   });
 
   it('is on shelf but missing extensions', () => {
-    cy.mount(<TestProvider />);
+    cy.mount(<TestProvider store={createStore()} />);
 
     cy.contains('button', 'Forge').click();
     cy.get('[data-testid="status"]').should('have.text', 'Missing Extensions');
   });
 
   it('is on shelf and has enough extensions', () => {
-    cy.mount(<TestProvider />);
+    cy.mount(<TestProvider store={createStore()} />);
 
     cy.contains('button', 'Forge').click();
 
@@ -80,7 +72,7 @@ describe('<ShelfStatusText />', () => {
   });
 
   it('shows add button if not on shelf', () => {
-    cy.mount(<TestProvider allowAdd />);
+    cy.mount(<TestProvider store={createStore()} allowAdd />);
 
     cy.get('[data-testid="status"]')
       .get('button[aria-label="Add"]')
