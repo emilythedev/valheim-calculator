@@ -63,7 +63,7 @@ const SelectedCategory = () => {
   const [filterVal, setFilter] = useAtom(categoryFilterAtom);
   if (!filterVal) return null;
   return (
-    <div className="flex">
+    <div className="flex" aria-label="Selected filter">
       <Button size="sm" className="text-xs flex items-center gap-x-1.5" onClick={() => setFilter('')}>
         <span>{getCategoryName(filterVal)}</span>
         <X className="h-3 w-3" />
