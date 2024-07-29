@@ -5,7 +5,9 @@ import AmountControl from '@/entities/recipe/AmountControl';
 import { RecipeContextProvider, useRecipeContext } from '@/entities/recipe/provider';
 import Quality from '@/entities/recipe/Quality';
 import RecipeListItem from '@/entities/recipe/RecipeListItem';
-
+import { Button } from '@/shared/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+import { X } from 'lucide-react';
 
 export const QualityButton = () => {
   const { quality } = useRecipeContext();
@@ -16,10 +18,6 @@ export const QualityButton = () => {
     </div>
   );
 };
-
-interface EntityDetailsProps {
-  entity: EntityId,
-}
 
 const QualityList = () => {
   const { entity, extendable } = useEntityContext();
@@ -75,19 +73,37 @@ const CraftingStation = () => {
   );
 };
 
-const EntityDetails = ({ entity }: EntityDetailsProps) => {
+interface EntityDetailsProps {
+  entity: EntityId,
+  onClear?: () => void,
+}
+
+const EntityDetails = ({ entity, onClear }: EntityDetailsProps) => {
   if (!entity) return null;
 
   return (
-    <div className="space-y-4">
+    <Card className="relative">
+      <Button
+        size="icon"
+        variant="ghost"
+        className="absolute right-4 top-4"
+        onClick={() => onClear && onClear()}
+      >
+        <X className="h-4 w-4" />
+        <span className="sr-only">Clear selected entity</span>
+      </Button>
       <EntityContextProvider entity={entity}>
-        <h2 className="py-2 text-lg font-semibold"><EntityName /></h2>
-        <div className="grid gap-x-12 gap-y-4 grid-cols-form items-baseline">
-          <QualityList />
-          <CraftingStation />
-        </div>
+        <CardHeader>
+          <CardTitle><EntityName /></CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-x-12 gap-y-4 grid-cols-form items-baseline">
+            <QualityList />
+            <CraftingStation />
+          </div>
+        </CardContent>
       </EntityContextProvider>
-    </div>
+    </Card>
   )
 };
 

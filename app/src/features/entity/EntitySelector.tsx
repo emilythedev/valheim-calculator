@@ -6,11 +6,13 @@ const EntitySelector = () => {
   const [entity, setEntity] = useState<EntityId>('');
 
   return (
-    <FinderContextProvider entity={entity} setEntity={setEntity}>
-      <FinderButton />
-      <EntityDetails entity={entity} />
-      <FilterDialog />
-    </FinderContextProvider>
+    <div className="flex flex-col space-y-4">
+      <FinderContextProvider entity={entity} setEntity={setEntity}>
+        <FinderButton />
+        <EntityDetails entity={entity} onClear={() => setEntity('')} />
+        <FilterDialog />
+      </FinderContextProvider>
+    </div>
   );
 };
 
