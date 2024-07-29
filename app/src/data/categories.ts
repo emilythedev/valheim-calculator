@@ -1,3 +1,5 @@
+import { uniq } from 'lodash-es';
+
 export const categories: CategoryList = {
   '': [
     'Armor',
@@ -59,7 +61,7 @@ const addToCateogries = (categories: CategoryId[], entities: EntityId[]) => {
       catogoryEntities[cat] = [];
     }
 
-    catogoryEntities[cat] = catogoryEntities[cat].concat([...entities]);
+    catogoryEntities[cat] = uniq(catogoryEntities[cat].concat([...entities]));
   });
 };
 
