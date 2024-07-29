@@ -1,4 +1,6 @@
 import { uniq } from 'lodash-es';
+import data from './categories.json';
+const mapping: { [id: CategoryId]: string } = data;
 
 export const categories: CategoryList = {
   '': [
@@ -47,6 +49,10 @@ export const categories: CategoryList = {
     'OdinSet',
     'Hat',
   ],
+};
+
+export const getCategoryName = (category: CategoryId) => {
+  return mapping[category] || `#${category}#`;
 };
 
 const catogoryEntities: { [categoryId: CategoryId]: EntityId[] } = {};

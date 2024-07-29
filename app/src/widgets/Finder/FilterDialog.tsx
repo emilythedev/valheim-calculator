@@ -1,4 +1,4 @@
-import { categories, getCategoryEntities, getCraftableEntityList } from '@/data';
+import { categories, getCategoryEntities, getCategoryName, getCraftableEntityList } from '@/data';
 import EntityName from '@/entities/entity/EntityName';
 import { EntityContextProvider } from '@/entities/entity/provider';
 import { Button } from '@/shared/ui/button';
@@ -65,7 +65,7 @@ const SelectedCategory = () => {
   return (
     <div className="flex">
       <Button size="sm" className="text-xs flex items-center gap-x-1.5" onClick={() => setFilter('')}>
-        <span>{ filterVal }</span>
+        <span>{getCategoryName(filterVal)}</span>
         <X className="h-3 w-3" />
       </Button>
     </div>
@@ -77,7 +77,9 @@ const CategoryButton = ({ parent, id }: { parent: CategoryId, id: CategoryId }) 
   if (filterVal !== parent) return null;
 
   return (
-    <Button variant="outline" onClick={() => setFilter(id)}>{ id }</Button>
+    <Button variant="outline" onClick={() => setFilter(id)}>
+      {getCategoryName(id)}
+    </Button>
   );
 };
 
