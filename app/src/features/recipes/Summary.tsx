@@ -3,6 +3,7 @@ import RecipeListItem from '@/entities/recipe/RecipeListItem';
 import ShelfStatusText from '@/entities/recipe/ShelfStatusText';
 import { summaryAtom } from '@/shared/atoms';
 import { useOpenDialog } from '@/shared/hooks';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import KeyValueList from '@/shared/ui/KeyValueList';
 import { Section, SectionHeader } from '@/shared/ui/section';
 import { useAtomValue } from 'jotai';
@@ -57,13 +58,17 @@ const MaterialSummary = () => {
 
 const Summary = () => {
   return (
-    <div className="space-y-4">
-      <h2 className="py-2 text-lg font-semibold">Summary</h2>
-      <div className="flex flex-row gap-12 [&>*]:flex-1">
-        <StationSummary />
-        <MaterialSummary />
-      </div>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Summary</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-12 [&>*]:flex-1">
+          <StationSummary />
+          <MaterialSummary />
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
