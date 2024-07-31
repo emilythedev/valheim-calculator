@@ -3,6 +3,7 @@ import RecipeDetailsDialog from '@/features/recipes/RecipeDetailsDialog';
 import RecipeShelf from '@/features/recipes/Shelf';
 import Summary from '@/features/recipes/Summary';
 import { shelfEmptyAtom } from '@/shared/atoms';
+import Header from '@/widgets/Header';
 import { useAtomValue } from 'jotai';
 
 const Layout = () => {
@@ -10,7 +11,8 @@ const Layout = () => {
 
   return (
     <>
-      <div className="container pb-16 pt-16">
+      <div className="container pb-16">
+        <Header />
         <div className="flex flex-col gap-12">
           <div className="flex flex-col align-center gap-12">
             <EntitySelector />
