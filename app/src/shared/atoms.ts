@@ -17,6 +17,7 @@ const shelfAtom = atomWithStorage(
 );
 
 export const readRecipesAtom = atom(get => get(recipesAtom));
+export const shelfEmptyAtom = atom(get => (get(readRecipesAtom).length === 0))
 
 const getPath = ({ entity, quality }: RecipeKey) => `${entity}|${quality}`;
 
