@@ -24,23 +24,25 @@ const AboutDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild><Button variant="ghost">About</Button></DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>About Valheim Calc</DialogTitle>
-          <DialogDescription />
-        </DialogHeader>
-        <div className="space-y-12">
-          <p className="text-sm leading-normal tracking-wide">
-            You can quickly and easily calculate the resources needed for any item in Valheim using Valheim Calc. Whether you're building a base or crafting a set of armors, this tool will help you plan your crafting efficiently.
-          </p>
-          {content.map(({ title, content }) => {
-            return (
-              <div key={title} className="space-y-4">
-                <h2 className="text-lg font-semibold">{title}</h2>
-                <p className="text-sm leading-normal tracking-wide">{content}</p>
-              </div>
-            );
-          })}
+      <DialogContent className="p-0">
+        <div className="p-6 max-h-screen overflow-auto grid gap-4">
+          <DialogHeader>
+            <DialogTitle>About Valheim Calc</DialogTitle>
+            <DialogDescription />
+          </DialogHeader>
+          <div className="space-y-12">
+            <p className="text-sm leading-normal tracking-wide">
+              You can quickly and easily calculate the resources needed for any item in Valheim using Valheim Calc. Whether you're building a base or crafting a set of armors, this tool will help you plan your crafting efficiently.
+            </p>
+            {content.map(({ title, content }) => {
+              return (
+                <div key={title} className="space-y-4">
+                  <h2 className="text-lg font-semibold">{title}</h2>
+                  <p className="text-sm leading-normal tracking-wide">{content}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

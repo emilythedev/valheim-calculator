@@ -78,19 +78,21 @@ const RecipeDetails = ({ recipe: recipeKey }: RecipeDetailsProps) => {
   if (!entity || !recipe) return null;
 
   return (
-    <DialogContent>
-      <DialogHeader className="space-y-4 mb-4">
-        <DialogTitle>{ entity.name }</DialogTitle>
-        <DialogDescription asChild>
-          <div className="flex flex-row">
-            {entity.upgradable && <Quality value={recipe?.quality || 0} />}
-          </div>
-        </DialogDescription>
-      </DialogHeader>
-      <div className="space-y-12">
-        <ExtensionListSection entity={recipeKey.entity} />
-        <MaterialListSection materials={recipe.materials} />
-        <CraftStationListSection stations={recipe.craftingStation} />
+    <DialogContent className="p-0">
+      <div className="p-6 max-h-screen overflow-auto grid gap-4">
+        <DialogHeader className="space-y-4 mb-4">
+          <DialogTitle>{ entity.name }</DialogTitle>
+          <DialogDescription asChild>
+            <div className="flex flex-row">
+              {entity.upgradable && <Quality value={recipe?.quality || 0} />}
+            </div>
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-12">
+          <ExtensionListSection entity={recipeKey.entity} />
+          <MaterialListSection materials={recipe.materials} />
+          <CraftStationListSection stations={recipe.craftingStation} />
+        </div>
       </div>
     </DialogContent>
   );
