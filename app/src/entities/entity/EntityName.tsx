@@ -1,9 +1,9 @@
 import { useEntityContext } from './provider';
 
-const EntityName = () => {
+const EntityName = ({className}: {className?: string}) => {
   const { name } = useEntityContext();
   return (
-    <span>{ name }</span>
+    <span className={className}>{ name }</span>
   );
 };
 

@@ -36,7 +36,7 @@ const QualityList = () => {
   return (
     <>
       <div className="text-base font-medium leading-none px-2 py-3">Quality</div>
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-4">
         {children}
       </div>
     </>
@@ -52,13 +52,13 @@ const CraftingStation = () => {
   return (
     <>
       <div className="text-base font-medium leading-none px-2 py-3">Base Building</div>
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         <RecipeContextProvider quality={1}>
           <QualityButton />
         </RecipeContextProvider>
       </div>
       <div className="text-base font-medium leading-none px-2 py-3">Extensions</div>
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {extensions.map((extension) => (
           <RecipeListItem
             key={extension}
@@ -97,7 +97,7 @@ const EntityDetails = ({ entity, onClear }: EntityDetailsProps) => {
           <CardTitle><EntityName /></CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-x-12 gap-y-4 grid-cols-form items-baseline">
+          <div className="grid gap-x-12 gap-y-6 grid-cols-form items-baseline max-md:grid-cols-1 max-md:gap-y-4">
             <QualityList />
             <CraftingStation />
           </div>

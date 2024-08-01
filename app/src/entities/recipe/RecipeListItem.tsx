@@ -37,11 +37,13 @@ interface Props {
 const RecipeListItem = ({ entity, quality = 1, hideRecipeButton = false, ...props }: Props) => {
   return (
     <EntityRecipeContextProvider entity={entity} quality={quality}>
-      <div className="entity-list-item bg-secondary text-secondary-foreground">
-        <EntityName />
-        <QualityTag />
-        <RecipeButton hide={hideRecipeButton} onClick={props.onViewRecipe} />
-        <span className="flex-1"></span>
+      <div className="entity-list-item max-sm:flex-wrap relative bg-secondary text-secondary-foreground">
+        <EntityName className="max-sm:w-full" />
+        <div className="flex items-center gap-4 max-sm:order-first max-sm:w-full">
+          <QualityTag />
+          <RecipeButton hide={hideRecipeButton} onClick={props.onViewRecipe} />
+        </div>
+        <span className="flex-1 max-sm:hidden"></span>
         {props.children}
       </div>
     </EntityRecipeContextProvider>
