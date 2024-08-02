@@ -211,18 +211,18 @@ addToCateogries(['Material'], [
 ]);
 
 addToCateogries(['Tool'], [
-  'Antler pickaxe',
-  'Black metal pickaxe',
-  'Blackmetal axe',
-  'Bronze axe',
-  'Bronze pickaxe',
+  'AntlerPickaxe',
+  'BlackMetalPickaxe',
+  'BlackmetalAxe',
+  'BronzeAxe',
+  'BronzePickaxe',
   'Cultivator',
-  'Flint axe',
+  'FlintAxe',
   'Hammer',
   'Hoe',
-  'Horn of Celebration',
-  'Iron pickaxe',
-  'Stone axe',
+  'HornOfCelebration',
+  'IronPickaxe',
+  'StoneAxe',
   'Tankard',
   'Torch',
 ]);
