@@ -36,7 +36,6 @@ const FilterInput = () => {
 
 const FilterDialog = () => {
   const [open, setOpen] = useAtom(filterDialogOpenAtom);
-  const { entity } = useFinderContext();
 
   return (
     <CommandDialog
@@ -45,10 +44,7 @@ const FilterDialog = () => {
       open={open}
       onOpenChange={setOpen}
     >
-      <Command
-        className="border rounded-lg shadow-md"
-        value={entity}
-      >
+      <Command className="border rounded-lg shadow-md">
         <SelectedCategory />
         <FilterInput />
 
