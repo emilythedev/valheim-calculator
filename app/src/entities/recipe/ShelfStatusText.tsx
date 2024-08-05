@@ -48,7 +48,7 @@ const ShelfStatusText = ({allowAdd = false}: {allowAdd?: boolean}) => {
 
   if (amount === 0) {
     return allowAdd ?
-      (<AddButton onClick={() => setAmount(1)} />) :
+      (<AddButton aria-label="Add to shelf" onClick={() => setAmount(1)} />) :
       null;
   }
 

@@ -38,12 +38,12 @@ const ListItem = ({ entity, amount }: ListItemProps) => {
   const craftable = isEntityCraftable(entity);
 
   return (
-    <>
+    <div role="listitem" className="grid grid-cols-subgrid col-span-2 items-center">
       <div className="text-center px-2 py-2">{ amount }</div>
       <EntityContextProvider entity={entity}>
         { craftable ? <CraftableItem /> : <NonCraftableItem /> }
       </EntityContextProvider>
-    </>
+    </div>
   );
 };
 

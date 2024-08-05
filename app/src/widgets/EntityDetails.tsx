@@ -12,7 +12,11 @@ import { X } from 'lucide-react';
 export const QualityButton = () => {
   const { quality } = useRecipeContext();
   return (
-    <div className="entity-list-item bg-secondary text-secondary-foreground justify-between">
+    <div
+      role="listitem"
+      aria-label={`Quality level ${quality}`}
+      className="entity-list-item bg-secondary text-secondary-foreground justify-between"
+    >
       <Quality value={quality} className="text-base px-4" />
       <AmountControl />
     </div>
@@ -36,7 +40,7 @@ const QualityList = () => {
   return (
     <>
       <div className="text-base font-medium leading-none px-2 py-3">Quality</div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-4">
+      <div role="list" aria-label="Quality" className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-4">
         {children}
       </div>
     </>
@@ -82,7 +86,7 @@ const EntityDetails = ({ entity, onClear }: EntityDetailsProps) => {
   if (!entity) return null;
 
   return (
-    <Card className="relative">
+    <Card id="EntityDetails" className="relative">
       <Button
         size="icon"
         variant="ghost"

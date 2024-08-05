@@ -75,7 +75,7 @@ describe('<ShelfStatusText />', () => {
     cy.mount(<TestProvider store={createStore()} allowAdd />);
 
     cy.get('[data-testid="status"]')
-      .get('button[aria-label="Add"]')
+      .findByRole('button', {name: /add/i})
       .should('exist')
       .click();
 

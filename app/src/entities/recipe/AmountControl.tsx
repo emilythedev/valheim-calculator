@@ -7,12 +7,12 @@ const AmountControl = () => {
 
   if (amount === 0) {
     return (
-      <AddButton onClick={() => setAmount(1)} />
+      <AddButton onClick={() => setAmount(1)} aria-label="Add to shelf" />
     );
   }
 
   return (
-    <NumberStepper min={0} value={amount} onChange={setAmount} />
+    <NumberStepper aria-label="Amount" min={0} value={amount} onValueChange={setAmount} />
   );
 };
 

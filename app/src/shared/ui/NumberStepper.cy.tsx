@@ -10,7 +10,7 @@ describe('<NumberStepper />', () => {
 
   it('triggers onChange on every increment click', () => {
     const onChangeSpy = cy.spy().as('onChangeSpy');
-    cy.mount(<NumberStepper value={0} onChange={onChangeSpy} />);
+    cy.mount(<NumberStepper value={0} onValueChange={onChangeSpy} />);
     cy.get('[data-testid="stepper"]').should('have.value', 0);
 
     cy.get('[data-testid="stepper-inc"]').click();
@@ -22,7 +22,7 @@ describe('<NumberStepper />', () => {
 
   it('triggers onChange on every decrement click', () => {
     const onChangeSpy = cy.spy().as('onChangeSpy');
-    cy.mount(<NumberStepper value={10} onChange={onChangeSpy} />);
+    cy.mount(<NumberStepper value={10} onValueChange={onChangeSpy} />);
     cy.get('[data-testid="stepper"]').should('have.value', 10);
 
     cy.get('[data-testid="stepper-dec"]').click();
@@ -34,7 +34,7 @@ describe('<NumberStepper />', () => {
 
   it('triggers onChange on input update', () => {
     const onChangeSpy = cy.spy().as('onChangeSpy');
-    cy.mount(<NumberStepper value={0} onChange={onChangeSpy} />);
+    cy.mount(<NumberStepper value={0} onValueChange={onChangeSpy} />);
     cy.get('[data-testid="stepper"]').should('have.value', 0);
 
     cy.get('[data-testid="stepper"]').type('{selectall}5');

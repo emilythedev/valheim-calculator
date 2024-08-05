@@ -33,9 +33,9 @@ const Shelf = () => {
 
   return (
     <>
-      <Section>
+      <Section id="Shelf">
         <h2 className="py-2 text-lg font-semibold">Shelf ({recipes.length})</h2>
-        <div className="text-sm space-y-4">
+        <div role="list" className="text-sm space-y-4">
           {recipes.map((recipeKey, i) => (
             <ShelfItem key={i} recipe={recipeKey} />
           ))}

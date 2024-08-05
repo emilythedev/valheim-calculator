@@ -3,121 +3,52 @@
 describe('Search', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.intercept('/data.json').as('jsonData');
-    cy.wait('@jsonData');
   });
 
-  it('search for an item by full name', () => {
-    cy.search('"forge"');
+  it('should get a summary of materials needed from desired crafting items', () => {
+    cy.findByRole('button', {name: 'Search'}).click();
+    cy.findByRole('dialog').within(() => {
+      cy.findByRole('combobox').type('Staff');
+      cy.findByRole('listbox', {name: 'Suggestions'})
+        .findByRole('option', {name: 'Staff of Embers'}).click();
+    });
 
-    cy.get('table[data-testid="cy-table-recipes"] > tbody > tr')
-      .should('have.length', 1)
-      .find('> td:first-child')
-      .should('have.text', 'Forge');
-  });
+    cy.get('#EntityDetails').within(() => {
+      cy.findByRole('heading', {name: 'Staff of Embers'}).should('exist');
+      cy.findByRole('list', {name: 'Quality'})
+        .findAllByRole('listitem')
+        .should('have.length', 4);
+      cy.findByRole('listitem', {name: 'Quality level 2'})
+        .findByRole('button', {name: /add/i})
+        .click();
+    });
 
-  it('search for all items containing search text', () => {
-    cy.search('forge');
+    cy.get('#Shelf').within(() => {
+      cy.findByRole('heading', {name: /shelf/i}).should('exist')
+      cy.findByRole('list')
+        .findAllByRole('listitem')
+        .should('have.length', 1)
+        .first()
+        .should('contain.text', 'Staff of Embers');
+    });
 
-    cy.get('table[data-testid="cy-table-recipes"] > tbody > tr > td:first-child')
-      .each(($td) => {
-        expect($td.text()).to.match(/forge/i);
+    cy.get('#Summary').within(() => {
+      cy.findByRole('heading', {name: 'Materials'})
+        .next()
+        .findAllByRole('listitem')
+        .as('materials')
+        .invoke('text')
+        .should('eq', '8Refined eitr2Surtling core10Yggdrasil wood');
+
+      cy.findByText('Refined eitr').parent().within(() => {
+        cy.findByRole('button', {name: /add/i})
+          .click()
+          .should('not.exist');
+        cy.get('input').type('{selectAll}8');
       });
-  });
 
-  it('view upgrades', () => {
-    cy.search('"forge"');
-    const forgeUpgrades = [
-      'Anvils', 'Forge bellows', 'Forge cooler',
-      'Forge toolrack', 'Grinding wheel', 'Smith\'s anvil',
-    ];
-
-    // View upgrades
-    cy.get('table[data-testid=cy-table-recipes] > tbody')
-      .contains('tr', 'Forge')
-      .find('[data-testid="cy-btn-viewUpgrades"]')
-      .click();
-
-    // Results
-    cy.get('table[data-testid="cy-table-recipes"] > tbody > tr > td:first-child')
-      .then(($tds) => {
-        const titles = $tds.map((i, td) => {
-          return Cypress.$(td).text();
-        }).get();
-
-        expect(titles).to.deep.equal(forgeUpgrades);
-
-        cy.wrap(titles);
-      })
-      .as('prevTitles');
-
-    // will also update search box
-    cy.get('[data-testid="cy-select-queryType"] > button[name="queryType"]')
-      .should('have.text', 'Upgrades of');
-
-    cy.get('input[name="queryInputValue"]')
-      .should('have.value', '"Forge"');
-
-    // Search with the same values, will get the same result
-    cy.get('button[type=submit]').click();
-    cy.get('table[data-testid="cy-table-recipes"] > tbody > tr > td:first-child')
-      .then(($tds) => {
-        const titles = $tds.map((i, td) => {
-          return Cypress.$(td).text();
-        }).get();
-
-        cy.get('@prevTitles')
-          .then((prevs) => {
-            expect(titles).to.deep.equal(prevs);
-          });
-      });
-  });
-
-  it('has no results found', () => {
-    cy.search('javascript');
-
-    cy.get('table[data-testid="cy-table-recipes"] > tbody > tr')
-      .should('have.length', 1)
-      .invoke('text')
-      .should('match', /no data/i);
-  });
-
-  it('clear search text', () => {
-    // Get original results
-    cy.get('table[data-testid="cy-table-recipes"] > tbody > tr')
-      .should('have.length.gt', 1)
-      .find('td:first-child')
-      .then(($tds) => {
-        const titles = $tds.map((i, td) => {
-          return Cypress.$(td).text();
-        }).get();
-        cy.wrap(titles);
-      })
-      .as('prevTitles');
-
-    // Search
-    cy.search('"forge"');
-
-    // Get a different result
-    cy.get('table[data-testid="cy-table-recipes"] > tbody > tr')
-      .should('have.length', 1);
-
-    // Clear search input and search
-    cy.get('[data-textid="cy-btn-clearSearchValue"]')
-      .click();
-    cy.get('button[type=submit]').click();
-
-    // Should be the same as the original results
-    cy.get('table[data-testid="cy-table-recipes"] > tbody > tr > td:first-child')
-      .then(($tds) => {
-        const titles = $tds.map((i, td) => {
-          return Cypress.$(td).text();
-        }).get();
-
-        cy.get('@prevTitles')
-          .then((prevs) => {
-            expect(titles).to.deep.equal(prevs);
-          });
-      });
+      cy.get('@materials').invoke('text')
+        .should('eq', '8Refined eitr8Sap8Soft tissue2Surtling core10Yggdrasil wood');
+    });
   });
 });

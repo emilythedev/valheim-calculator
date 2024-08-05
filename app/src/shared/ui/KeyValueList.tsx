@@ -12,7 +12,7 @@ const KeyValueList = <T = number>({ list, item, className, sort, ...props }: Key
   const pairs = sort ? sort(toPairs(list)) : toPairs(list);
 
   return (
-    <div className={className} {...props}>
+    <div role="list" className={className} {...props}>
       {pairs.map(([key, value]) => item(key, value))}
     </div>
   );
