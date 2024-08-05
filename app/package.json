@@ -28,6 +28,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^10.0.2",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.55",
