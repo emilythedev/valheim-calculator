@@ -2,6 +2,7 @@ import EntityName from '@/entities/entity/EntityName';
 import { EntityRecipeContextProvider, useRecipeContext } from '@/entities/recipe/provider';
 import Quality from '@/entities/recipe/Quality';
 import { Button } from '@/shared/ui/button';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { ScrollText } from 'lucide-react';
 import { ReactNode } from 'react';
 
@@ -11,8 +12,9 @@ const RecipeButton = ({hide = false, onClick}: {hide?: boolean, onClick?: () => 
   }
 
   return (
-    <Button variant="ghost" size="icon-sm" onClick={onClick} aria-label="View recipe details">
-      <ScrollText className="h-4 w-4" />
+    <Button variant="ghost" size="icon-sm" onClick={onClick}>
+      <ScrollText className="h-4 w-4" aria-hidden />
+      <VisuallyHidden>View recipe details</VisuallyHidden>
     </Button>
   );
 };

@@ -40,38 +40,38 @@ const TestProvider = ({store, allowAdd = false}: { allowAdd?: boolean, store: Re
 };
 
 describe('<ShelfStatusText />', () => {
-  it('is not on shelf', () => {
+  it('should not be on the shelf', () => {
     cy.mount(<TestProvider store={createStore()} />);
     cy.get('[data-testid="status"]').should('be.empty');
   });
 
-  it('has extension but not on shelf', () => {
+  it('should not be on the shelf when only extension is on the shelf', () => {
     cy.mount(<TestProvider store={createStore()} />);
 
-    cy.contains('button', 'Ext 1').click();
+    cy.findByRole('button', {name: 'Ext 1'}).click();
     cy.get('[data-testid="status"]').should('be.empty');
   });
 
-  it('is on shelf but missing extensions', () => {
+  it('should be on the shelf and show missing extensions', () => {
     cy.mount(<TestProvider store={createStore()} />);
 
-    cy.contains('button', 'Forge').click();
+    cy.findByRole('button', {name: 'Forge'}).click();
     cy.get('[data-testid="status"]').should('have.text', 'Missing Extensions');
   });
 
-  it('is on shelf and has enough extensions', () => {
+  it('should be on shelf with proper number of extensions', () => {
     cy.mount(<TestProvider store={createStore()} />);
 
-    cy.contains('button', 'Forge').click();
+    cy.findByRole('button', {name: 'Forge'}).click();
 
-    cy.contains('button', 'Ext 1').click();
+    cy.findByRole('button', {name: 'Ext 1'}).click();
     cy.get('[data-testid="status"]').should('have.text', 'On Shelf');
 
-    cy.contains('button', 'Ext 2').click();
+    cy.findByRole('button', {name: 'Ext 2'}).click();
     cy.get('[data-testid="status"]').should('have.text', 'On Shelf');
   });
 
-  it('shows add button if not on shelf', () => {
+  it('should show add button when it is not on the shelf', () => {
     cy.mount(<TestProvider store={createStore()} allowAdd />);
 
     cy.get('[data-testid="status"]')

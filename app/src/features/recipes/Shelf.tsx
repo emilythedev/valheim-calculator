@@ -1,18 +1,9 @@
-import { useRecipeContext } from '@/entities/recipe/provider';
+import AmountControl from '@/entities/recipe/AmountControl';
 import RecipeListItem from '@/entities/recipe/RecipeListItem';
 import { readRecipesAtom } from '@/shared/atoms';
 import { useOpenDialog } from '@/shared/hooks';
-import NumberStepper from '@/shared/ui/NumberStepper';
 import { Section } from '@/shared/ui/section';
 import { useAtomValue } from 'jotai';
-
-const RecipeAmountStepper = () => {
-  const { amount, setAmount } = useRecipeContext();
-
-  return (
-    <NumberStepper value={amount} onChange={setAmount} />
-  );
-};
 
 const ShelfItem = ({recipe}: {recipe: RecipeKey}) => {
   const openDialog = useOpenDialog(recipe);
@@ -23,7 +14,7 @@ const ShelfItem = ({recipe}: {recipe: RecipeKey}) => {
       quality={recipe.quality}
       onViewRecipe={openDialog}
     >
-      <RecipeAmountStepper />
+      <AmountControl />
     </RecipeListItem>
   );
 };

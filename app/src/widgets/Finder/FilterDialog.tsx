@@ -11,6 +11,7 @@ import {
   CommandItem,
   CommandList,
 } from '@/shared/ui/command';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { toPairs } from 'lodash-es';
 import { X } from 'lucide-react';
@@ -59,10 +60,12 @@ const SelectedCategory = () => {
   const [filterVal, setFilter] = useAtom(categoryFilterAtom);
   if (!filterVal) return null;
   return (
-    <div className="flex" aria-label="Selected filter">
-      <Button size="sm" className="text-xs flex items-center gap-x-1.5" onClick={() => setFilter('')}>
+    <div id="CurrentFilter" className="flex">
+      <VisuallyHidden>Selected filter:</VisuallyHidden>
+      <Button size="sm" className="text-xs flex items-center gap-x-1.5" onClick={(e) => {setFilter(''); e.stopPropagation(); return false;}}>
+        <VisuallyHidden>Remove filter</VisuallyHidden>
         <span>{getCategoryName(filterVal)}</span>
-        <X className="h-3 w-3" />
+        <X className="h-3 w-3" aria-hidden />
       </Button>
     </div>
   );
@@ -86,7 +89,7 @@ const CategoryList = () => {
   return (
     <>
       <p className="mt-4 px-4 text-base text-muted-foreground">...or select a category:</p>
-      <div className="flex items-center gap-1.5 flex-wrap py-4 px-4">
+      <div role="list" className="flex items-center gap-1.5 flex-wrap py-4 px-4">
         {toPairs(categories).map(([parent, list]) => {
           return list.map((cat) => (
             <CategoryButton key={cat} parent={parent} id={cat} />

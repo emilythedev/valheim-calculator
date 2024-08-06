@@ -1,5 +1,6 @@
 import AddButton from '@/shared/ui/AddButton';
 import NumberStepper from '@/shared/ui/NumberStepper';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { useRecipeContext } from './provider';
 
 const AmountControl = () => {
@@ -12,7 +13,10 @@ const AmountControl = () => {
   }
 
   return (
-    <NumberStepper aria-label="Amount" min={0} value={amount} onValueChange={setAmount} />
+    <label>
+      <VisuallyHidden>Amount</VisuallyHidden>
+      <NumberStepper min={0} value={amount} onValueChange={setAmount} />
+    </label>
   );
 };
 

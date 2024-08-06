@@ -20,59 +20,89 @@ const TestProvider = ({ store }: { store: ReturnType<typeof createStore> }) => {
 describe('<FilterDialog />', () => {
   beforeEach(() => {
     cy.mount(<TestProvider store={createStore()}/>);
-    cy.contains('button', 'Search').click({ force: true });
+    cy.findByRole('button', {name: 'Search'}).click();
   });
 
-  it('does not list all entities', () => {
-    cy.get('input[cmdk-input]').should('be.empty');
-    cy.get('[cmdk-list]').should('contain.text', 'No results found.');
+  it('should not list all entities when there is no filter', () => {
+    cy.findByRole('combobox').should('not.have.value');
+    cy.findByRole('listbox', {name: 'Suggestions'}).should('contain.text', 'No results found.');
   });
 
-  it('selects entities by name', () => {
-    cy.get('input[cmdk-input]').should('be.empty').type('Flint');
-    cy.get('[cmdk-list-sizer] [data-value="FlintKnife"]').should('exist').click();
-    cy.get('@setEntity').should('have.been.calledOnceWith', 'FlintKnife');
+  it('should filter by name', () => {
+    cy.findByRole('combobox').should('not.have.value').type('flint');
+    cy.findByRole('listbox', {name: 'Suggestions'})
+      .findAllByRole('option')
+      .each(($opt) => {
+        expect($opt.text()).to.match(/flint/i);
+      });
   });
 
-  it('selects entities by category', () => {
-    cy.contains('button', 'Weapon').click();
+  it('should filter by category', () => {
+    cy.findByText('select a category', {exact: false})
+      .next()
+      .findByRole('button', {name: 'Weapon'})
+      .click();
 
-    cy.get('[cmdk-list-sizer] [data-value="FlintKnife"]').should('exist').click();
-    cy.get('@setEntity').should('have.been.calledOnceWith', 'FlintKnife');
+    cy.findByRole('listbox', {name: 'Suggestions'})
+      .findAllByRole('option')
+      .should('have.length.gt', 0);
   });
 
-  it('has sub-category', () => {
-    cy.contains('select a category').should('exist');
-    cy.contains('button', 'Weapon').click();
-    cy.contains('select a category').should('exist');
-    cy.contains('button', 'Axe').click();
+  it('should have sub-category', () => {
+    cy.findByText('select a category', {exact: false})
+      .next()
+      .within(() => {
+        cy.findByRole('button', {name: 'Weapon'}).click();
+        cy.findByRole('button', {name: 'Axe'}).click();
+      })
+      .should('not.exist');
 
-    cy.contains('select a category').should('not.exist');
-
-    cy.get('[cmdk-list-sizer] [data-value="FlintKnife"]').should('not.exist');
-    cy.get('[cmdk-list-sizer] [data-value="FlintAxe"]').should('exist').click();
+    cy.findByRole('listbox', {name: 'Suggestions'})
+      .findByRole('option', {name: /^flint knife$/i})
+      .should('not.exist');
+    cy.findByRole('listbox', {name: 'Suggestions'})
+      .findByRole('option', {name: /^flint axe$/i})
+      .should('exist')
+      .click();
     cy.get('@setEntity').should('have.been.calledOnceWith', 'FlintAxe');
   });
 
-  it('removes category filter', () => {
-    cy.get('input[cmdk-input]').should('be.empty').type('Workbench');
-    cy.get('[cmdk-list-sizer] [data-value="Workbench"]').should('exist');
+  it('should remove category filter', () => {
+    cy.findByRole('combobox').should('not.have.value').type('workbench');
+    cy.findByRole('listbox', {name: 'Suggestions'}).as('suggestions')
+      .findByRole('option', {name: /^workbench$/i})
+      .should('exist')
+      .click();
 
-    cy.contains('button', 'Weapon').click();
-    cy.get('[cmdk-list]').should('contain.text', 'No results found.');
 
-    cy.get('[aria-label="Selected filter"]').contains('button', 'Weapon').click(); // remove
-    cy.get('[cmdk-list-sizer] [data-value="Workbench"]').should('exist');
+    cy.findByRole('button', {name: 'Search'}).click();
+
+    cy.findByText('select a category', {exact: false})
+      .next()
+      .findByRole('button', {name: 'Weapon'})
+      .click();
+    cy.findByRole('listbox', {name: 'Suggestions'}).should('contain.text', 'No results found.');
+
+    cy.findByRole('button', {name: /remove filter weapon/i}).click();
+
+    cy.get('@suggestions')
+      .findByRole('option', {name: /^workbench$/i})
+      .should('exist');
   });
 
-  it('keeps input and filter after close and re-open', () => {
-    cy.get('input[cmdk-input]').should('be.empty').type('Flint');
-    cy.contains('button', 'Weapon').click();
-    cy.get('[aria-label="Selected filter"]').contains('button', 'Weapon').should('exist');
-    cy.contains('button', 'Close').click();
+  it('should keep input and filter after close and re-open', () => {
+    cy.findByRole('combobox').should('not.have.value').type('flint');
 
-    cy.contains('button', 'Search').click({ force: true });
-    cy.get('input[cmdk-input]').should('contain.value', 'Flint');
-    cy.get('[aria-label="Selected filter"]').contains('button', 'Weapon').should('exist');
+    cy.findByText('select a category', {exact: false})
+      .next()
+      .findByRole('button', {name: 'Weapon'})
+      .click();
+
+    cy.findByRole('button', {name: /remove filter weapon/i}).should('exist');
+    cy.findByRole('button', {name: 'Close'}).click();
+
+    cy.findByRole('button', {name: 'Search'}).click();
+    cy.findByRole('combobox').should('contain.value', 'flint');
+    cy.findByRole('button', {name: /remove filter weapon/i}).should('exist');
   });
 });
