@@ -34,27 +34,27 @@ const NumberStepper = ({step = 1, min = 0, max = 999, ...props}: Props & HTMLAtt
       aria-valuenow={props.value}
       className="inline-flex flex-row"
     >
-      <Button
-        variant="outline"
-        size="icon-sm"
-        onClick={() => onValueChange(props.value - step)}
-        className="rounded-r-none"
-      >
-        <Minus className="h-4 w-4" />
-        <VisuallyHidden>Decrease</VisuallyHidden>
-      </Button>
       <Input
         value={props.value}
         onChange={(e) => onValueChange(parseInt(e.target.value))}
         className="text-center w-12 rounded-none border-x-0 h-9"
       />
       <Button
+        variant="outline"
+        size="icon-sm"
+        onClick={() => onValueChange(props.value - step)}
+        className="rounded-r-none -order-1"
+      >
+        <Minus className="h-4 w-4" aria-hidden />
+        <VisuallyHidden>Decrease</VisuallyHidden>
+      </Button>
+      <Button
         variant="default"
         size="icon-sm"
         onClick={() => onValueChange(props.value + step)}
         className="rounded-l-none"
       >
-        <Plus className="h-4 w-4" />
+        <Plus className="h-4 w-4" aria-hidden />
         <VisuallyHidden>Increase</VisuallyHidden>
       </Button>
     </div>
