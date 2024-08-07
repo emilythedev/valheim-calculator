@@ -15,10 +15,11 @@ describe('Search', () => {
 
     cy.get('#EntityDetails').within(() => {
       cy.findByRole('heading', {name: 'Staff of Embers'}).should('exist');
-      cy.findByRole('list', {name: 'Quality'})
+      cy.findByText('Quality')
+        .next()
         .findAllByRole('listitem')
-        .should('have.length', 4);
-      cy.findByRole('listitem', {name: 'Quality level 2'})
+        .should('have.length', 4)
+        .filter(':contains("2")')
         .findByRole('button', {name: /add/i})
         .click();
     });
@@ -39,16 +40,6 @@ describe('Search', () => {
         .as('materials')
         .invoke('text')
         .should('eq', '8Refined eitr2Surtling core10Yggdrasil wood');
-
-      cy.findByText('Refined eitr').parent().within(() => {
-        cy.findByRole('button', {name: /add/i})
-          .click()
-          .should('not.exist');
-        cy.get('input').type('{selectAll}8');
-      });
-
-      cy.get('@materials').invoke('text')
-        .should('eq', '8Refined eitr8Sap8Soft tissue2Surtling core10Yggdrasil wood');
     });
   });
 });

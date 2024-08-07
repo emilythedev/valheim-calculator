@@ -9,12 +9,11 @@ import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { X } from 'lucide-react';
 
-export const QualityButton = () => {
+const QualityButton = () => {
   const { quality } = useRecipeContext();
   return (
     <div
       role="listitem"
-      aria-label={`Quality level ${quality}`}
       className="entity-list-item bg-secondary text-secondary-foreground justify-between"
     >
       <Quality value={quality} className="text-base px-4" />
