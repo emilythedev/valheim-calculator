@@ -1,16 +1,16 @@
 /// <reference types="cypress" />
 
-import { createStore, Provider } from 'jotai';
+import { Provider } from 'jotai';
 import FilterDialog from './FilterDialog';
 import FinderButton from './FinderButton';
 import { FinderContextProvider } from './provider';
 
-const TestProvider = ({ store }: { store: ReturnType<typeof createStore> }) => {
+const TestComponent = () => {
   const setEntity = cy.spy().as('setEntity');
   return (
-    <Provider store={store}>
+    <Provider>
       <FinderButton />
-      <FinderContextProvider entity="" setEntity={setEntity}>
+      <FinderContextProvider setEntity={setEntity}>
         <FilterDialog />
       </FinderContextProvider>
     </Provider>
@@ -19,7 +19,7 @@ const TestProvider = ({ store }: { store: ReturnType<typeof createStore> }) => {
 
 describe('<FilterDialog />', () => {
   beforeEach(() => {
-    cy.mount(<TestProvider store={createStore()}/>);
+    cy.mount(<TestComponent />);
     cy.findByRole('button', {name: 'Search'}).click();
   });
 

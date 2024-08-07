@@ -1,7 +1,6 @@
 import { createContext, ReactNode, useContext } from 'react';
 
 interface FinderContextType {
-  entity: EntityId,
   setEntity: (entity: EntityId) => void,
 }
 
@@ -17,10 +16,10 @@ const useFinderContext = () => {
   return ctx;
 };
 
-const FinderContextProvider = ({children, entity, setEntity}: {children?: ReactNode} & FinderContextType) => {
+const FinderContextProvider = ({children, setEntity}: {children?: ReactNode} & FinderContextType) => {
 
   return (
-    <FinderContext.Provider value={{ entity, setEntity }} children={children} />
+    <FinderContext.Provider value={{ setEntity }} children={children} />
   );
 };
 
