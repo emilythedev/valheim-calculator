@@ -2,7 +2,7 @@
 
 import { getExtensions } from '@/data';
 import { recipeAmountAtoms } from '@/shared/atoms';
-import { Provider, createStore, useSetAtom } from 'jotai';
+import { Provider, useSetAtom } from 'jotai';
 import ShelfStatusText from './ShelfStatusText';
 import { EntityRecipeContextProvider } from './provider';
 
@@ -26,9 +26,9 @@ const TestButtons = () => {
   );
 };
 
-const TestProvider = ({store, allowAdd = false}: { allowAdd?: boolean, store: ReturnType<typeof createStore> }) => {
+const TestComponent = ({allowAdd = false}: { allowAdd?: boolean }) => {
   return (
-    <Provider store={store}>
+    <Provider>
       <EntityRecipeContextProvider entity={forgeRecipe.entity} quality={2}>
         <div data-testid="status">
           <ShelfStatusText allowAdd={allowAdd} />
@@ -41,26 +41,19 @@ const TestProvider = ({store, allowAdd = false}: { allowAdd?: boolean, store: Re
 
 describe('<ShelfStatusText />', () => {
   it('should not be on the shelf', () => {
-    cy.mount(<TestProvider store={createStore()} />);
+    cy.mount(<TestComponent />);
     cy.get('[data-testid="status"]').should('be.empty');
   });
 
   it('should not be on the shelf when only extension is on the shelf', () => {
-    cy.mount(<TestProvider store={createStore()} />);
+    cy.mount(<TestComponent />);
 
     cy.findByRole('button', {name: 'Ext 1'}).click();
     cy.get('[data-testid="status"]').should('be.empty');
   });
 
-  it('should be on the shelf and show missing extensions', () => {
-    cy.mount(<TestProvider store={createStore()} />);
-
-    cy.findByRole('button', {name: 'Forge'}).click();
-    cy.get('[data-testid="status"]').should('have.text', 'Missing Extensions');
-  });
-
   it('should be on shelf with proper number of extensions', () => {
-    cy.mount(<TestProvider store={createStore()} />);
+    cy.mount(<TestComponent />);
 
     cy.findByRole('button', {name: 'Forge'}).click();
 
@@ -71,8 +64,15 @@ describe('<ShelfStatusText />', () => {
     cy.get('[data-testid="status"]').should('have.text', 'On Shelf');
   });
 
+  it('should be on the shelf and show missing extensions', () => {
+    cy.mount(<TestComponent />);
+
+    cy.findByRole('button', {name: 'Forge'}).click();
+    cy.get('[data-testid="status"]').should('have.text', 'Missing Extensions');
+  });
+
   it('should show add button when it is not on the shelf', () => {
-    cy.mount(<TestProvider store={createStore()} allowAdd />);
+    cy.mount(<TestComponent allowAdd />);
 
     cy.get('[data-testid="status"]')
       .findByRole('button', {name: /add/i})
