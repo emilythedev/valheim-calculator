@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { getItems } from '../src/category.js';
+import { describe, it } from 'mocha';
+import { getItems } from '../src/api/category.js';
 
 describe('Get pages in category', () => {
   it('has page ID, page title and url', async () => {
