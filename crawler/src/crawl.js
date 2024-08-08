@@ -4,6 +4,8 @@ import { getEntitiesByPageId } from './api/entity.js';
 import { readStdin } from './utils/read.js';
 import { writeFile } from './utils/write.js';
 
+// input:
+// { [pageId]: "description", } or array of pageIds
 const processData = async (jsonStr) => {
   const mapping = JSON.parse(jsonStr);
 
